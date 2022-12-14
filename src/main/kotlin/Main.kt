@@ -11,7 +11,7 @@ fun main() {
         for (number in 9..148) {
             profileWork = true
             launch(Dispatchers.Default) {
-                galxeScript(8)
+                galxeScript(number)
             }
             while (profileWork) {
                 delay(1000)
