@@ -2,6 +2,7 @@ package ads_std
 
 import ads_api.AdsApiStore
 import kotlinx.coroutines.delay
+import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.WindowType
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
@@ -24,6 +25,7 @@ suspend fun openProfile(number: Int): ChromeDriver {
     response.data?.webdriver?.let { System.setProperty("webdriver.chrome.driver", it) }
     val options = ChromeOptions()
     options.setExperimentalOption("debuggerAddress", response.data?.ws?.selenium)
+    options.setPageLoadStrategy(PageLoadStrategy.EAGER)
     println("profile $number driver created.")
     val driver = ChromeDriver(options)
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(DEFAULT_TIMEOUT))
@@ -33,13 +35,13 @@ suspend fun openProfile(number: Int): ChromeDriver {
     return driver
 }
 
-suspend fun closeProfile(number: Int, driver: ChromeDriver){
+suspend fun closeProfile(number: Int, driver: ChromeDriver) {
     driver.quit()
     val response = AdsApiStore.api.closeProfile(profiles[number - 1])
     println("profile $number closed: ${response.msg}")
 }
 
-fun closeTabs(driver: ChromeDriver){
+fun closeTabs(driver: ChromeDriver) {
     driver.switchTo().newWindow(WindowType.TAB)
     val newTab = driver.windowHandle
     for (windowHandle in driver.windowHandles) {
@@ -49,4 +51,14 @@ fun closeTabs(driver: ChromeDriver){
         }
     }
     driver.switchTo().window(newTab)
+}
+
+fun nextTab(driver: ChromeDriver) {
+    val currentTab = driver.windowHandle
+    for (windowHandle in driver.windowHandles) {
+        if (!currentTab!!.contentEquals(windowHandle)) {
+            driver.switchTo().window(windowHandle)
+            return
+        }
+    }
 }
