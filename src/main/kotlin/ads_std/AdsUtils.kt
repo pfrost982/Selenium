@@ -20,18 +20,17 @@ suspend fun openProfile(number: Int): ChromeDriver {
         return ChromeDriver(options)
     }
     delay(2000L)
-    response = AdsApiStore.api.openProfile(profiles[number - 1])
+    response = AdsApiStore.api.openProfile(profiles[number - 1], 1)
     println("get response profile $number: ${response.msg}")
     response.data?.webdriver?.let { System.setProperty("webdriver.chrome.driver", it) }
     val options = ChromeOptions()
     options.setExperimentalOption("debuggerAddress", response.data?.ws?.selenium)
     options.setPageLoadStrategy(PageLoadStrategy.EAGER)
-    println("profile $number driver created.")
     val driver = ChromeDriver(options)
+    println("profile $number driver created.")
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(DEFAULT_TIMEOUT))
     driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(DEFAULT_TIMEOUT))
     driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(DEFAULT_TIMEOUT))
-    driver.manage().window().maximize()
     return driver
 }
 

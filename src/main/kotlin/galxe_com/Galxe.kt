@@ -7,7 +7,6 @@ import org.openqa.selenium.Keys
 import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
-import profileWork
 import java.time.Duration
 
 suspend fun galxeScript(number: Int) {
@@ -26,6 +25,7 @@ suspend fun galxeScript(number: Int) {
     val metaMaskSignatureRequestSignButton = By.ByXPath("//*[@id=\"app-content\"]/div/div[2]/div/div[3]/button[2]")
 
     println("profile $number: start galxe.com Username script on thread ${Thread.currentThread().name}")
+    driver.manage().window().maximize()
     closeTabs(driver)
     delay(3000)
     driver.get("https://galxe.com")
