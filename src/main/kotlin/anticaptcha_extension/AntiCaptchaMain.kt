@@ -12,9 +12,9 @@ var profileWork: Boolean = false
 fun main() {
     runBlocking {
 
-        val profiles = arrayOf(51, 52)
+        val profiles = arrayOf(150)
 
-        for (number in profiles) {
+        for (number in 1..3) {
             profileWork = true
             launch(Dispatchers.Default) {
                 antiCaptcha(number)

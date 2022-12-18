@@ -3,3 +3,5 @@
 /build/
 /build/classes/kotlin/main/
 /.idea
+/src/kotlin/ads_std/LocalProperties.kt
+/src/kotlin/galxe_com/twit_logins.txt

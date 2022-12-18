@@ -1,11 +1,10 @@
 package anticaptcha_extension
 
+import ads_std.ANTICAPTCHA_KEY
 import ads_std.closeProfile
 import ads_std.openProfile
 import kotlinx.coroutines.delay
-import org.sikuli.script.FindFailed
-import org.sikuli.script.ImagePath
-import org.sikuli.script.Screen
+import org.sikuli.script.*
 
 suspend fun antiCaptcha(number: Int) {
     val driver = openProfile(number)
@@ -19,9 +18,10 @@ suspend fun antiCaptcha(number: Int) {
         delay(1000)
         screen.wait("anticaptcha_face.png")
         screen.click()
-        screen.wait("anticaptcha_key_input.png")
+        screen.wait("anticaptcha_key_input_offset.png")
         screen.click()
-        screen.write("3986a72449257661b95d99e206c96d37")
+        screen.type("a", Key.CTRL)
+        screen.write(ANTICAPTCHA_KEY)
         screen.wait("anticaptcha_apply.png")
         screen.click()
         println("profile $number: key inputted")
