@@ -24,7 +24,7 @@ suspend fun galxeScript(number: Int) {
     val usernameSaveButton = By.ByXPath("//*[@id=\"app\"]/div[3]/div/div/div/div/div[2]/button")
     val metaMaskSignatureRequestSignButton = By.ByXPath("//*[@id=\"app-content\"]/div/div[2]/div/div[3]/button[2]")
 
-    println("profile $number: start galxe.com Username script on thread ${Thread.currentThread().name}")
+    println("profile $number: start galxe.com $username script on thread ${Thread.currentThread().name}")
     driver.manage().window().maximize()
     closeTabs(driver)
     delay(3000)

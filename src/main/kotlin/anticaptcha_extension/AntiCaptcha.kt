@@ -8,7 +8,7 @@ import org.sikuli.script.*
 
 suspend fun antiCaptcha(number: Int) {
     val driver = openProfile(number)
-    println("profile $number: start galxe.com Username script on thread ${Thread.currentThread().name}")
+    println("profile $number: start anticaptcha script on thread ${Thread.currentThread().name}")
     delay(3000)
     val screen = Screen()
     ImagePath.add("src/main/kotlin/anticaptcha_extension/png")
