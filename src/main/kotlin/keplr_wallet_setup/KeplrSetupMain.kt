@@ -1,4 +1,4 @@
-package sui_wallet_setup
+package keplr_wallet_setup
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -12,12 +12,12 @@ var profileWork: Boolean = false
 fun main() {
     runBlocking {
 
-        val profiles = arrayOf(150)
+        //val profiles = arrayOf(5)
 
-        for (number in profiles) {
+        for (number in 6..100) {
             profileWork = true
             launch(Dispatchers.Default) {
-                suiSetupScript(number)
+                keplrSetupScript(number)
             }
             while (profileWork) {
                 delay(1000)

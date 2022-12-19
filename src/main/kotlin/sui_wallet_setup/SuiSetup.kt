@@ -4,7 +4,7 @@ import ads_std.*
 import kotlinx.coroutines.delay
 import org.sikuli.script.*
 
-suspend fun antiCaptcha(number: Int) {
+suspend fun suiSetupScript(number: Int) {
     val seed = SuiSeeds.getSeed(number)
     val driver = openProfile(number)
     println("profile $number: start sui script on thread ${Thread.currentThread().name}")
@@ -25,10 +25,10 @@ suspend fun antiCaptcha(number: Int) {
         screen.click()
         screen.wait("create_password.png")
         screen.click()
-        screen.write(META_MASK_PASS)
+        screen.write(WALLET_PASS)
         screen.wait("confirm_password.png")
         screen.click()
-        screen.write(META_MASK_PASS)
+        screen.write(WALLET_PASS)
         screen.wait("import_button.png")
         screen.click()
         screen.wait("open_sui_wallet.png")

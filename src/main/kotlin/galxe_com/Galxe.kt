@@ -37,7 +37,7 @@ suspend fun galxeScript(number: Int) {
         nextTab(driver)
         WebDriverWait(driver, Duration.ofSeconds(15))
             .until(ExpectedConditions.visibilityOfElementLocated(metaMaskPassInput))
-            .sendKeys(META_MASK_PASS, Keys.ENTER)
+            .sendKeys(WALLET_PASS, Keys.ENTER)
         driver.switchTo().window(galxeWindow)
         delay(5000)
     }
