@@ -44,7 +44,7 @@ suspend fun keplrSetupScript(number: Int) {
         screen.wheel(WHEEL_DOWN, 5)
         screen.wait("next_button.png")
         screen.click()
-        delay(4000)
+        delay(3500)
         screen.wait("done_button.png")
         screen.click()
         println("profile $number: seed inputted")

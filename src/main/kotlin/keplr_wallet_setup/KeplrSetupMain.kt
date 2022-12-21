@@ -9,20 +9,18 @@ import kotlinx.coroutines.runBlocking
 @Volatile
 var profileWork: Boolean = false
 
-fun main() {
-    runBlocking {
+fun main() = runBlocking {
 
-        //val profiles = arrayOf(5)
+    val profiles = arrayOf(120)
 
-        for (number in 6..100) {
-            profileWork = true
-            launch(Dispatchers.Default) {
-                keplrSetupScript(number)
-            }
-            while (profileWork) {
-                delay(1000)
-            }
+    for (number in profiles) {
+        profileWork = true
+        launch(Dispatchers.Default) {
+            keplrSetupScript(number)
         }
-        println("Work ended!")
+        while (profileWork) {
+            delay(1000)
+        }
     }
+    println("Work ended!")
 }
