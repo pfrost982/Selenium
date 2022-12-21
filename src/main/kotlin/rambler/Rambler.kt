@@ -30,11 +30,12 @@ suspend fun ramblerScript(number: Int) {
         driver.get("https://mail.rambler.ru/settings/security")
         screen.wait("change_password.png", 10.0)
         screen.click()
-        val isCaptcha = screen.exists("captcha_icon.png", 2.0)
+        val isCaptcha = screen.exists("captcha_icon.png", 5.0)
         if (isCaptcha != null) {
             screen.wait("solved.png", 180.0)
         }
-        screen.paste(screen.wait("current_password_input.png", 10.0), password)
+        screen.wait("current_password_input.png", 10.0)
+        screen.paste(password)
         screen.type(Key.TAB)
         screen.paste(newPassword)
         screen.click(screen.wait("new_password_save_button.png", 10.0))
