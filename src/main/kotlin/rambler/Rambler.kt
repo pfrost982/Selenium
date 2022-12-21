@@ -26,11 +26,14 @@ suspend fun ramblerScript(number: Int) {
         screen.paste(password)
         screen.wait("login_button.png", 10.0)
         screen.click()
-        delay(10000)
+        delay(3000)
         driver.get("https://mail.rambler.ru/settings/security")
         screen.wait("change_password.png", 10.0)
         screen.click()
-        screen.wait("solved.png", 180.0)
+        val isCaptcha = screen.exists("captcha_icon.png", 2.0)
+        if (isCaptcha != null) {
+            screen.wait("solved.png", 180.0)
+        }
         screen.paste(screen.wait("current_password_input.png", 10.0), password)
         screen.type(Key.TAB)
         screen.paste(newPassword)
@@ -53,6 +56,7 @@ suspend fun ramblerScript(number: Int) {
         screen.paste(newPassword)
         screen.wait("save_password_button.png")
         screen.click()
+
         println("profile $number: script ended")
     } catch (e: FindFailed) {
         e.printStackTrace()
