@@ -1,59 +1,62 @@
 package rambler
 
-import ads_std.WALLET_PASS
 import ads_std.closeTabs
 import ads_std.openProfile
 import kotlinx.coroutines.delay
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
 import org.sikuli.script.Key
-import org.sikuli.script.Mouse.WHEEL_DOWN
 import org.sikuli.script.Screen
-import java.awt.Toolkit
-import java.awt.datatransfer.Clipboard
-import java.awt.datatransfer.StringSelection
-
 
 suspend fun ramblerScript(number: Int) {
-    val login = RamblerMails.getMail(number)
+    val mail = RamblerMails.getMail(number)
     val password = RamblerPaswords.getPassword(number)
+    val newPassword = password + "Ads"
     val driver = openProfile(number)
-    println("profile $number: start keplr script on thread ${Thread.currentThread().name}")
+
+    println("profile $number: start script on thread ${Thread.currentThread().name}")
     closeTabs(driver)
-    driver.get("chrome-extension://lomdppafmjdhhfjkcedkaccckjpammag/popup.html#/register")
-    delay(1000)
+    driver.manage().window().maximize()
+    driver.get("https://mail.rambler.ru/folder/INBOX/")
     val screen = Screen()
-    ImagePath.add("src/main/kotlin/keplr_wallet_setup/png")
+    ImagePath.add("src/main/kotlin/rambler/png")
     try {
-/*
-        screen.wait("import_existing_account_button.png")
+        screen.paste(screen.wait("mail_input.png", 10.0), mail)
+        screen.type(Key.TAB)
+        screen.paste(password)
+        screen.wait("login_button.png", 10.0)
         screen.click()
-        val selection = StringSelection(seed)
-        val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
-        clipboard.setContents(selection, selection)
-        screen.wait("first_word_input.png")
+        delay(10000)
+        driver.get("https://mail.rambler.ru/settings/security")
+        screen.wait("change_password.png", 10.0)
         screen.click()
-        screen.type("v", Key.CTRL)
-        screen.wait("account_name_input.png")
+        screen.wait("solved.png", 180.0)
+        screen.paste(screen.wait("current_password_input.png", 10.0), password)
+        screen.type(Key.TAB)
+        screen.paste(newPassword)
+        screen.click(screen.wait("new_password_save_button.png", 10.0))
+        screen.wait("change_password.png", 10.0)
+        driver.get("https://mail.rambler.ru/folder/INBOX/")
+        delay(1000)
+        screen.wait("star.png")
         screen.click()
-        screen.write("A%03d".format(number))
-        screen.wait("new_password_input.png")
+        screen.wait("bookmark_ready_button.png")
         screen.click()
-        screen.write(WALLET_PASS)
-        screen.wait("confirm_password_input.png")
+        driver.get("chrome://settings/passwords")
+        screen.wait("add_password_button.png")
         screen.click()
-        screen.write(WALLET_PASS)
-        screen.wheel(WHEEL_DOWN, 5)
-        screen.wait("next_button.png")
+        screen.wait("site_input.png")
+        screen.paste("https://mail.rambler.ru/folder/INBOX/")
+        screen.type(Key.TAB)
+        screen.paste(mail)
+        screen.type(Key.TAB)
+        screen.paste(newPassword)
+        screen.wait("save_password_button.png")
         screen.click()
-        delay(3500)
-        screen.wait("done_button.png")
-        screen.click()
-        println("profile $number: seed inputted")
-*/
+        println("profile $number: script ended")
     } catch (e: FindFailed) {
         e.printStackTrace()
     }
-//    driver.quit()
+    driver.quit()
     profileWork = false
 }
