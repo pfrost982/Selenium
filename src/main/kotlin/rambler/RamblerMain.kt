@@ -12,10 +12,11 @@ var profileWork = false
 var isThereAreMistakes = false
 
 fun main() = runBlocking {
-
-    //val profiles = arrayOf(36, 37, 38, 39, 40)
-
-    for (number in 54..60) {
+/*
+    val profiles = arrayOf(63, 69, 73)
+    for (number in profiles) {
+*/
+    for (number in 101..109) {
         if (isThereAreMistakes){
             break
         }

@@ -29,33 +29,30 @@ suspend fun ramblerScript(number: Int) {
             screen.wait("login_button.png", 10.0)
             screen.click()
         }
-        checkNotifications(screen)
-        var settings = screen.exists("settings.png", 10.0)
+
+        var settings = screen.exists(Pattern("settings.png").similar(0.9), 10.0)
         while (settings == null) {
             driver.get("https://mail.rambler.ru/folder/INBOX")
             checkNotifications(screen)
             settings = screen.exists("settings.png", 10.0)
         }
+        checkNotifications(screen)
         screen.click(settings)
-        println("click settings")
 
         var security = screen.exists("security.png", 10.0)
         while (security == null) {
             driver.get("https://mail.rambler.ru/settings/main")
-            checkNotifications(screen)
             security = screen.exists("security.png", 10.0)
         }
+        checkNotifications(screen)
         screen.click(security)
-        println("click security")
 
         var changePassword = screen.exists("change_password.png", 10.0)
         while (changePassword == null) {
             driver.get("https://mail.rambler.ru/settings/security")
             changePassword = screen.exists("security.png", 10.0)
         }
-        screen.hover(changePassword)
         screen.click(changePassword)
-        println("click change password")
 
         val isCaptcha = screen.exists("captcha_icon.png", 15.0)
         if (isCaptcha != null) {
@@ -66,11 +63,6 @@ suspend fun ramblerScript(number: Int) {
         val currentPassword = screen.wait("current_password_input.png", 10.0)
         screen.click(currentPassword)
         insertTextTroughClipboard(screen, password)
-
-        /*
-                val p = Pattern("star.png").similar(0.8).targetOffset(-100, 0)
-                screen.wait(p, 10.0)
-        */
 
         val newPasswordInput = screen.wait("new_password_input.png")
         screen.click(newPasswordInput)
@@ -109,7 +101,7 @@ suspend fun ramblerScript(number: Int) {
 }
 
 fun checkNotifications(screen: Screen) {
-    val blockNotifications = screen.exists("block_notifications.png", 15.0)
+    val blockNotifications = screen.exists("block_notifications.png")
     if (blockNotifications != null) {
         screen.click(blockNotifications)
     }
