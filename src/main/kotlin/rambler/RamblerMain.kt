@@ -13,12 +13,12 @@ var isThereAreMistakes = false
 
 fun main() = runBlocking {
 
-    val profiles = arrayOf(13)
+    val profiles = arrayOf(16, 17, 18)
 
     for (number in profiles) {
         if (isThereAreMistakes){
             println("Error detected!")
-            return@runBlocking
+            break
         }
         profileWork = true
         launch(Dispatchers.Default) {
@@ -28,5 +28,9 @@ fun main() = runBlocking {
             delay(1000)
         }
     }
-    println("Work ended!")
+    if(isThereAreMistakes) {
+        println("Work ended, with error!")
+    } else {
+        println("Work ended!")
+    }
 }

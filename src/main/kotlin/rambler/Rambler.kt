@@ -27,7 +27,7 @@ suspend fun ramblerScript(number: Int) {
             println("profile $number: need login")
             screen.click(isNeedLogin)
             screen.type("a", Key.CTRL)
-            screen.paste(mail)
+            screen.paste(isNeedLogin, mail)
             screen.type(Key.TAB)
             screen.paste(password)
             screen.wait("login_button.png", 10.0)
@@ -38,16 +38,19 @@ suspend fun ramblerScript(number: Int) {
         screen.wait("change_password.png", 10.0)
         screen.click()
         delay(1000)
-        screen.click()
+        val changePassword = screen.exists("change_password.png")
+        if (changePassword != null) {
+            screen.click(changePassword)
+        }
         val isCaptcha = screen.exists("captcha_icon.png", 10.0)
         if (isCaptcha != null) {
             println("profile $number: anticaptcha detected")
             screen.wait("solved.png", 180.0)
         }
-        screen.wait("current_password_input.png", 10.0)
+        val currentPassword = screen.wait("current_password_input.png", 10.0)
         screen.click()
         screen.type("a", Key.CTRL)
-        screen.paste(password)
+        screen.paste(currentPassword, password)
         screen.type(Key.TAB)
         screen.paste(newPassword)
         screen.wait("new_password_save_button.png", 10.0)
@@ -70,7 +73,6 @@ suspend fun ramblerScript(number: Int) {
         screen.paste(newPassword)
         screen.wait("save_password_button.png")
         screen.click()
-
         println("profile $number: script ended")
     } catch (e: FindFailed) {
         e.printStackTrace()
