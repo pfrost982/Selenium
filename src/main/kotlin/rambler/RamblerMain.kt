@@ -13,9 +13,9 @@ var isThereAreMistakes = false
 
 fun main() = runBlocking {
 
-    val profiles = arrayOf(34)
+    //val profiles = arrayOf(36, 37, 38, 39, 40)
 
-    for (number in profiles) {
+    for (number in 54..60) {
         if (isThereAreMistakes){
             break
         }

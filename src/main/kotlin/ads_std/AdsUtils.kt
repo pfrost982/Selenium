@@ -6,6 +6,8 @@ import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.WindowType
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+import org.sikuli.script.Key
+import org.sikuli.script.Screen
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 import java.awt.datatransfer.StringSelection
@@ -74,6 +76,12 @@ fun nextTab(driver: ChromeDriver) {
             return
         }
     }
+}
+
+fun insertTextTroughClipboard(screen: Screen, text: String){
+    putTextInClipboard(text)
+    screen.type("a", Key.CTRL)
+    screen.type("v", Key.CTRL)
 }
 
 fun putTextInClipboard(text: String) {
