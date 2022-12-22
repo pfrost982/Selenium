@@ -38,15 +38,18 @@ suspend fun ramblerScript(number: Int) {
         screen.wait("change_password.png", 10.0)
         screen.click()
         delay(1000)
+
         val changePassword = screen.exists("change_password.png")
         if (changePassword != null) {
             screen.click(changePassword)
         }
+
         val isCaptcha = screen.exists("captcha_icon.png", 10.0)
         if (isCaptcha != null) {
             println("profile $number: anticaptcha detected")
             screen.wait("solved.png", 180.0)
         }
+
         val currentPassword = screen.wait("current_password_input.png", 10.0)
         screen.click()
         screen.type("a", Key.CTRL)
