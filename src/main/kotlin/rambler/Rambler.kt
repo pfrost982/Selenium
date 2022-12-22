@@ -21,7 +21,8 @@ suspend fun ramblerScript(number: Int) {
     val screen = Screen()
     ImagePath.add("src/main/kotlin/rambler/png")
     try {
-        screen.paste(screen.wait("mail_input.png", 10.0), mail)
+        val mailInput = screen.wait("mail_input.png", 10.0)
+        screen.paste(mailInput, mail)
         screen.type(Key.TAB)
         screen.paste(password)
         screen.wait("login_button.png", 10.0)
@@ -32,13 +33,15 @@ suspend fun ramblerScript(number: Int) {
         screen.click()
         val isCaptcha = screen.exists("captcha_icon.png", 5.0)
         if (isCaptcha != null) {
+            println("profile $number: anticaptcha detected")
             screen.wait("solved.png", 180.0)
         }
-        screen.wait("current_password_input.png", 10.0)
-        screen.paste(password)
+        val currentPasswordInput = screen.wait("current_password_input.png", 10.0)
+        screen.paste(currentPasswordInput, password)
         screen.type(Key.TAB)
         screen.paste(newPassword)
-        screen.click(screen.wait("new_password_save_button.png", 10.0))
+        screen.wait("new_password_save_button.png", 10.0)
+        screen.click()
         screen.wait("change_password.png", 10.0)
         driver.get("https://mail.rambler.ru/folder/INBOX/")
         delay(1000)
