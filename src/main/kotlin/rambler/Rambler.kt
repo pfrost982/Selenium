@@ -3,6 +3,7 @@ package rambler
 import ads_std.closeAllTabs
 import ads_std.closeProfile
 import ads_std.openProfile
+import ads_std.putTextInClipboard
 import kotlinx.coroutines.delay
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
@@ -26,14 +27,17 @@ suspend fun ramblerScript(number: Int) {
         if (isNeedLogin != null) {
             println("profile $number: need login")
             screen.click(isNeedLogin)
+            putTextInClipboard(mail)
             screen.type("a", Key.CTRL)
-            screen.paste(isNeedLogin, mail)
+            screen.type("v", Key.CTRL)
             screen.type(Key.TAB)
-            screen.paste(password)
+            putTextInClipboard(password)
+            screen.type("a", Key.CTRL)
+            screen.type("v", Key.CTRL)
             screen.wait("login_button.png", 10.0)
             screen.click()
         }
-        delay(3000)
+        screen.wait(7.0)
         driver.get("https://mail.rambler.ru/settings/security")
         screen.wait("change_password.png", 10.0)
         screen.click()
@@ -51,13 +55,18 @@ suspend fun ramblerScript(number: Int) {
         }
 
         val currentPassword = screen.wait("current_password_input.png", 10.0)
-        screen.click()
+        screen.click(currentPassword)
+        putTextInClipboard(password)
         screen.type("a", Key.CTRL)
-        screen.paste(currentPassword, password)
-        screen.type(Key.TAB)
-        screen.paste(newPassword)
-        screen.wait("new_password_save_button.png", 10.0)
-        screen.click()
+        screen.type("v", Key.CTRL)
+
+        val newPasswordInput = screen.wait("new_password_input.png")
+        screen.click(newPasswordInput)
+        putTextInClipboard(newPassword)
+        screen.type("a", Key.CTRL)
+        screen.type("v", Key.CTRL)
+        val saveButton = screen.wait("new_password_save_button.png", 10.0)
+        screen.click(saveButton)
         screen.wait("change_password.png", 10.0)
         driver.get("https://mail.rambler.ru/folder/INBOX/")
         delay(1000)
@@ -79,7 +88,6 @@ suspend fun ramblerScript(number: Int) {
         println("profile $number: script ended")
     } catch (e: FindFailed) {
         e.printStackTrace()
-        println("in catch block")
         isThereAreMistakes = true
     }
     profileWork = false

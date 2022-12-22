@@ -6,6 +6,9 @@ import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.WindowType
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+import java.awt.Toolkit
+import java.awt.datatransfer.Clipboard
+import java.awt.datatransfer.StringSelection
 import java.time.Duration
 
 suspend fun openProfile(number: Int): ChromeDriver {
@@ -71,4 +74,10 @@ fun nextTab(driver: ChromeDriver) {
             return
         }
     }
+}
+
+fun putTextInClipboard(text: String) {
+    val selection = StringSelection(text)
+    val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
+    clipboard.setContents(selection, selection)
 }

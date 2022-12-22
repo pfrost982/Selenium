@@ -13,11 +13,10 @@ var isThereAreMistakes = false
 
 fun main() = runBlocking {
 
-    val profiles = arrayOf(16, 17, 18)
+    val profiles = arrayOf(34)
 
     for (number in profiles) {
         if (isThereAreMistakes){
-            println("Error detected!")
             break
         }
         profileWork = true
