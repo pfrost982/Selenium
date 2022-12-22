@@ -1,6 +1,7 @@
 package rambler
 
-import ads_std.closeTabs
+import ads_std.closeAllTabs
+import ads_std.closeProfile
 import ads_std.openProfile
 import kotlinx.coroutines.delay
 import org.sikuli.script.FindFailed
@@ -15,29 +16,38 @@ suspend fun ramblerScript(number: Int) {
     val driver = openProfile(number)
 
     println("profile $number: start script on thread ${Thread.currentThread().name}")
-    closeTabs(driver)
+    closeAllTabs(driver)
     driver.manage().window().maximize()
     driver.get("https://mail.rambler.ru/folder/INBOX/")
     val screen = Screen()
     ImagePath.add("src/main/kotlin/rambler/png")
     try {
-        val mailInput = screen.wait("mail_input.png", 10.0)
-        screen.paste(mailInput, mail)
-        screen.type(Key.TAB)
-        screen.paste(password)
-        screen.wait("login_button.png", 10.0)
-        screen.click()
+        val isNeedLogin = screen.exists("mail_input.png", 10.0)
+        if (isNeedLogin != null) {
+            println("profile $number: need login")
+            screen.click(isNeedLogin)
+            screen.type("a", Key.CTRL)
+            screen.paste(mail)
+            screen.type(Key.TAB)
+            screen.paste(password)
+            screen.wait("login_button.png", 10.0)
+            screen.click()
+        }
         delay(3000)
         driver.get("https://mail.rambler.ru/settings/security")
         screen.wait("change_password.png", 10.0)
         screen.click()
-        val isCaptcha = screen.exists("captcha_icon.png", 5.0)
+        delay(1000)
+        screen.click()
+        val isCaptcha = screen.exists("captcha_icon.png", 10.0)
         if (isCaptcha != null) {
             println("profile $number: anticaptcha detected")
             screen.wait("solved.png", 180.0)
         }
-        val currentPasswordInput = screen.wait("current_password_input.png", 10.0)
-        screen.paste(currentPasswordInput, password)
+        screen.wait("current_password_input.png", 10.0)
+        screen.click()
+        screen.type("a", Key.CTRL)
+        screen.paste(password)
         screen.type(Key.TAB)
         screen.paste(newPassword)
         screen.wait("new_password_save_button.png", 10.0)
@@ -64,7 +74,13 @@ suspend fun ramblerScript(number: Int) {
         println("profile $number: script ended")
     } catch (e: FindFailed) {
         e.printStackTrace()
+        println("in catch block")
+        isThereAreMistakes = true
     }
-    driver.quit()
     profileWork = false
+    if (isThereAreMistakes) {
+        driver.quit()
+    } else {
+        closeProfile(number, driver)
+    }
 }

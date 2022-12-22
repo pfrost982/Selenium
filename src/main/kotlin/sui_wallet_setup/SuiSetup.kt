@@ -8,7 +8,7 @@ suspend fun suiSetupScript(number: Int) {
     val seed = SuiSeeds.getSeed(number)
     val driver = openProfile(number)
     println("profile $number: start sui script on thread ${Thread.currentThread().name}")
-    closeTabs(driver)
+    closeAllTabs(driver)
     driver.get("chrome-extension://kkedgchhdjjiopemikejclildleojceh/ui.html#/welcome")
     delay(3000)
     val screen = Screen()

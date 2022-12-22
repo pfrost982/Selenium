@@ -26,7 +26,7 @@ suspend fun galxeScript(number: Int) {
 
     println("profile $number: start galxe.com $username script on thread ${Thread.currentThread().name}")
     driver.manage().window().maximize()
-    closeTabs(driver)
+    closeAllTabs(driver)
     delay(3000)
     driver.get("https://galxe.com")
     val galxeWindow = driver.windowHandle

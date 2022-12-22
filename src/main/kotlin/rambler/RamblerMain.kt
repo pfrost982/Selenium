@@ -7,13 +7,19 @@ import kotlinx.coroutines.runBlocking
 
 
 @Volatile
-var profileWork: Boolean = false
+var profileWork = false
+@Volatile
+var isThereAreMistakes = false
 
 fun main() = runBlocking {
 
-    val profiles = arrayOf(5)
+    val profiles = arrayOf(13)
 
     for (number in profiles) {
+        if (isThereAreMistakes){
+            println("Error detected!")
+            return@runBlocking
+        }
         profileWork = true
         launch(Dispatchers.Default) {
             ramblerScript(number)

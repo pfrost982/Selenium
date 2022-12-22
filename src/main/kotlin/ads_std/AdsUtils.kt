@@ -40,7 +40,7 @@ suspend fun closeProfile(number: Int, driver: ChromeDriver) {
     println("profile $number closed: ${response.msg}")
 }
 
-fun closeTabs(driver: ChromeDriver) {
+fun closeAllTabs(driver: ChromeDriver) {
     driver.switchTo().newWindow(WindowType.TAB)
     val newTab = driver.windowHandle
     for (windowHandle in driver.windowHandles) {
@@ -50,6 +50,17 @@ fun closeTabs(driver: ChromeDriver) {
         }
     }
     driver.switchTo().window(newTab)
+}
+
+fun closeOtherTabs(driver: ChromeDriver) {
+    val currentTab = driver.windowHandle
+    for (windowHandle in driver.windowHandles) {
+        if (!currentTab!!.contentEquals(windowHandle)) {
+            driver.switchTo().window(windowHandle)
+            driver.close()
+        }
+    }
+    driver.switchTo().window(currentTab)
 }
 
 fun nextTab(driver: ChromeDriver) {

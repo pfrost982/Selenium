@@ -1,7 +1,7 @@
 package keplr_wallet_setup
 
 import ads_std.WALLET_PASS
-import ads_std.closeTabs
+import ads_std.closeAllTabs
 import ads_std.openProfile
 import kotlinx.coroutines.delay
 import org.sikuli.script.FindFailed
@@ -18,7 +18,7 @@ suspend fun keplrSetupScript(number: Int) {
     val seed = KeplrSeeds.getSeed(number)
     val driver = openProfile(number)
     println("profile $number: start keplr script on thread ${Thread.currentThread().name}")
-    closeTabs(driver)
+    closeAllTabs(driver)
     driver.get("chrome-extension://lomdppafmjdhhfjkcedkaccckjpammag/popup.html#/register")
     delay(1000)
     val screen = Screen()
