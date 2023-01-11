@@ -11,7 +11,7 @@ var profileWork = false
 var isError = false
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>(2)// + (138 .. 149)
+    val profiles = listOf<Int>() + (5 .. 150)
     for (number in profiles) {
         if (isError){
             break
