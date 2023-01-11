@@ -35,13 +35,18 @@ suspend fun fuelScript(number: Int) {
         screen.click()
         screen.wait("fuel_wallet.png")
         screen.click()
-/*
         screen.wait("faucet.png", 7.0)
         screen.click()
-*/
+        screen.wait(Pattern("solved.png").similar(0.9), 180.0)
+        screen.wait("give_me_ether.png")
+        screen.click()
+/*
         driver.get("https://fuels-wallet.vercel.app/docs/how-to-use/")
         screen.wait("connect.png", 7.0)
         screen.click()
+        screen.wait(Pattern("connect_window.png").similar(0.95), 7.0)
+        screen.click()
+*/
 
 
     } catch (e: FindFailed) {
