@@ -69,7 +69,7 @@ suspend fun fuelScript(number: Int) {
         if (connectWindow != null) {
             screen.click()
         }
-        screen.wheel("check_it_working.png", WHEEL_DOWN, 8)
+        screen.wheel("check_it_working.png", WHEEL_DOWN, 9)
         screen.wait(1.0)
         screen.wait("get_accounts.png")
         screen.click()
