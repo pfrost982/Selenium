@@ -1,4 +1,4 @@
-package fuel_wallet
+package suge
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -11,14 +11,14 @@ var profileWork = false
 var isError = false
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>() + (145 .. 150)
+    val profiles = listOf<Int>() + (32 .. 150)
     for (number in profiles) {
         if (isError){
             break
         }
         profileWork = true
         launch(Dispatchers.Default) {
-            fuelScript(number)
+            SugeScript(number)
         }
         while (profileWork) {
             delay(1000)
