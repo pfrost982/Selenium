@@ -13,12 +13,13 @@ suspend fun ramblerScript(number: Int) {
     val driver = openProfile(number)
 
     println("profile $number: start script on thread ${Thread.currentThread().name}")
-    closeAllTabs(driver)
+    //closeAllTabs(driver)
     driver.manage().window().maximize()
-    driver.get("https://mail.rambler.ru/folder/INBOX/")
+    //driver.get("https://mail.rambler.ru/folder/INBOX/")
     val screen = Screen()
     ImagePath.add("src/main/kotlin/rambler/png")
     try {
+/*
         val isNeedLogin = screen.exists("mail_input.png", 10.0)
         if (isNeedLogin != null) {
             println("profile $number: need login")
@@ -79,6 +80,9 @@ suspend fun ramblerScript(number: Int) {
         screen.click()
         screen.wait("bookmark_ready_button.png")
         screen.click()
+*/
+        screen.wait(2.0)
+        closeAllTabs(driver)
         driver.get("chrome://settings/passwords")
         screen.wait("add_password_button.png")
         screen.click()
@@ -93,10 +97,10 @@ suspend fun ramblerScript(number: Int) {
         println("profile $number: script ended")
     } catch (e: FindFailed) {
         e.printStackTrace()
-        isThereAreMistakes = true
+        isError = true
     }
     profileWork = false
-    if (isThereAreMistakes) {
+    if (isError) {
         driver.quit()
     } else {
         closeProfile(number, driver)

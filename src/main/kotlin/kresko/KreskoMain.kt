@@ -1,4 +1,4 @@
-package suge
+package kresko
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -11,14 +11,14 @@ var profileWork = false
 var isError = false
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>() + (111 .. 150)
+    val profiles = listOf<Int>(2)// + (2 .. 150)
     for (number in profiles) {
         if (isError){
             break
         }
         profileWork = true
         launch(Dispatchers.Default) {
-            SugeScript(number)
+            kreskoScript(number)
         }
         while (profileWork) {
             delay(1000)

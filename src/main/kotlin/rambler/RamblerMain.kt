@@ -8,12 +8,12 @@ import kotlinx.coroutines.runBlocking
 @Volatile
 var profileWork = false
 @Volatile
-var isThereAreMistakes = false
+var isError = false
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>(150)// + (138 .. 149)
+    val profiles = listOf<Int>() + (112..150)
     for (number in profiles) {
-        if (isThereAreMistakes){
+        if (isError){
             break
         }
         profileWork = true
@@ -24,7 +24,7 @@ fun main() = runBlocking {
             delay(1000)
         }
     }
-    if(isThereAreMistakes) {
+    if(isError) {
         println("Work ended, with error!")
     } else {
         println("Work ended!")
