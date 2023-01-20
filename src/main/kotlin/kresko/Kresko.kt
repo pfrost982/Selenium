@@ -73,6 +73,8 @@ suspend fun kreskoScript(number: Int) {
         screen.wait("vklyuchit_ssilki.png")
         screen.click()
         screen.wait(Pattern("confirm_waitlist.png").similar(0.95))
+        screen.wait(0.7)
+        screen.wait(Pattern("confirm_waitlist.png").similar(0.95))
         screen.click()
         screen.wait(5.0)
     } catch (e: FindFailed) {
