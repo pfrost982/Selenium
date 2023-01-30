@@ -11,14 +11,14 @@ var profileWork = false
 var isError = false
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>(1)// + (1 .. 148)
+    val profiles = listOf<Int>() + (3 .. 113)
     for (number in profiles) {
         if (isError){
             break
         }
         profileWork = true
         launch(Dispatchers.Default) {
-            suiScript(number)
+            getSuiScript(number)
         }
         while (profileWork) {
             delay(1000)
