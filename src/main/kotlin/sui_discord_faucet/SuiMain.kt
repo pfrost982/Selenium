@@ -1,4 +1,4 @@
-package astaria
+package sui_discord_faucet
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -11,14 +11,14 @@ var profileWork = false
 var isError = false
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>() + (1 .. 148)
+    val profiles = listOf<Int>(1)// + (1 .. 148)
     for (number in profiles) {
         if (isError){
             break
         }
         profileWork = true
         launch(Dispatchers.Default) {
-            AstariaScript(number)
+            suiScript(number)
         }
         while (profileWork) {
             delay(1000)
