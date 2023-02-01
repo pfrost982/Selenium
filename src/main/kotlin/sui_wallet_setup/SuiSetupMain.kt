@@ -12,7 +12,7 @@ var profileWork: Boolean = false
 fun main() {
     runBlocking {
 
-        val profiles = arrayOf(150)
+        val profiles = arrayOf(21, 111, 150)
 
         for (number in profiles) {
             profileWork = true
