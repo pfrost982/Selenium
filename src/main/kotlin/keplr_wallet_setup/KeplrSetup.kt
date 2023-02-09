@@ -1,5 +1,6 @@
 package keplr_wallet_setup
 
+import ads_std.SeedsEVM
 import ads_std.WALLET_PASS
 import ads_std.closeAllTabs
 import ads_std.openProfile
@@ -15,7 +16,7 @@ import java.awt.datatransfer.StringSelection
 
 
 suspend fun keplrSetupScript(number: Int) {
-    val seed = KeplrSeeds.getSeed(number)
+    val seed = SeedsEVM.getSeed(number)
     val driver = openProfile(number)
     println("profile $number: start keplr script on thread ${Thread.currentThread().name}")
     closeAllTabs(driver)

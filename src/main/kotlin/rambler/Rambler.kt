@@ -1,13 +1,10 @@
 package rambler
 
-import ads_std.closeAllTabs
-import ads_std.closeProfile
-import ads_std.insertTextTroughClipboard
-import ads_std.openProfile
+import ads_std.*
 import org.sikuli.script.*
 
 suspend fun ramblerScript(number: Int) {
-    val mail = RamblerMails.getMail(number)
+    val mail = Mails.getMail(number)
     val password = RamblerPaswords.getPassword(number)
     val newPassword = password + "Ads"
     val driver = openProfile(number)

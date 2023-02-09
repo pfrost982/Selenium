@@ -1,9 +1,6 @@
 package astaria
 
-import ads_std.closeAllTabs
-import ads_std.closeProfile
-import ads_std.insertTextTroughClipboard
-import ads_std.openProfile
+import ads_std.*
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
 import org.sikuli.script.Screen

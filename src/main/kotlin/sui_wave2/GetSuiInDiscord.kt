@@ -1,12 +1,7 @@
-package sui_discord_faucet
+package sui_wave2
 
 import ads_std.*
-import org.openqa.selenium.WindowType
 import org.sikuli.script.*
-import org.sikuli.script.Mouse.WHEEL_DOWN
-import java.awt.Toolkit
-import java.awt.datatransfer.DataFlavor
-import java.io.FileOutputStream
 
 suspend fun getSuiScript(number: Int) {
     val driver = openProfile(number)

@@ -8,7 +8,7 @@ import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
 
 suspend fun fuelScript(number: Int) {
-    val seed = Seeds.getSeed(number)
+    val seed = FuelSeeds.getSeed(number)
     val driver = openProfile(number)
     println("profile $number: start script on thread ${Thread.currentThread().name}")
     closeAllTabs(driver)

@@ -1,4 +1,4 @@
-package sui_discord_faucet
+package sui_wave2
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -10,16 +10,17 @@ import java.io.File
 var profileWork = false
 @Volatile
 var isError = false
-val file = File("src/main/kotlin/sui_discord_faucet/with_money.txt")
+val file = File("src/main/kotlin/sui_discord_faucet/error_list.txt")
 fun main() = runBlocking {
-    val profiles = listOf<Int>(9)// + (147..150)).toMutableSet()
-    val withMoneyList: List<String> = file.useLines { it.toList() }
+    val profiles = (listOf<Int>() + (146..150)).toMutableSet()
+    val errorList: List<String> = file.useLines { it.toList() }
 /*
     withMoneyList.forEach(){
         profiles.remove(it.toInt())
     }
 */
-    val workList = profiles.toList()//.take(25)
+    //val workList = profiles.toList()//.take(25)
+    val workList = errorList.stream().map { it.toInt() }.toList()
     println(workList)
 
     for (number in workList) {

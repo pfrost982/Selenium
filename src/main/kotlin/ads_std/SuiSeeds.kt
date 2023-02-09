@@ -1,4 +1,4 @@
-package sui_wallet_setup
+package ads_std
 
 import java.io.File
 

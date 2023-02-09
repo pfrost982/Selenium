@@ -1,4 +1,4 @@
-package sui_discord_faucet
+package sui_wave2
 
 import ads_std.WALLET_PASS
 import ads_std.closeProfile

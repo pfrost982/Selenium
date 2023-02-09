@@ -1,9 +1,6 @@
 package kresko
 
-import ads_std.closeAllTabs
-import ads_std.closeProfile
-import ads_std.insertTextTroughClipboard
-import ads_std.openProfile
+import ads_std.*
 import kotlinx.coroutines.delay
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
@@ -13,7 +10,7 @@ import org.sikuli.script.Screen
 suspend fun kreskoScript(number: Int) {
     val driver = openProfile(number)
     val mail = Mails.getMail(number)
-    val name = TwitterNames.getName(number)
+    val name = TwitLogins.getLogin(number)
     println("profile $number: start script on thread ${Thread.currentThread().name}")
     driver.manage().window().maximize()
     val screen = Screen()
