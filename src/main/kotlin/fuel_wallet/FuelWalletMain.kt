@@ -11,14 +11,14 @@ var profileWork = false
 var isError = false
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>() + (145 .. 150)
+    val profiles = listOf(1)// + (145 .. 150)
     for (number in profiles) {
         if (isError){
             break
         }
         profileWork = true
         launch(Dispatchers.Default) {
-            fuelScript(number)
+            fuelDiscordScript(number)
         }
         while (profileWork) {
             delay(1000)

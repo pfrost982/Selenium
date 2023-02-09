@@ -12,12 +12,14 @@ var profileWork = false
 var isError = false
 val file = File("src/main/kotlin/sui_discord_faucet/with_money.txt")
 fun main() = runBlocking {
-    val profiles = (listOf<Int>() + (1..10)).toMutableSet()
+    val profiles = listOf<Int>(9)// + (147..150)).toMutableSet()
     val withMoneyList: List<String> = file.useLines { it.toList() }
+/*
     withMoneyList.forEach(){
         profiles.remove(it.toInt())
     }
-    val workList = profiles.toList().take(30)
+*/
+    val workList = profiles.toList()//.take(25)
     println(workList)
 
     for (number in workList) {
@@ -26,7 +28,9 @@ fun main() = runBlocking {
         }
         profileWork = true
         launch(Dispatchers.Default) {
-            getSuiScript(number)
+            //getSuiScript(number)
+            //stakeSuiScript(number)
+            getCapyScript(number)
         }
         while (profileWork) {
             delay(1000)

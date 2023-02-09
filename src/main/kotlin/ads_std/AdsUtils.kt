@@ -14,6 +14,7 @@ import java.awt.datatransfer.StringSelection
 import java.time.Duration
 
 suspend fun openProfile(number: Int): ChromeDriver {
+/*
     println("start profile $number...")
     var response = AdsApiStore.api.checkOpenStatusProfile(profiles[number - 1])
     println("profile $number status: ${response.data?.status}")
@@ -25,7 +26,9 @@ suspend fun openProfile(number: Int): ChromeDriver {
         return ChromeDriver(options)
     }
     delay(2000L)
-    response = AdsApiStore.api.openProfile(profiles[number - 1], 1)
+*/
+    println("start profile $number, wait response...")
+    val response = AdsApiStore.api.openProfile(profiles[number - 1], 1)
     println("get response profile $number: ${response.msg}")
     response.data?.webdriver?.let { System.setProperty("webdriver.chrome.driver", it) }
     val options = ChromeOptions()
