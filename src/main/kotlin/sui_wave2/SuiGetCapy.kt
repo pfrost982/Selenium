@@ -52,7 +52,7 @@ suspend fun getCapyScript(number: Int) {
             screen.wheel(WHEEL_DOWN, 4)
             println("profile $number: Wheel down 1st")
             screen.wait(1.0)
-            screen.wait("capy_approve_button.png")
+            screen.wait("wallet_approve_button.png")
             screen.click()
             val getCapy = screen.exists(Pattern("capy_properties.png").similar(0.9), 30.0)
             if (getCapy != null) {

@@ -1,10 +1,7 @@
 package sui_wave2
 
 import ads_std.*
-import org.sikuli.script.FindFailed
-import org.sikuli.script.ImagePath
-import org.sikuli.script.Pattern
-import org.sikuli.script.Screen
+import org.sikuli.script.*
 import java.io.FileOutputStream
 
 suspend fun getNameService(number: Int) {
@@ -72,9 +69,25 @@ suspend fun getNameService(number: Int) {
                 insertTextTroughClipboard(screen, WALLET_PASS)
                 screen.wait("unlock_button.png")
                 screen.click()
-                screen.wait("wallet_connect_button.png")
-                screen.click()
             }
+            val walletMintPage = screen.exists(Pattern("suins_io.png").similar(0.9), 120.0)
+            if (walletMintPage == null) {
+                println("profile $number: Wallet mint page not loaded")
+                FileOutputStream(file, true).bufferedWriter().use { out ->
+                    out.append("$number wallet mint page not loaded")
+                    out.newLine()
+                    allRight = false
+                }
+            }
+        }
+        if (allRight) {
+            screen.wait(7.0)
+            screen.wheel(Mouse.WHEEL_DOWN, 4)
+            println("profile $number: Wheel down 1st")
+            screen.wait(1.0)
+            screen.wait("wallet_approve_button.png")
+            screen.click()
+
         }
     } catch (e: FindFailed) {
         e.printStackTrace()
