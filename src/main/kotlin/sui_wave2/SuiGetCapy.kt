@@ -28,7 +28,7 @@ suspend fun getCapyScript(number: Int) {
         insertTextTroughClipboard(screen, WALLET_PASS)
         screen.wait("unlock_button.png")
         screen.click()
-        screen.wait("capy_connect_button.png")
+        screen.wait("wallet_connect_button.png")
         screen.click()
 */
         driver.get("https://testnet.capy.art/collection")
