@@ -1,10 +1,9 @@
 package fuel_wallet
 
-import ads_std.*
+import ads_std.closeAllTabs
+import ads_std.openProfile
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import org.sikuli.script.Mouse.WHEEL_DOWN
-import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
 
 suspend fun fuelDiscordScript(number: Int) {
@@ -17,7 +16,7 @@ suspend fun fuelDiscordScript(number: Int) {
     ImagePath.add("src/main/kotlin/fuel_wallet/png")
     try {
         screen.wait(3.0)
-        screen.wait("accept_invite.png")
+        screen.wait("accept_invite_button.png")
         screen.click()
         screen.wait(15.0)
     } catch (e: FindFailed) {
