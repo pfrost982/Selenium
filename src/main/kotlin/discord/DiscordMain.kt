@@ -13,7 +13,7 @@ var profileWork = false
 var isError = false
 val file = File("src/main/kotlin/sui_wave2/error_list.txt")
 fun main() = runBlocking {
-    val profiles = listOf<Int>(12)// + (146..150)).toMutableSet()
+    val profiles = listOf<Int>(1)// + (146..150)).toMutableSet()
     /*
         val errorList: List<String> = file.useLines { it.toList() }
         withMoneyList.forEach(){

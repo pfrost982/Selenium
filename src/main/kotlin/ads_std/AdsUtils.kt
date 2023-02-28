@@ -1,7 +1,6 @@
 package ads_std
 
 import ads_api.AdsApiStore
-import kotlinx.coroutines.delay
 import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.WindowType
 import org.openqa.selenium.chrome.ChromeDriver
@@ -14,19 +13,19 @@ import java.awt.datatransfer.StringSelection
 import java.time.Duration
 
 suspend fun openProfile(number: Int): ChromeDriver {
-/*
-    println("start profile $number...")
-    var response = AdsApiStore.api.checkOpenStatusProfile(profiles[number - 1])
-    println("profile $number status: ${response.data?.status}")
-    if (response.data?.status.contentEquals("Active")) {
-        response.data?.webdriver?.let { System.setProperty("webdriver.chrome.driver", it) }
-        val options = ChromeOptions()
-        options.setExperimentalOption("debuggerAddress", response.data?.ws?.selenium)
-        println("profile $number driver created.")
-        return ChromeDriver(options)
-    }
-    delay(2000L)
-*/
+    /*
+        println("start profile $number...")
+        var response = AdsApiStore.api.checkOpenStatusProfile(profiles[number - 1])
+        println("profile $number status: ${response.data?.status}")
+        if (response.data?.status.contentEquals("Active")) {
+            response.data?.webdriver?.let { System.setProperty("webdriver.chrome.driver", it) }
+            val options = ChromeOptions()
+            options.setExperimentalOption("debuggerAddress", response.data?.ws?.selenium)
+            println("profile $number driver created.")
+            return ChromeDriver(options)
+        }
+        delay(2000L)
+    */
     println("start profile $number, wait response...")
     val response = AdsApiStore.api.openProfile(profiles[number - 1], 1)
     println("get response profile $number: ${response.msg}")
@@ -42,8 +41,19 @@ suspend fun openProfile(number: Int): ChromeDriver {
     return driver
 }
 
+suspend fun openProfileWithoutDriver(number: Int) {
+    println("start profile $number, wait response...")
+    val response = AdsApiStore.api.openProfile(profiles[number - 1], 1)
+    println("get response profile $number: ${response.msg}")
+}
+
 suspend fun closeProfile(number: Int, driver: ChromeDriver) {
     driver.quit()
+    val response = AdsApiStore.api.closeProfile(profiles[number - 1])
+    println("profile $number closed: ${response.msg}")
+}
+
+suspend fun closeProfileWithoutDriver(number: Int) {
     val response = AdsApiStore.api.closeProfile(profiles[number - 1])
     println("profile $number closed: ${response.msg}")
 }
@@ -81,7 +91,7 @@ fun nextTab(driver: ChromeDriver) {
     }
 }
 
-fun insertTextTroughClipboard(screen: Screen, text: String){
+fun insertTextTroughClipboard(screen: Screen, text: String) {
     putTextInClipboard(text)
     screen.type("a", Key.CTRL)
     screen.type("v", Key.CTRL)

@@ -1,5 +1,7 @@
-package primitive
+package dune
 
+import ads_std.Mails
+import ads_std.TwitLogins
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -10,25 +12,26 @@ var profileWork = false
 
 @Volatile
 var isError = false
+val mails = Mails
+val logins = TwitLogins
 
 fun main() = runBlocking {
-    val errorList = mutableListOf<Int>()
-    val profiles = listOf<Int>(51)// + (1 .. 150)
+    val profiles = listOf<Int>(1)// + (146..150)
     for (number in profiles) {
+        if (isError) {
+            break
+        }
         profileWork = true
         launch(Dispatchers.Default) {
-            discordRegistrationScript(number)
+            registrationScript(number)
         }
         while (profileWork) {
             delay(1000)
         }
-        if (isError) {
-            errorList.add(number)
-            println("Script number: $number ends with error")
-            println(errorList)
-            isError = false
-        }
     }
-    println("Work ended!")
-    println("Error list: $errorList")
+    if (isError) {
+        println("Work ended, with error!")
+    } else {
+        println("Work ended!")
+    }
 }
