@@ -1,7 +1,5 @@
-package dune
+package scroll
 
-import ads_std.Mails
-import ads_std.TwitLogins
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -12,18 +10,17 @@ var profileWork = false
 
 @Volatile
 var isError = false
-val mails = Mails
-val logins = TwitLogins
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>(12)// + (146..150)
+    val profiles = listOf<Int>(3)// + (146..150)
     for (number in profiles) {
         if (isError) {
             break
         }
         profileWork = true
         launch(Dispatchers.Default) {
-            registrationScript(number)
+            //scrollScript(number)
+            scrollGuildScript(number)
         }
         while (profileWork) {
             delay(1000)

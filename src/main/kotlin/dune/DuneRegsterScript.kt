@@ -1,6 +1,6 @@
 package dune
 
-import ads_std.WALLET_PASS
+import ads_std.DUNE_PASS
 import ads_std.openProfile
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
@@ -24,7 +24,7 @@ suspend fun registrationScript(number: Int) {
         screen.paste(mail)
         screen.wait(Pattern("password_input.png").targetOffset(0,45))
         screen.click()
-        screen.paste(WALLET_PASS)
+        screen.paste(DUNE_PASS)
         screen.wait("create_account_button.png")
         screen.click()
     } catch (e: FindFailed) {
