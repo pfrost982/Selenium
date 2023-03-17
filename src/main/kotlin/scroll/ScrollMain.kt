@@ -11,20 +11,26 @@ var profileWork = false
 @Volatile
 var isError = false
 
+val errorList = mutableListOf<Int>()
+
 fun main() = runBlocking {
-    val profiles = listOf<Int>(3)// + (146..150)
+    val profiles = listOf<Int>(1)// + (7..130)
     for (number in profiles) {
+/*
         if (isError) {
             break
         }
+*/
         profileWork = true
         launch(Dispatchers.Default) {
             //scrollScript(number)
-            scrollGuildScript(number)
+            //scrollGuildScript(number)
+            scrollBridgeScript(number)
         }
         while (profileWork) {
             delay(1000)
         }
+        println("Error list: $errorList")
     }
     if (isError) {
         println("Work ended, with error!")

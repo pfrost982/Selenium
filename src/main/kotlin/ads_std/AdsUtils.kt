@@ -1,6 +1,10 @@
 package ads_std
 
 import ads_api.AdsApiStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.WindowType
 import org.openqa.selenium.chrome.ChromeDriver
@@ -10,6 +14,7 @@ import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 import java.awt.datatransfer.StringSelection
 import java.time.Duration
+
 
 suspend fun openProfile(number: Int): ChromeDriver {
     /*
@@ -120,25 +125,29 @@ fun openMetamask(screen: Screen) {
     screen.click()
 }
 
-fun unlockMetamask(screen: Screen) {
+suspend fun metamaskUnlock(screen: Screen): String {
+    var language: String? = null
     println("Unlock metamask")
-    screen.wait("metamask_password_input.png", 24.0)
+    val en = CoroutineScope(Dispatchers.Default).launch {
+        val inputPassword = screen.exists("metamask_password_input.png", 24.0)
+        if (inputPassword != null) {
+            language = "en"
+        }
+    }
+    val ru = CoroutineScope(Dispatchers.Default).launch {
+        val inputPassword = screen.exists("metamask_password_input_ru.png", 24.0)
+        if (inputPassword != null) {
+            language = "ru"
+        }
+    }
+    while (language == null) {
+        delay(500)
+    }
+    en.cancel()
+    ru.cancel()
     screen.paste(WALLET_PASS)
     screen.type(Key.ENTER)
-}
-
-fun metamaskCloseInformation(screen: Screen): Boolean {
-    println("Scan metamask information...")
-    ImagePath.add("src/main/kotlin/ads_std/png")
-    val information = screen.exists(Pattern("metamask_close_information_button.png").similar(0.95), 5.0)
-    return if (information != null) {
-        println("Information founded")
-        screen.click()
-        true
-    } else {
-        println("Information not founded")
-        false
-    }
+    return language as String
 }
 
 fun browserCloseLanguageSelection(screen: Screen): Boolean {
@@ -155,23 +164,67 @@ fun browserCloseLanguageSelection(screen: Screen): Boolean {
     }
 }
 
-fun tryToClick(screen: Screen, url: Pattern) {
+fun tryToClick(screen: Screen, url: Pattern): Boolean {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    val click = screen.exists(url, 7.0)
+    val click = screen.exists(url, 5.0)
     if (click != null) {
-        println("Click ${url.filename}")
+        println("Click ${url.filename.split("\\").last()}")
         screen.click()
+        return true
     } else {
-        println("${url.filename} not founded")
+        println("Not founded ${url.filename.split("\\").last()}")
+        return false
     }
 }
 
-fun metamaskNext(screen: Screen) {
-    tryToClick(screen, Pattern("metamask_next_button.png"))
+fun metamaskCloseInformation(screen: Screen) {
+    var thereWasInformation = tryToClick(screen, Pattern("metamask_close_information_button.png"))
+    while (thereWasInformation) {
+        thereWasInformation = tryToClick(screen, Pattern("metamask_close_information_button.png"))
+    }
 }
 
-fun metamaskConnect(screen: Screen) {
-    tryToClick(screen, Pattern("metamask_connect_button.png"))
+fun metamaskNext(screen: Screen, language: String = "en") {
+    when (language) {
+        "en" -> tryToClick(screen, Pattern("metamask_next_button.png"))
+        "ru" -> tryToClick(screen, Pattern("metamask_next_button_ru.png"))
+    }
+}
+
+fun metamaskConnect(screen: Screen, language: String = "en") {
+    when (language) {
+        "en" -> tryToClick(screen, Pattern("metamask_connect_button.png"))
+        "ru" -> tryToClick(screen, Pattern("metamask_connect_button_ru.png"))
+    }
+}
+
+fun metamaskApprove(screen: Screen) {
+    tryToClick(screen, Pattern("metamask_approve_button.png"))
+}
+
+fun metamaskSwitchNetwork(screen: Screen, language: String = "en") {
+    when (language) {
+        "en" -> tryToClick(screen, Pattern("metamask_switch_network_button.png"))
+        "ru" -> tryToClick(screen, Pattern("metamask_switch_network_button_ru.png"))
+    }
+}
+
+fun metamaskSign(screen: Screen, language: String = "en") {
+    when (language) {
+        "en" -> tryToClick(screen, Pattern("metamask_sign_button.png"))
+        "ru" -> tryToClick(screen, Pattern("metamask_sign_button_ru.png"))
+    }
+}
+
+fun metamaskIsOpened(screen: Screen): Boolean {
+    val metamask = screen.exists("metamask_handler_icon.png", 8.0)
+    if (metamask != null) {
+        println("Metamask is opened")
+        return true
+    } else {
+        println("Metamask is not opened")
+        return false
+    }
 }
 
 fun metamaskScroll(screen: Screen, steps: Int) {
@@ -182,14 +235,20 @@ fun metamaskScroll(screen: Screen, steps: Int) {
     screen.wheel(Mouse.WHEEL_DOWN, steps)
 }
 
-fun metamaskApprove(screen: Screen) {
-    tryToClick(screen, Pattern("metamask_approve_button.png"))
+fun metamaskGotIt(screen: Screen) {
+    tryToClick(screen, Pattern("metamask_got_it.png"))
 }
 
-fun metamaskSwitchNetwork(screen: Screen) {
-    tryToClick(screen, Pattern("metamask_switch_network_button.png"))
+fun twitFollow(screen: Screen) {
+    tryToClick(screen, Pattern("follow.png"))
 }
 
-fun metamaskSign(screen: Screen) {
-    tryToClick(screen, Pattern("metamask_sign_button.png"))
+fun closeTabsSikuliX(screen: Screen) {
+    println("Close tabs")
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    var firstTab = screen.exists("ads_account_id.png")
+    while (firstTab == null) {
+        screen.type(Key.F4, Key.CTRL)
+        firstTab = screen.exists("ads_account_id.png", 0.5)
+    }
 }
