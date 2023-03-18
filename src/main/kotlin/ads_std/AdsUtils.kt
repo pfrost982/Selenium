@@ -164,9 +164,9 @@ fun browserCloseLanguageSelection(screen: Screen): Boolean {
     }
 }
 
-fun tryToClick(screen: Screen, url: Pattern): Boolean {
+fun tryToClick(screen: Screen, url: Pattern, time: Double = 5.0): Boolean {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    val click = screen.exists(url, 5.0)
+    val click = screen.exists(url, time)
     if (click != null) {
         println("Click ${url.filename.split("\\").last()}")
         screen.click()
@@ -216,8 +216,31 @@ fun metamaskSign(screen: Screen, language: String = "en") {
     }
 }
 
+fun metamaskConfirm(screen: Screen, language: String = "en") {
+    when (language) {
+        "en" -> tryToClick(screen, Pattern("metamask_confirm_button.png"))
+        "ru" -> tryToClick(screen, Pattern("metamask_confirm_button_ru.png"))
+    }
+}
+
+fun metamaskConfirmUntilItDisappears(screen: Screen, language: String = "en") {
+    var pattern = Pattern()
+    when (language) {
+        "en" -> pattern = Pattern("metamask_confirm_button.png")
+        "ru" -> pattern = Pattern("metamask_confirm_button_ru.png")
+    }
+    var click = tryToClick(screen, pattern)
+    while (click) {
+        click = tryToClick(screen, pattern, 0.5)
+    }
+}
+
+fun metamaskGotIt(screen: Screen) {
+    tryToClick(screen, Pattern("metamask_got_it.png"))
+}
+
 fun metamaskIsOpened(screen: Screen): Boolean {
-    val metamask = screen.exists("metamask_handler_icon.png", 8.0)
+    val metamask = screen.exists("metamask_handler_icon.png", 9.0)
     if (metamask != null) {
         println("Metamask is opened")
         return true
@@ -230,13 +253,9 @@ fun metamaskIsOpened(screen: Screen): Boolean {
 fun metamaskScroll(screen: Screen, steps: Int) {
     println("Metamask scroll")
     ImagePath.add("src/main/kotlin/ads_std/png")
-    screen.wait(Pattern("metamask_handler_icon.png").targetOffset(100, 100), 7.0)
+    screen.wait(Pattern("metamask_handler_icon.png").targetOffset(0, 320), 8.0)
     screen.mouseMove()
     screen.wheel(Mouse.WHEEL_DOWN, steps)
-}
-
-fun metamaskGotIt(screen: Screen) {
-    tryToClick(screen, Pattern("metamask_got_it.png"))
 }
 
 fun twitFollow(screen: Screen) {
@@ -246,6 +265,7 @@ fun twitFollow(screen: Screen) {
 fun closeTabsSikuliX(screen: Screen) {
     println("Close tabs")
     ImagePath.add("src/main/kotlin/ads_std/png")
+    screen.wait(3.0)
     var firstTab = screen.exists("ads_account_id.png")
     while (firstTab == null) {
         screen.type(Key.F4, Key.CTRL)

@@ -14,7 +14,7 @@ var isError = false
 val errorList = mutableListOf<Int>()
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>(1)// + (7..130)
+    val profiles = listOf<Int>(4)// + (4..150)
     for (number in profiles) {
 /*
         if (isError) {

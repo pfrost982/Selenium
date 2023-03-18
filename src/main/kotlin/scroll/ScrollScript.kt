@@ -2,6 +2,8 @@ package scroll
 
 import ads_std.*
 import org.sikuli.script.*
+import java.util.*
+import kotlin.random.Random
 
 suspend fun scrollScript(number: Int) {
     openProfileWithoutDriver(number)
@@ -113,7 +115,7 @@ suspend fun scrollBridgeScript(number: Int) {
     try {
         closeTabsSikuliX(screen)
         openURLsikuliX(screen, "https://scroll.io/alpha/bridge")
-        if(!metamaskIsOpened(screen)) {
+        if (!metamaskIsOpened(screen)) {
             screen.wait("bridge_connect_wallet.png", 8.0)
             screen.click()
             screen.wait("bridge_metamask_button.png")
@@ -124,14 +126,28 @@ suspend fun scrollBridgeScript(number: Int) {
         metamaskNext(screen, metamaskLanguage)
         metamaskConnect(screen, metamaskLanguage)
         metamaskSwitchNetwork(screen, metamaskLanguage)
-        screen.wait(  Pattern("goerli_goerli_testnet.png").targetOffset(-50, -65))
-        screen.click()
-        screen.paste("0.01")
-        screen.wheel(Mouse.WHEEL_DOWN, 4)
-        screen.wait(1.0)
-        screen.wait("goerli_send_eth_to_scroll.png")
-        screen.click()
-        //screen.wait(3.0)
+        for (txn in 1..8) {
+            println("Transaction $txn")
+            screen.wait(Pattern("goerli_goerli_testnet.png").targetOffset(-50, -65))
+            screen.click()
+            val eth = Random.nextDouble(0.2) + 0.6
+            println("eth = $eth")
+            screen.paste(String.format(Locale.US, "%.2f", eth))
+            screen.wheel(Mouse.WHEEL_DOWN, 4)
+            screen.wait(1.0)
+            screen.wait("goerli_send_eth_to_scroll.png")
+            screen.click()
+            metamaskScroll(screen, 4)
+            screen.wait(0.5)
+            metamaskConfirmUntilItDisappears(screen, metamaskLanguage)
+            println("Confirmed")
+            screen.wait("goerli_txn_hash.png")
+            println("Transaction screen")
+            screen.type(Key.HOME, Key.CTRL)
+            screen.wait(0.5)
+            screen.type(Key.F5)
+            screen.wait(3.0)
+        }
     } catch (e: FindFailed) {
         e.printStackTrace()
         isError = true
@@ -141,9 +157,9 @@ suspend fun scrollBridgeScript(number: Int) {
     if (isError) {
         errorList.add(number)
         println("profile $number: script ended with ERROR, added to error list")
-        //closeProfileWithoutDriver(number)
+        closeProfileWithoutDriver(number)
     } else {
         println("profile $number script ended without errors")
-        //closeProfileWithoutDriver(number)
+        closeProfileWithoutDriver(number)
     }
 }
