@@ -14,18 +14,11 @@ var isError = false
 val errorList = mutableListOf<Int>()
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>(4)// + (4..150)
+    val profiles = listOf<Int>(3)// + (116..150)
     for (number in profiles) {
-/*
-        if (isError) {
-            break
-        }
-*/
         profileWork = true
         launch(Dispatchers.Default) {
-            //scrollScript(number)
-            //scrollGuildScript(number)
-            scrollBridgeScript(number)
+            scrollSyncSwapScript(number)
         }
         while (profileWork) {
             delay(1000)

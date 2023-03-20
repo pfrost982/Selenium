@@ -123,6 +123,7 @@ suspend fun scrollBridgeScript(number: Int) {
         }
         val metamaskLanguage = metamaskUnlock(screen)
         println("Metamask language = $metamaskLanguage")
+        metamaskGotIt(screen)
         metamaskNext(screen, metamaskLanguage)
         metamaskConnect(screen, metamaskLanguage)
         metamaskSwitchNetwork(screen, metamaskLanguage)
@@ -157,9 +158,74 @@ suspend fun scrollBridgeScript(number: Int) {
     if (isError) {
         errorList.add(number)
         println("profile $number: script ended with ERROR, added to error list")
-        closeProfileWithoutDriver(number)
+        //closeProfileWithoutDriver(number)
     } else {
         println("profile $number script ended without errors")
         closeProfileWithoutDriver(number)
+    }
+}
+
+suspend fun scrollSyncSwapScript(number: Int) {
+    isError = false
+    openProfileWithoutDriver(number)
+    println("profile $number: start script on thread ${Thread.currentThread().name}")
+    val screen = Screen()
+    ImagePath.add("src/main/kotlin/scroll/png")
+    try {
+        closeTabsSikuliX(screen)
+        openURLsikuliX(screen, "https://staging.syncswap.xyz/swap")
+        screen.wait("sync_swap_start_button.png", 8.0)
+        screen.click()
+        screen.type(Key.ESC)
+        screen.wait(Pattern("sync_swap_connect_wallet.png").targetOffset(-136, 0))
+        screen.click()
+        screen.wait("sync_swap_scroll_button.png")
+        screen.click()
+        screen.wait("sync_swap_connect_wallet.png")
+        screen.click()
+        screen.wait("sync_swap_metamask_button.png")
+        screen.click()
+        val metamaskLanguage = metamaskUnlock(screen)
+        println("Metamask language = $metamaskLanguage")
+        metamaskGotIt(screen)
+        metamaskNext(screen, metamaskLanguage)
+        metamaskConnect(screen, metamaskLanguage)
+        screen.wait("sync_swap_try_unlock_button.png")
+        screen.click()
+        screen.wait("sync_swap_switch_network_button.png", 8.0)
+        screen.click()
+        screen.wait(2.0)
+        metamaskSwitchNetwork(screen, metamaskLanguage)
+        screen.wait(Pattern("sync_swap_enter_amount.png").targetOffset(-197, -264))
+        screen.click()
+        val eth = Random.nextDouble(0.2) + 3
+        println("Past $eth")
+        screen.paste(String.format(Locale.US, "%.2f", eth))
+        screen.wait("sync_swap_swap_button.png")
+        screen.click()
+        metamaskScroll(screen, 3)
+        screen.wait(0.5)
+        metamaskConfirmUntilItDisappears(screen, metamaskLanguage)
+        println("Confirmed")
+        screen.wait("sync_swap_swapped.png", 32.0)
+        println("Swapped")
+        screen.type(Key.ESC)
+        screen.wait("sync_swap_arrow.png")
+        screen.click()
+
+        screen.wait(3.0)
+    } catch (e: FindFailed) {
+        e.printStackTrace()
+        isError = true
+    }
+
+    profileWork = false
+    if (isError) {
+        errorList.add(number)
+        println("profile $number: script ended with ERROR, added to error list")
+        //closeProfileWithoutDriver(number)
+    } else {
+        println("profile $number script ended without errors")
+        //closeProfileWithoutDriver(number)
     }
 }

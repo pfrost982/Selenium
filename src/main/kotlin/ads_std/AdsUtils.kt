@@ -240,7 +240,7 @@ fun metamaskGotIt(screen: Screen) {
 }
 
 fun metamaskIsOpened(screen: Screen): Boolean {
-    val metamask = screen.exists("metamask_handler_icon.png", 9.0)
+    val metamask = screen.exists("metamask_handler_icon.png", 7.0)
     if (metamask != null) {
         println("Metamask is opened")
         return true
@@ -250,10 +250,10 @@ fun metamaskIsOpened(screen: Screen): Boolean {
     }
 }
 
-fun metamaskScroll(screen: Screen, steps: Int) {
+fun metamaskScroll(screen: Screen, steps: Int, offsetFromIcon: Int = 500) {
     println("Metamask scroll")
     ImagePath.add("src/main/kotlin/ads_std/png")
-    screen.wait(Pattern("metamask_handler_icon.png").targetOffset(0, 320), 8.0)
+    screen.wait(Pattern("metamask_handler_icon.png").targetOffset(0, offsetFromIcon), 12.0)
     screen.mouseMove()
     screen.wheel(Mouse.WHEEL_DOWN, steps)
 }
