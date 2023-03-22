@@ -198,8 +198,11 @@ fun metamaskConnect(screen: Screen, language: String = "en") {
     }
 }
 
-fun metamaskApprove(screen: Screen) {
-    tryToClick(screen, Pattern("metamask_approve_button.png"))
+fun metamaskApprove(screen: Screen, language: String = "en") {
+    when (language) {
+        "en" -> tryToClick(screen, Pattern("metamask_approve_button.png"))
+        "ru" -> tryToClick(screen, Pattern("metamask_approve_button_ru.png"))
+    }
 }
 
 fun metamaskSwitchNetwork(screen: Screen, language: String = "en") {
@@ -212,6 +215,13 @@ fun metamaskSwitchNetwork(screen: Screen, language: String = "en") {
 fun metamaskSign(screen: Screen, language: String = "en") {
     when (language) {
         "en" -> tryToClick(screen, Pattern("metamask_sign_button.png"))
+        "ru" -> tryToClick(screen, Pattern("metamask_sign_button_ru.png"))
+    }
+}
+
+fun metamaskBigSign(screen: Screen, language: String = "en") {
+    when (language) {
+        "en" -> tryToClick(screen, Pattern("metamask_big_sign_button.png"))
         "ru" -> tryToClick(screen, Pattern("metamask_sign_button_ru.png"))
     }
 }
@@ -250,12 +260,32 @@ fun metamaskIsOpened(screen: Screen): Boolean {
     }
 }
 
-fun metamaskScroll(screen: Screen, steps: Int, offsetFromIcon: Int = 500) {
+fun metamaskScroll(screen: Screen, steps: Int, offsetFromIcon: Int = 500, delayBeforeScroll: Double = 0.0) {
     println("Metamask scroll")
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.wait(Pattern("metamask_handler_icon.png").targetOffset(0, offsetFromIcon), 12.0)
     screen.mouseMove()
+    screen.wait(delayBeforeScroll)
     screen.wheel(Mouse.WHEEL_DOWN, steps)
+}
+
+fun metamaskAllowAddNetwork(screen: Screen, language: String = "en") {
+    var pattern = Pattern()
+    println("Metamask add network")
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    when (language) {
+        "en" -> pattern = Pattern("metamask_allow_this_site.png.png")
+        "ru" -> pattern = Pattern("metamask_allow_this_site.png_ru.png")
+    }
+    val allow = screen.exists(pattern, 7.0)
+    if (allow != null) {
+        println("Founded Allow add network")
+        metamaskScroll(screen, 3)
+        screen.wait(0.5)
+        metamaskApprove(screen, language)
+    } else {
+        println("Not founded Allow add network")
+    }
 }
 
 fun twitFollow(screen: Screen) {
