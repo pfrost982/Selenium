@@ -222,7 +222,7 @@ fun metamaskSign(screen: Screen, language: String = "en") {
 fun metamaskBigSign(screen: Screen, language: String = "en") {
     when (language) {
         "en" -> tryToClick(screen, Pattern("metamask_big_sign_button.png"))
-        "ru" -> tryToClick(screen, Pattern("metamask_sign_button_ru.png"))
+        "ru" -> tryToClick(screen, Pattern("metamask_big_sign_button_ru.png"))
     }
 }
 
@@ -274,8 +274,8 @@ fun metamaskAllowAddNetwork(screen: Screen, language: String = "en") {
     println("Metamask add network")
     ImagePath.add("src/main/kotlin/ads_std/png")
     when (language) {
-        "en" -> pattern = Pattern("metamask_allow_this_site.png.png")
-        "ru" -> pattern = Pattern("metamask_allow_this_site.png_ru.png")
+        "en" -> pattern = Pattern("metamask_allow_this_site.png")
+        "ru" -> pattern = Pattern("metamask_allow_this_site_ru.png")
     }
     val allow = screen.exists(pattern, 7.0)
     if (allow != null) {
