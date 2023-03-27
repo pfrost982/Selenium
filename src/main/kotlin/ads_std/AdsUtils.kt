@@ -233,6 +233,13 @@ fun metamaskConfirm(screen: Screen, language: String = "en") {
     }
 }
 
+fun metamaskReject(screen: Screen, language: String = "en", time: Double = 3.0) {
+    when (language) {
+        "en" -> tryToClick(screen, Pattern("metamask_reject.png"), time)
+        "ru" -> tryToClick(screen, Pattern("metamask_reject_ru.png"), time)
+    }
+}
+
 fun metamaskConfirmUntilItDisappears(screen: Screen, language: String = "en") {
     var pattern = Pattern()
     when (language) {
@@ -249,8 +256,8 @@ fun metamaskGotIt(screen: Screen) {
     tryToClick(screen, Pattern("metamask_got_it.png"))
 }
 
-fun metamaskIsOpened(screen: Screen): Boolean {
-    val metamask = screen.exists("metamask_handler_icon.png", 7.0)
+fun metamaskIsOpened(screen: Screen, time: Double = 7.0): Boolean {
+    val metamask = screen.exists("metamask_handler_icon.png", time)
     if (metamask != null) {
         println("Metamask is opened")
         return true

@@ -1,4 +1,4 @@
-package scroll
+package starknet
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -18,7 +18,7 @@ fun main() = runBlocking {
     for (number in profiles) {
         profileWork = true
         launch(Dispatchers.Default) {
-            scrollSyncSwapPoolScript(number)
+            starknetDiscordScript(number)
         }
         while (profileWork) {
             delay(1000)
