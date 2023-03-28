@@ -23,11 +23,11 @@ suspend fun discordScript(number: Int) {
         screen.wait(3.0)
         driver.switchTo().newWindow(WindowType.TAB)
         driver.get("https://discord.com/invite/xfpK4Pe")
-        screen.wait("accept_invite_button.png", 12.0)
+        screen.wait("browser_accept_invite_button.png", 12.0)
         screen.click()
         screen.wait("browser_cancel_discord_app_button.png", 12.0)
         screen.click()
-        screen.wait("continue_to_discord_button.png")
+        screen.wait("browser_continue_to_discord_button.png")
         screen.click()
         screen.wait("complete_button.png", 12.0)
         screen.click()
@@ -42,8 +42,7 @@ suspend fun discordScript(number: Int) {
         screen.click()
         driver.get("https://discord.com/channels/732892373507375164/955224381292937216")
         screen.wait("message_input.png", 12.0)
-        screen.write("gm" +
-                "")
+        screen.write("gm")
         screen.type(Key.ENTER)
         screen.wait(1.0)
     } catch (e: FindFailed) {

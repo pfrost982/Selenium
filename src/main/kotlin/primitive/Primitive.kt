@@ -63,11 +63,11 @@ suspend fun discordRegistrationScript(number: Int) {
         screen.click()
         screen.paste("https://discord.com/invite/primitive")
         screen.type(Key.ENTER)
-        screen.wait("accept_invite_button.png", 24.0)
+        screen.wait("browser_accept_invite_button.png", 24.0)
         screen.click()
         screen.wait("browser_cancel_discord_app_button.png", 24.0)
         screen.click()
-        screen.wait("continue_to_discord_button.png")
+        screen.wait("browser_continue_to_discord_button.png")
         screen.click()
         val news = screen.exists(Pattern("discord_news_close.png").similar(0.9), 12.0)
         if (news != null) {

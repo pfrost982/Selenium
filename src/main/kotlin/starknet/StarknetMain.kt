@@ -14,7 +14,7 @@ var isError = false
 val errorList = mutableListOf<Int>()
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>() + (11..20)
+    val profiles = listOf<Int>() + (15..20)
     for (number in profiles) {
         profileWork = true
         launch(Dispatchers.Default) {

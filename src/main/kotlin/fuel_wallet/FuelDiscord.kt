@@ -16,7 +16,7 @@ suspend fun fuelDiscordScript(number: Int) {
     ImagePath.add("src/main/kotlin/fuel_wallet/png")
     try {
         screen.wait(3.0)
-        screen.wait("accept_invite_button.png")
+        screen.wait("browser_accept_invite_button.png")
         screen.click()
         screen.wait(15.0)
     } catch (e: FindFailed) {

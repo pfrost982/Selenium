@@ -8,13 +8,13 @@ fun sikuliXScript() {
     ImagePath.add("src/main/kotlin/discord/png")
     while (true) {
         try {
-            val acceptButton = screen.exists(Pattern("accept_invite_button.png").similar(0.9), 1.0)
+            val acceptButton = screen.exists(Pattern("browser_accept_invite_button.png").similar(0.9), 1.0)
             if (acceptButton != null) {
                 println("!!!accept button found")
                 screen.click()
                 screen.wait("browser_cancel_discord_app_button.png", 12.0)
                 screen.click()
-                screen.wait("continue_to_discord_button.png")
+                screen.wait("browser_continue_to_discord_button.png")
                 screen.click()
                 screen.wait("complete_button.png", 24.0)
                 screen.click()
