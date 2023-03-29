@@ -20,19 +20,19 @@ suspend fun starknetDiscordScript(number: Int) {
         screen.wait("browser_continue_to_discord_button.png")
         screen.click()
         println("Search discord news...")
-        val news = screen.exists(Pattern("discord_news_close.png").similar(0.9), 12.0)
+        val news = screen.exists(Pattern("discord_close_big.png").similar(0.9), 12.0)
         if (news != null) {
             println("profile $number: News founded")
             screen.click()
         }
         println("Search discord close button...")
-        val close = screen.exists("discord_close_button.png", 4.0)
+        val close = screen.exists("discord_close_button.png")
         if (close != null) {
             println("profile $number: Close button founded")
             screen.click()
         }
         println("Search discord maybe later button...")
-        val maybeLater = screen.exists("discord_maybe_later_button.png", 4.0)
+        val maybeLater = screen.exists("discord_maybe_later_button.png")
         if (maybeLater != null) {
             println("profile $number: Maybe later button founded")
             screen.click()
@@ -59,7 +59,7 @@ suspend fun starknetDiscordScript(number: Int) {
         }
         screen.wait("message_input.png", 12.0)
         screen.click()
-        screen.write("gm")
+        screen.write("gn")
         screen.type(Key.ENTER)
 
         println("profile $number: registration OK!")

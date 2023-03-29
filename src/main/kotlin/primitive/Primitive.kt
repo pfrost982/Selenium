@@ -69,7 +69,7 @@ suspend fun discordRegistrationScript(number: Int) {
         screen.click()
         screen.wait("browser_continue_to_discord_button.png")
         screen.click()
-        val news = screen.exists(Pattern("discord_news_close.png").similar(0.9), 12.0)
+        val news = screen.exists(Pattern("discord_close_big.png").similar(0.9), 12.0)
         if (news != null) {
             println("profile $number: news case")
             screen.click()

@@ -1,4 +1,4 @@
-package starknet
+package stargate
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -14,11 +14,11 @@ var isError = false
 val errorList = mutableListOf<Int>()
 
 fun main() = runBlocking {
-    val profiles = listOf<Int>(95)// + (129..150)
+    val profiles = listOf<Int>() + (11..20)
     for (number in profiles) {
         profileWork = true
         launch(Dispatchers.Default) {
-            starknetDiscordScript(number)
+            stargateGuildScript(number)
         }
         while (profileWork) {
             delay(1000)

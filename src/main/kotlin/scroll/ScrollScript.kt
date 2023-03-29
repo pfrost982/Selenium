@@ -82,7 +82,7 @@ suspend fun scrollGuildScript(number: Int) {
         screen.wait(0.5)
         screen.type(Key.F5)
         screen.wait(4.0)
-        screen.wait("you_have_access.png", 8.0)
+        screen.wait("guild_you_have_access.png", 8.0)
         println("You have access")
         screen.wait("guild_join_to_get_roles.png")
         screen.click()
