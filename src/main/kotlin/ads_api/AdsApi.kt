@@ -13,6 +13,7 @@ interface AdsApi {
         @Query("user_id") userId: String,
         @Query("open_tabs") openTabs: Int = 0,
         @Query("ip_tab") ipTab: Int = 1,
+        @Query("launch_args") launchArgs: String = "[]",
         @Query("headless") headless: Int = 0
     ): AdsResponse
 

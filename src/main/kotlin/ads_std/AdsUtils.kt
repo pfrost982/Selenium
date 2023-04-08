@@ -45,9 +45,12 @@ suspend fun openProfile(number: Int): ChromeDriver {
     return driver
 }
 
-suspend fun openProfileWithoutDriver(number: Int) {
+suspend fun openProfileWithoutDriver(number: Int, x: Int = 0, y: Int = 0, w: Int = 960, h: Int = 540) {
     println("start profile $number, wait response...")
-    val response = AdsApiStore.api.openProfile(profiles[number - 1], 1)
+    val response = AdsApiStore.api.openProfile(
+        profiles[number - 1], 1, 1,
+        "[\"--window-position=$x,$y\", \"--window-size=$w,$h\"]"
+    )
     println("get response profile $number: ${response.msg}")
 }
 
@@ -116,6 +119,15 @@ fun openURLsikuliX(screen: Screen, url: String) {
     screen.type(Key.ENTER)
 }
 
+fun openURLsikuliXDark(screen: Screen, url: String) {
+    println("Open URL $url")
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    screen.wait(Pattern("browser_refresh_button_dark.png").targetOffset(200, 0), 24.0)
+    screen.click()
+    screen.paste(url)
+    screen.type(Key.ENTER)
+}
+
 fun openMetamask(screen: Screen) {
     println("Open metamask")
     ImagePath.add("src/main/kotlin/ads_std/png")
@@ -164,7 +176,7 @@ fun browserCloseLanguageSelection(screen: Screen): Boolean {
     }
 }
 
-fun tryToClick(screen: Screen, url: Pattern, time: Double = 5.0): Boolean {
+fun tryToClick(screen: Screen, url: Pattern, time: Double = 4.0): Boolean {
     ImagePath.add("src/main/kotlin/ads_std/png")
     val click = screen.exists(url, time)
     if (click != null) {
@@ -252,12 +264,25 @@ fun metamaskConfirmUntilItDisappears(screen: Screen, language: String = "en") {
     }
 }
 
-fun metamaskGotIt(screen: Screen) {
-    tryToClick(screen, Pattern("metamask_got_it.png"))
+fun metamaskGotIt(screen: Screen, language: String = "en") {
+    when (language) {
+        "en" -> tryToClick(screen, Pattern("metamask_got_it.png"))
+        "ru" -> tryToClick(screen, Pattern("metamask_got_it_ru.png"))
+    }
 }
 
 fun metamaskIsOpened(screen: Screen, time: Double = 7.0): Boolean {
     val metamask = screen.exists("metamask_handler_icon.png", time)
+    if (metamask != null) {
+        println("Metamask is opened")
+        return true
+    } else {
+        println("Metamask is not opened")
+        return false
+    }
+}
+fun metamaskIsOpenedDark(screen: Screen, time: Double = 7.0): Boolean {
+    val metamask = screen.exists("metamask_handler_icon_dark.png", time)
     if (metamask != null) {
         println("Metamask is opened")
         return true
