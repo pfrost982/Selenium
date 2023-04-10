@@ -2,11 +2,9 @@ package robot_21_area_sui
 
 import ads_std.openProfileWithoutDriver
 import kotlinx.coroutines.runBlocking
-import org.sikuli.script.ImagePath
 import java.io.File
 
 fun main() = runBlocking {
-    ImagePath.add("src/main/kotlin/robot_21_area_sui/png")
     val file = File("src/main/kotlin/robot_21_area_sui/have2sui.txt")
     val have2SuiList = file.useLines { it.toList() }
     val workList = (1..150).toMutableList()

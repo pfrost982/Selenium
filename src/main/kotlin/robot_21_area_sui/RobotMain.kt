@@ -2,11 +2,13 @@ package robot_21_area_sui
 
 import ads_std.WALLET_PASS
 import kotlinx.coroutines.runBlocking
+import org.sikuli.script.ImagePath
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
 
 fun main() = runBlocking {
+    ImagePath.add("src/main/kotlin/robot_21_area_sui/png")
     val screen = Screen()
     screen.w = 510
     screen.h = 700
