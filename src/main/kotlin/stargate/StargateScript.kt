@@ -1,12 +1,7 @@
 package stargate
 
 import ads_std.*
-import okhttp3.internal.wait
-import org.sikuli.script.FindFailed
-import org.sikuli.script.ImagePath
-import org.sikuli.script.Key
-import org.sikuli.script.Pattern
-import org.sikuli.script.Screen
+import org.sikuli.script.*
 import kotlin.random.Random
 
 suspend fun stargateGuildScript(number: Int) {
@@ -31,8 +26,8 @@ suspend fun stargateGuildScript(number: Int) {
         screen.click()
         val metamaskLanguage = metamaskUnlock(screen)
         println("Metamask language = $metamaskLanguage")
-/*
         screen.wait(3.0)
+/*
         if (metamaskIsOpenedDark(screen, 3.0)) {
             metamaskGotIt(screen, metamaskLanguage)
             metamaskNext(screen, metamaskLanguage)
@@ -48,7 +43,7 @@ suspend fun stargateGuildScript(number: Int) {
             println("No verify account case")
         }
 */
-        val join = screen.exists("guild_join_to_get_roles.png", 9.0)
+        val join = screen.exists("guild_join_to_get_roles.png", 5.0)
         if (join != null) {
             println("Join case")
             screen.wait(1.0)
@@ -91,18 +86,23 @@ suspend fun stargateGuildScript(number: Int) {
 }
 
 suspend fun stargateDiscordScript(number: Int) {
-    zksync.isError = false
-    openProfileWithoutDriver(number)
+    isError = false
     println("profile $number: start script on thread ${Thread.currentThread().name}")
     val screen = Screen()
-    ImagePath.add("src/main/kotlin/zksync/png")
+    ImagePath.add("src/main/kotlin/stargate/png")
     try {
-        openURLsikuliX(screen, "https://join.zksync.dev/")
-        screen.wait("browser_not_robot_checkbox.png", 12.0)
-        screen.wait(3.0)
-        screen.wait("browser_not_robot_checkbox.png")
+        openProfileWithoutDriver(number, 1920, 0, 960, 1050)
+        screen.x = 1920
+        screen.y = 0
+        screen.w = 1580
+        screen.h = 1050
+        println(screen.bounds)
+        println(screen.w)
+        println(screen.h)
+        openURLsikuliXDark(screen, "https://stargate.finance/discord")
+        screen.wait("stargate_not_robot.png", 12.0)
         screen.click()
-        screen.wait("browser_accept_invite_button.png", 180.0)
+        screen.wait("browser_accept_invite_button.png", 12.0)
         screen.wait(3.0)
         screen.wait("browser_accept_invite_button.png")
         screen.click()
@@ -131,12 +131,12 @@ suspend fun stargateDiscordScript(number: Int) {
         screen.wait(3.0)
     } catch (e: FindFailed) {
         e.printStackTrace()
-        zksync.isError = true
+        isError = true
     }
 
-    zksync.profileWork = false
-    if (zksync.isError) {
-        zksync.errorList.add(number)
+    profileWork = false
+    if (isError) {
+        errorList.add(number)
         println("profile $number: script ended with ERROR, added to error list")
         //closeProfileWithoutDriver(number)
     } else {
