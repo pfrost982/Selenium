@@ -1,20 +1,15 @@
-package robot_21_area_sui
+package multiRegion_request_sui
 
 import ads_std.*
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 
 suspend fun requestTokenClicker(workRegion: WorkRegion) {
-    openProfileWithoutDriver(
-        workRegion.profile,
-        workRegion.screen.x,
-        workRegion.screen.y,
-        workRegion.screen.w,
-        workRegion.screen.h
-    )
+    queueOpenProfile(workRegion)
     val screen = workRegion.screen
+    var numberOfRequest = 0
     println("start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}")
-    while (true) {
+    while (numberOfRequest < 10) {
         val walletNotOpen = screen.exists(
             Pattern("favorites_and_extensions.png")
                 .targetOffset(20, 0)
@@ -44,10 +39,12 @@ suspend fun requestTokenClicker(workRegion: WorkRegion) {
         val requestTokens = screen.exists("request_tokens.png", 1.0)
         if (requestTokens != null) {
             println("profile ${workRegion.profile}: Request tokens")
+            numberOfRequest++
             queueAddClickRelease(workRegion)
         } else {
             println("profile ${workRegion.profile}: Request button not founded")
         }
-        screen.wait(3.0)
     }
+    queueCloseProfile(workRegion)
+    println("finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}")
 }
