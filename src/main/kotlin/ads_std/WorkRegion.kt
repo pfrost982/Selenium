@@ -1,4 +1,4 @@
-package robot_21_area_sui
+package ads_std
 
 import org.sikuli.script.Screen
 

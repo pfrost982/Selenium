@@ -1,7 +1,6 @@
 package robot_21_area_sui
 
-import ads_std.WALLET_PASS
-import ads_std.openProfileWithoutDriver
+import ads_std.*
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 

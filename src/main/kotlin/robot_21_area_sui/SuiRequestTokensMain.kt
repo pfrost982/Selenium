@@ -1,6 +1,8 @@
 package robot_21_area_sui
 
+import ads_std.WorkRegion
 import ads_std.fileToLinesList
+import ads_std.workQueue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -8,9 +10,7 @@ import kotlinx.coroutines.runBlocking
 import org.sikuli.script.ImagePath
 import org.sikuli.script.Screen
 import java.io.File
-import java.util.concurrent.ConcurrentLinkedQueue
 
-val workQueue = ConcurrentLinkedQueue<WorkRegion>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/robot_21_area_sui/png")
     val file = File("src/main/kotlin/robot_21_area_sui/have2sui.txt")
@@ -50,34 +50,3 @@ fun main(): Unit = runBlocking {
     }
 }
 
-fun queueAddClickRelease(workRegion: WorkRegion) {
-    workQueue.add(workRegion)
-    while (workQueue.peek() != workRegion) {
-        workRegion.screen.wait(0.01)
-    }
-    workRegion.screen.click()
-    workQueue.poll()
-}
-
-fun queueAddClick(workRegion: WorkRegion) {
-    workQueue.add(workRegion)
-    while (workQueue.peek() != workRegion) {
-        workRegion.screen.wait(0.01)
-    }
-    workRegion.screen.click()
-}
-
-fun queueClickRelease(workRegion: WorkRegion) {
-    while (workQueue.peek() != workRegion) {
-        workRegion.screen.wait(0.01)
-    }
-    workRegion.screen.click()
-    workQueue.poll()
-}
-
-fun queueRelease(workRegion: WorkRegion) {
-    while (workQueue.peek() != workRegion) {
-        workRegion.screen.wait(0.01)
-    }
-    workQueue.poll()
-}
