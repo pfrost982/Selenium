@@ -5,11 +5,11 @@ import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 
 suspend fun requestTokenClicker(workRegion: WorkRegion) {
-    queueOpenProfile(workRegion)
     val screen = workRegion.screen
     var numberOfRequest = 0
+    var numberOfRequestNotFound = 0
     println("start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}")
-    while (numberOfRequest < 10) {
+    while (numberOfRequest < 7 && numberOfRequestNotFound < 7) {
         val walletNotOpen = screen.exists(
             Pattern("favorites_and_extensions.png")
                 .targetOffset(20, 0)
@@ -18,20 +18,20 @@ suspend fun requestTokenClicker(workRegion: WorkRegion) {
         )
         if (walletNotOpen != null) {
             println("profile ${workRegion.profile}: Open wallet")
-            queueAddClick(workRegion)
+            screen.queueTakeClick()
             screen.wait("sui_wallet.png")
-            queueClickRelease(workRegion)
+            screen.queueClickRelease()
         } else {
             println("profile ${workRegion.profile}: Wallet opened")
         }
 
-        val password = screen.exists("password.png")
+        val password = screen.exists("password.png", 1.0)
         if (password != null) {
             println("profile ${workRegion.profile}: Unlock wallet")
-            queueAddClick(workRegion)
+            screen.queueTakeClick()
             screen.paste(WALLET_PASS)
             screen.type(Key.ENTER)
-            queueRelease(workRegion)
+            screen.queueClickRelease()
         } else {
             println("profile ${workRegion.profile}: Wallet unlocked")
         }
@@ -40,11 +40,11 @@ suspend fun requestTokenClicker(workRegion: WorkRegion) {
         if (requestTokens != null) {
             println("profile ${workRegion.profile}: Request tokens")
             numberOfRequest++
-            queueAddClickRelease(workRegion)
+            screen.queueTakeClickRelease()
         } else {
             println("profile ${workRegion.profile}: Request button not founded")
+            numberOfRequestNotFound++
         }
     }
-    queueCloseProfile(workRegion)
     println("finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}")
 }

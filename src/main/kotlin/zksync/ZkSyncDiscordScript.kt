@@ -2,7 +2,7 @@ package zksync
 
 import ads_std.closeProfileWithoutDriver
 import ads_std.openProfileWithoutDriver
-import ads_std.openURLsikuliX
+import ads_std.openUrlSikuli
 import org.sikuli.script.*
 import kotlin.random.Random
 
@@ -13,7 +13,7 @@ suspend fun zkSyncDiscordScript(number: Int) {
     val screen = Screen()
     ImagePath.add("src/main/kotlin/zksync/png")
     try {
-        openURLsikuliX(screen, "https://join.zksync.dev/")
+        openUrlSikuli(screen, "https://join.zksync.dev/")
         screen.wait("browser_not_robot_checkbox.png", 12.0)
         screen.wait(3.0)
         screen.wait("browser_not_robot_checkbox.png")
@@ -32,10 +32,10 @@ suspend fun zkSyncDiscordScript(number: Int) {
             println("profile $number: Agree button founded")
             screen.click()
         }
-        openURLsikuliX(screen, "https://discord.com/channels/722409280497516566/1052296324218892318")
+        openUrlSikuli(screen, "https://discord.com/channels/722409280497516566/1052296324218892318")
         screen.wait("discord_read_rules_button.png", 12.0)
         screen.click()
-        openURLsikuliX(screen, "https://discord.com/channels/722409280497516566/829191292951986186")
+        openUrlSikuli(screen, "https://discord.com/channels/722409280497516566/829191292951986186")
         screen.wait(3.0)
         screen.wait("message_input.png", 12.0)
         screen.click()

@@ -11,9 +11,9 @@ suspend fun scrollScript(number: Int) {
     val screen = Screen()
     ImagePath.add("src/main/kotlin/scroll/png")
     try {
-        openURLsikuliX(screen, "https://scroll.io/alpha")
+        openUrlSikuli(screen, "https://scroll.io/alpha")
         browserCloseLanguageSelection(screen)
-        openMetamask(screen)
+        metamaskOpen(screen)
         metamaskUnlock(screen)
         metamaskCloseInformation(screen)
         screen.type(Key.ESC)
@@ -54,7 +54,7 @@ suspend fun scrollGuildScript(number: Int) {
     ImagePath.add("src/main/kotlin/scroll/png")
     try {
         closeTabsSikuliX(screen)
-        openURLsikuliX(screen, "https://guild.xyz/scrollzkp")
+        openUrlSikuli(screen, "https://guild.xyz/scrollzkp")
         screen.wait("guild_connect_wallet.png", 24.0)
         screen.click()
         screen.wait("guild_metamask_button.png")
@@ -114,8 +114,8 @@ suspend fun scrollBridgeScript(number: Int) {
     ImagePath.add("src/main/kotlin/scroll/png")
     try {
         closeTabsSikuliX(screen)
-        openURLsikuliX(screen, "https://scroll.io/alpha/bridge")
-        if (!metamaskIsOpened(screen)) {
+        openUrlSikuli(screen, "https://scroll.io/alpha/bridge")
+        if (!metamaskIsOpenedDark(screen)) {
             screen.wait("bridge_connect_wallet.png", 8.0)
             screen.click()
             screen.wait("bridge_metamask_button.png")
@@ -173,7 +173,7 @@ suspend fun scrollSyncSwapScript(number: Int) {
     ImagePath.add("src/main/kotlin/scroll/png")
     try {
         closeTabsSikuliX(screen)
-        openURLsikuliX(screen, "https://staging.syncswap.xyz/swap")
+        openUrlSikuli(screen, "https://staging.syncswap.xyz/swap")
         screen.wait("sync_swap_start_button.png", 8.0)
         screen.click()
         screen.type(Key.ESC)
@@ -345,7 +345,7 @@ suspend fun scrollSyncSwapPoolScript(number: Int) {
     ImagePath.add("src/main/kotlin/scroll/png")
     try {
         var metamaskLanguage = "en"
-        openURLsikuliX(screen, "https://staging.syncswap.xyz/swap")
+        openUrlSikuli(screen, "https://staging.syncswap.xyz/swap")
         val start = screen.exists("sync_swap_start_button.png", 6.0)
         if (start != null) {
             println("Start button case")

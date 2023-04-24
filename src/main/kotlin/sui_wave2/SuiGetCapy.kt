@@ -42,7 +42,7 @@ suspend fun getCapyScript(number: Int) {
 
         screen.wait(Pattern("enter_password.png").targetOffset(0, 40))
         screen.click()
-        insertTextTroughClipboard(screen, WALLET_PASS)
+        screen.paste(WALLET_PASS)
         screen.wait("unlock_button.png")
         screen.click()
 

@@ -2,7 +2,7 @@ package starknet
 
 import ads_std.closeProfileWithoutDriver
 import ads_std.openProfileWithoutDriver
-import ads_std.openURLsikuliX
+import ads_std.openUrlSikuli
 import org.sikuli.script.*
 
 suspend fun starknetDiscordScript(number: Int) {
@@ -12,7 +12,7 @@ suspend fun starknetDiscordScript(number: Int) {
     val screen = Screen()
     ImagePath.add("src/main/kotlin/starknet/png")
     try {
-        openURLsikuliX(screen, "https://discord.com/invite/qypnmzkhbc")
+        openUrlSikuli(screen, "https://discord.com/invite/qypnmzkhbc")
         screen.wait("browser_accept_invite_button.png", 24.0)
         screen.click()
         screen.wait("browser_cancel_discord_app_button.png", 24.0)
@@ -50,7 +50,7 @@ suspend fun starknetDiscordScript(number: Int) {
         } else {
             println("profile $number: Not verified!")
         }
-        openURLsikuliX(screen, "https://discord.com/channels/793094838509764618/884341617992024105")
+        openUrlSikuli(screen, "https://discord.com/channels/793094838509764618/884341617992024105")
         println("Search discord agree button...")
         val agree = screen.exists("discord_agree_button.png", 9.0)
         if (agree != null) {

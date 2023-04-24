@@ -1,12 +1,14 @@
 package multiRegion_request_sui
 
-import ads_std.WorkRegion
 import ads_std.fileToLinesList
+import ads_std.formWorkingRegions
+import ads_std.queueCloseProfileReleaseWorkRegion
+import ads_std.queueOpenProfile
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.ImagePath
-import org.sikuli.script.Screen
 import java.io.File
 
 fun main(): Unit = runBlocking {
@@ -17,27 +19,21 @@ fun main(): Unit = runBlocking {
     have2SuiList.forEach {
         workList.remove(it.toInt())
     }
-    val profiles = workList.take(30)
+    val profiles = workList.take(15).toMutableList()
     println("Profiles:\n$profiles")
-    val workRegions = mutableListOf<WorkRegion>()
-    for (line in 1..3) {
-        for (row in 1..5) {
-            val screen = Screen()
-            screen.w = 500
-            screen.h = 700
-            screen.x = 16 + (row - 1) * 516
-            screen.y = (line - 1) * 700
-            val workRegion = WorkRegion(line, row, screen, 0)
-            workRegions.add(workRegion)
+    val freeWorkRegions = formWorkingRegions(3, 5, 16, 0, 500, 700, 16)
+    while (profiles.isNotEmpty()) {
+        if (freeWorkRegions.isNotEmpty()) {
+            val region = freeWorkRegions.removeFirst().apply {
+                this.profile = profiles.removeFirst()
+            }
+            launch(Dispatchers.Default) {
+                queueOpenProfile(region)
+                requestTokenClicker(region)
+                queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
+            }
         }
-    }
-    val zip = workRegions.zip(profiles)
-    println(zip.size)
-    zip.forEach {
-        it.first.profile = it.second
-        launch(Dispatchers.Default) {
-            requestTokenClicker(it.first)
-        }
+        delay(500)
     }
 }
 

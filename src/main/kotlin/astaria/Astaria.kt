@@ -19,7 +19,7 @@ suspend fun AstariaScript(number: Int) {
         screen.wait(1.0)
         screen.wait("email_input.png")
         screen.click()
-        insertTextTroughClipboard(screen, mail)
+        screen.paste(mail)
         screen.wait("subscribe_button.png")
         screen.click()
         screen.wait("subscribed.png", 5.0)

@@ -18,7 +18,7 @@ suspend fun primitiveScript(number: Int) {
         screen.wait(1.0)
         screen.wait("email_input.png")
         screen.click()
-        insertTextTroughClipboard(screen, mail)
+        screen.paste(mail)
         screen.wait("mail_button")
         screen.click()
         /*

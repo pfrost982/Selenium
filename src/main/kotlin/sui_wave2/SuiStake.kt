@@ -2,7 +2,6 @@ package sui_wave2
 
 import ads_std.WALLET_PASS
 import ads_std.closeProfile
-import ads_std.insertTextTroughClipboard
 import ads_std.openProfile
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
@@ -21,7 +20,7 @@ suspend fun stakeSuiScript(number: Int) {
         screen.click()
         screen.wait(Pattern("enter_password.png").targetOffset(0, 40))
         screen.click()
-        insertTextTroughClipboard(screen, WALLET_PASS)
+        screen.paste(WALLET_PASS)
         screen.wait("unlock_button.png")
         screen.click()
         screen.wait("stake_button.png", 24.0)

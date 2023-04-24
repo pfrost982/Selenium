@@ -3,6 +3,8 @@ package ads_std
 import java.awt.SystemTray
 import java.awt.Toolkit
 import java.awt.TrayIcon
+import java.awt.datatransfer.Clipboard
+import java.awt.datatransfer.StringSelection
 
 fun displayMessage(message: String) {
     val tray = SystemTray.getSystemTray()
@@ -12,4 +14,10 @@ fun displayMessage(message: String) {
     trayIcon.toolTip = "Message"
     tray.add(trayIcon)
     trayIcon.displayMessage("Message", message, TrayIcon.MessageType.INFO)
+}
+
+fun putTextInClipboard(text: String) {
+    val selection = StringSelection(text)
+    val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
+    clipboard.setContents(selection, selection)
 }
