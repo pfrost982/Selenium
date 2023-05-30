@@ -12,13 +12,14 @@ suspend fun openProfileWithoutDriver(number: Int, x: Int = 0, y: Int = 0, w: Int
         profiles[number - 1], 1, 1,
         "[\"--window-position=$x,$y\", \"--window-size=$w,$h\"]"
     )
-    println("get response profile $number: ${response.msg}")
+    println("get open response profile $number: ${response.msg}")
     return response.msg
 }
 
 suspend fun closeProfileWithoutDriver(number: Int): String {
+    println("close profile $number, wait response...")
     val response = AdsApiStore.api.closeProfile(profiles[number - 1])
-    println("profile $number closed: ${response.msg}")
+    println("get close response profile $number: ${response.msg}")
     return response.msg
 }
 
@@ -31,13 +32,14 @@ fun openUrlSikuli(screen: Screen, url: String) {
     screen.type(Key.ENTER)
 }
 
-fun openUrlSikuliDark(screen: Screen, url: String) {
+suspend fun openUrlSikuliDark(screen: Screen, url: String) {
     println("Open URL $url")
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.wait(Pattern("browser_refresh_button_dark.png").targetOffset(200, 0), 24.0)
-    screen.click()
+    screen.queueTakeClick()
     screen.paste(url)
     screen.type(Key.ENTER)
+    screen.queueRelease()
 }
 
 fun browserCloseLanguageSelection(screen: Screen): Boolean {

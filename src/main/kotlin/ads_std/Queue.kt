@@ -5,10 +5,13 @@ import org.sikuli.script.Screen
 import java.util.concurrent.ConcurrentLinkedQueue
 
 val workQueue = ConcurrentLinkedQueue<Screen>()
-val ApiRequestQueue = ConcurrentLinkedQueue<Screen>()
+val apiRequestQueue = ConcurrentLinkedQueue<Screen>()
+@Volatile
+var profileOpening = false
 suspend fun queueOpenProfile(workRegion: WorkRegion) {
-    ApiRequestQueue.add(workRegion.screen)
-    queueWait(workRegion.screen, ApiRequestQueue)
+    apiRequestQueue.add(workRegion.screen)
+    queueApiWait(workRegion.screen)
+    profileOpening = true
     var response = openProfileWithoutDriver(
         workRegion.profile,
         workRegion.screen.x,
@@ -26,52 +29,59 @@ suspend fun queueOpenProfile(workRegion: WorkRegion) {
             workRegion.screen.h
         )
     }
-    ApiRequestQueue.poll()
+    profileOpening = false
+    apiRequestQueue.poll()
 }
 
 suspend fun queueCloseProfileReleaseWorkRegion(workRegion: WorkRegion, freeWorkRegions: MutableList<WorkRegion>) {
-    ApiRequestQueue.add(workRegion.screen)
-    queueWait(workRegion.screen, ApiRequestQueue)
+    apiRequestQueue.add(workRegion.screen)
+    queueApiWait(workRegion.screen)
     var response = closeProfileWithoutDriver(workRegion.profile)
     while (response != "Success") {
         delay(700)
         response = closeProfileWithoutDriver(workRegion.profile)
     }
     freeWorkRegions.add(workRegion)
-    ApiRequestQueue.poll()
+    apiRequestQueue.poll()
 }
 
 suspend fun Screen.queueTakeClickRelease() {
     workQueue.add(this)
-    queueWait(this, workQueue)
+    queueWorkWait(this)
     this.click()
     workQueue.poll()
 }
 
 suspend fun Screen.queueTakeClick() {
     workQueue.add(this)
-    queueWait(this, workQueue)
+    queueWorkWait(this)
     this.click()
 }
 
 suspend fun Screen.queueClickRelease() {
-    queueWait(this, workQueue)
+    queueWorkWait(this)
     this.click()
     workQueue.poll()
 }
 
 suspend fun Screen.queueTakeAndWait() {
     workQueue.add(this)
-    queueWait(this, workQueue)
+    queueWorkWait(this)
 }
 
 suspend fun Screen.queueRelease() {
-    queueWait(this, workQueue)
+    queueWorkWait(this)
     workQueue.poll()
 }
 
-suspend fun queueWait(screen: Screen, queue: ConcurrentLinkedQueue<Screen>) {
-    while (queue.peek() != screen) {
+suspend fun queueWorkWait(screen: Screen) {
+    while (workQueue.peek() != screen || profileOpening) {
+        delay(10)
+    }
+}
+
+suspend fun queueApiWait(screen: Screen) {
+    while (apiRequestQueue.peek() != screen) {
         delay(10)
     }
 }

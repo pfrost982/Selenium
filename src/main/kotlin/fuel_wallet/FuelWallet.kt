@@ -24,7 +24,7 @@ suspend fun fuelScript(number: Int) {
             screen.wait(Pattern("will_need_next_step.png").similar(0.9).targetOffset(-110, 65))
             screen.click()
             screen.paste(seed)
-            screen.wait("next.png")
+            screen.wait("fuel_next_button.png")
             screen.click()
             screen.wait("type_password.png")
             screen.click()
@@ -34,7 +34,7 @@ suspend fun fuelScript(number: Int) {
             screen.paste(WALLET_PASS)
             screen.wait(Pattern("i_agree.png").targetOffset(-55, 0))
             screen.click()
-            screen.wait("next.png")
+            screen.wait("fuel_next_button.png")
             screen.click()
         }
         screen.wait("wallet_created.png", 10.0)
@@ -43,7 +43,7 @@ suspend fun fuelScript(number: Int) {
         screen.wait("fuel_wallet.png")
         screen.click()
         screen.wait(4.0)
-        val faucet = screen.exists("faucet.png")
+        val faucet = screen.exists("fuel_faucet_button.png")
         if (faucet != null) {
             println("profile $number: faucet case")
             screen.wait(0.5)
@@ -54,13 +54,14 @@ suspend fun fuelScript(number: Int) {
                 screen.wait(Pattern("solved.png").similar(0.95), 180.0)
             } else {
                 println("profile $number: without captcha case")
-                screen.wait(Pattern("not_robot.png").targetOffset(-60, 0))
+                screen.wait(Pattern("i_am_not_robot.png").targetOffset(-60, 0))
             }
             screen.wait("give_me_ether.png")
             screen.click()
             screen.wait(Pattern("get_test_ether.png").similar(0.95), 180.0)
         }
         closeOtherTabs(driver)
+/*
         driver.get("https://fuels-wallet.vercel.app/docs/how-to-use/")
         screen.wait("connect.png", 7.0)
         screen.wait(1.0)
@@ -100,6 +101,7 @@ suspend fun fuelScript(number: Int) {
         screen.click()
         screen.wait("see_on_blockexplorer.png", 45.0)
         screen.wait(1.5)
+*/
     } catch (e: FindFailed) {
         e.printStackTrace()
         isError = true

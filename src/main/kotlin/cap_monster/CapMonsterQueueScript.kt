@@ -45,7 +45,7 @@ suspend fun addKeyScript(workRegion: WorkRegion) {
             )
             println("profile ${workRegion.profile}: Input key")
             screen.queueTakeClick()
-            //screen.paste(CAP_MONSTER_KEY)
+            screen.paste(CAP_MONSTER_KEY)
             screen.queueRelease()
 
             screen.wait("cap_monster_save_key_button.png", 8.0)

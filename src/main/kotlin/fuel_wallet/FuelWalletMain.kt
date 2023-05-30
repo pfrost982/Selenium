@@ -18,7 +18,7 @@ fun main() = runBlocking {
         }
         profileWork = true
         launch(Dispatchers.Default) {
-            fuelDiscordScript(number)
+            fuelScript(number)
         }
         while (profileWork) {
             delay(1000)

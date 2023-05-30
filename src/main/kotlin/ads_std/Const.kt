@@ -2,6 +2,10 @@ package ads_std
 
 const val BASE_URL = "http://local.adspower.net:50325/api/v1/"
 const val DEFAULT_TIMEOUT = 30L
+const val backgroundGreen = "\u001B[42m"
+const val backgroundBlack = "\u001B[40m"
+const val backgroundRed = "\u001B[41m"
+
 
 val profiles: List<String> = listOf(
     "j4fy3ip",
