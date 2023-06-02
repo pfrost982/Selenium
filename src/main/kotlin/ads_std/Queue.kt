@@ -8,9 +8,14 @@ val workQueue = ConcurrentLinkedQueue<Screen>()
 val apiRequestQueue = ConcurrentLinkedQueue<Screen>()
 @Volatile
 var profileOpening = false
+@Volatile
+var atomicOperation = false
 suspend fun queueOpenProfile(workRegion: WorkRegion) {
     apiRequestQueue.add(workRegion.screen)
     queueApiWait(workRegion.screen)
+    while (atomicOperation) {
+        delay(10)
+    }
     profileOpening = true
     var response = openProfileWithoutDriver(
         workRegion.profile,
@@ -48,30 +53,36 @@ suspend fun queueCloseProfileReleaseWorkRegion(workRegion: WorkRegion, freeWorkR
 suspend fun Screen.queueTakeClickRelease() {
     workQueue.add(this)
     queueWorkWait(this)
+    atomicOperation = true
     this.click()
     workQueue.poll()
+    atomicOperation = false
 }
 
 suspend fun Screen.queueTakeClick() {
     workQueue.add(this)
     queueWorkWait(this)
+    atomicOperation = true
     this.click()
 }
 
 suspend fun Screen.queueClickRelease() {
-    queueWorkWait(this)
+    //queueWorkWait(this)
     this.click()
     workQueue.poll()
+    atomicOperation = false
 }
 
 suspend fun Screen.queueTakeAndWait() {
+    atomicOperation = true
     workQueue.add(this)
     queueWorkWait(this)
 }
 
 suspend fun Screen.queueRelease() {
-    queueWorkWait(this)
+    //queueWorkWait(this)
     workQueue.poll()
+    atomicOperation = false
 }
 
 suspend fun queueWorkWait(screen: Screen) {

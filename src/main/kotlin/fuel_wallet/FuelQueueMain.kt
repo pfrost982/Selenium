@@ -10,11 +10,12 @@ import org.sikuli.script.ImagePath
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/fuel_wallet/png")
-    val list = listOf<Int>() + (1..150)
+    val list = listOf<Int>(85, 87, 94, 97, 81, 127, 105, 132, 128, 131, 134, 143, 144, 135, 149, 146, 148)
+    // + (71..150)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        3, 3, 10, 0, 690, 690, 10, 10,
+        2, 2, 10, 0, 690, 690, 10, 10,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -24,10 +25,12 @@ fun main(): Unit = runBlocking {
             }
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
-                createWalletScript(region)
-                queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
+                swayScript(region)
+                //queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
+                freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
                 println(backgroundRed + errorList + backgroundBlack)
+                println(workQueue)
             }
         }
         delay(500)

@@ -63,7 +63,7 @@ suspend fun fuelScript(number: Int) {
         closeOtherTabs(driver)
 /*
         driver.get("https://fuels-wallet.vercel.app/docs/how-to-use/")
-        screen.wait("connect.png", 7.0)
+        screen.wait("fuel_connect.png", 7.0)
         screen.wait(1.0)
         screen.click()
         val connectWindow = screen.exists(Pattern("connect_window.png").similar(0.95), 5.0)
