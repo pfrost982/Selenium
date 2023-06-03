@@ -42,6 +42,15 @@ suspend fun openUrlSikuliDark(screen: Screen, url: String) {
     screen.queueRelease()
 }
 
+suspend fun openExtension(screen: Screen, extension: Pattern) {
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    screen.wait("browser_extensions.png")
+    screen.queueTakeClick()
+    screen.wait(extension)
+    screen.queueClickRelease()
+}
+
+
 fun browserCloseLanguageSelection(screen: Screen): Boolean {
     println("Scan browser language selection...")
     ImagePath.add("src/main/kotlin/ads_std/png")

@@ -11,7 +11,7 @@ var profileWork = false
 @Volatile
 var isError = false
 
-val errorList = mutableListOf<Int>()
+//val errorList = mutableListOf<Int>()
 
 fun main() = runBlocking {
     val profiles = listOf<Int>(95)// + (129..150)
