@@ -27,6 +27,8 @@ suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
         screen.wait("braavos_i_saved_seed_button.png")
         screen.queueTakeClickRelease()
         val seed = getTextFromClipboard()
+        fileAppendString(seeds_file, "${workRegion.profile} $seed")
+        println("${workRegion.profile} $seed")
         screen.wait("braavos_mainnet_button.png")
         screen.queueTakeClickRelease()
         screen.wait("braavos_continue_button.png")
@@ -38,6 +40,8 @@ suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
         screen.wait("braavos_copy_icon.png")
         screen.queueTakeClickRelease()
         val address = getTextFromClipboard()
+        fileAppendString(address_file, "${workRegion.profile} $address")
+        println("${workRegion.profile} $address")
         screen.wait(3.0)
     } catch (e: FindFailed) {
         println(backgroundRed + "Profile ${workRegion.profile} error")
@@ -52,17 +56,3 @@ suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
                 + backgroundBlack
     )
 }
-/*
-
-private suspend fun openBraavosWallet(screen: Screen) {
-    screen.wait("extensions.png")
-    screen.queueTakeClick()
-    screen.wait("fuel_wallet.png")
-    screen.queueClickRelease()
-    screen.wait("type_password.png")
-    screen.queueTakeClick()
-    screen.paste(WALLET_PASS_UP)
-    screen.type(Key.ENTER)
-    screen.queueRelease()
-}
-*/

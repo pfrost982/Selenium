@@ -9,11 +9,12 @@ import org.sikuli.script.ImagePath
 import java.io.File
 
 val errorList = mutableListOf<Int>()
-val file = File("braavos_seeds.txt")
+val seeds_file = File("src/main/kotlin/starknet/braavos_seeds.txt")
+val address_file = File("src/main/kotlin/starknet/braavos_address.txt")
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/starknet/png")
-    val list = listOf<Int>(2)
-    // + (71..150)
+    val list = listOf<Int>() +
+            (5..10)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
@@ -28,8 +29,8 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 createBraavosWalletScript(region)
-                //queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
-                freeWorkRegions.add(region)
+                queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
+                //freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
                 println(backgroundRed + errorList + backgroundBlack)
                 println(workQueue)
