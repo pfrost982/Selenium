@@ -4,6 +4,7 @@ import java.awt.SystemTray
 import java.awt.Toolkit
 import java.awt.TrayIcon
 import java.awt.datatransfer.Clipboard
+import java.awt.datatransfer.DataFlavor
 import java.awt.datatransfer.StringSelection
 
 fun displayMessage(message: String) {
@@ -21,3 +22,6 @@ fun putTextInClipboard(text: String) {
     val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
     clipboard.setContents(selection, selection)
 }
+
+fun getTextFromClipboard(): String =
+    Toolkit.getDefaultToolkit().systemClipboard.getData(DataFlavor.stringFlavor) as String

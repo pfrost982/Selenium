@@ -6,8 +6,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.ImagePath
+import java.io.File
 
 val errorList = mutableListOf<Int>()
+val file = File("braavos_seeds.txt")
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/starknet/png")
     val list = listOf<Int>(2)
