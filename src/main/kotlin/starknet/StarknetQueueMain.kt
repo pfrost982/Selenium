@@ -14,11 +14,11 @@ val address_file = File("src/main/kotlin/starknet/braavos_address.txt")
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/starknet/png")
     val list = listOf<Int>() +
-            (5..10)
+            (9..15)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 10, 0, 690, 690, 10, 10,
+        1, 1, 10, 0, 690, 690, 10, 10,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
