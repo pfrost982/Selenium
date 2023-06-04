@@ -57,3 +57,56 @@ suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
                 + backgroundBlack
     )
 }
+
+suspend fun sendMoneyFromArgentXToBraavosScript(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    println(
+        backgroundGreen + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+                + backgroundBlack
+    )
+    try {
+        screen.wait(2.0)
+        openExtension(screen, Pattern("argentx_extension_title.png"))
+        screen.wait("argentx_password_input.png", 8.0)
+        screen.queueTakeClick()
+        screen.paste(WALLET_PASS)
+        screen.type(Key.ENTER)
+        screen.queueRelease()
+        screen.wait(2.0)
+        var send =screen.exists("argentx_send_button.png")
+        while (send == null) {
+            openExtension(screen, Pattern("argentx_extension_title.png"))
+            screen.wait(2.0)
+            send =screen.exists("argentx_send_button.png")
+        }
+        screen.wait(0.5)
+        screen.queueTakeClickRelease()
+        screen.wait(2.0)
+        screen.wait("argentx_ethereum.png")
+        screen.queueTakeClick()
+        screen.paste("0.006")
+        screen.type(Key.TAB)
+        screen.paste(BraavosAddress.getAddress(workRegion.profile))
+        screen.queueRelease()
+        screen.wait("argentx_next_button.png")
+        screen.queueTakeClickRelease()
+        screen.wait("argentx_confirm_button.png")
+        screen.wait(0.5)
+        screen.queueTakeClickRelease()
+        screen.wait("argentx_pending_transaction_icon.png", 18.0)
+        screen.queueTakeClickRelease()
+        screen.wait(3.0)
+    } catch (e: FindFailed) {
+        workQueue.remove(screen)
+        println(backgroundRed + "Profile ${workRegion.profile} error")
+        e.printStackTrace()
+        if (workQueue.peek() == screen) {
+            workQueue.poll()
+        }
+        errorList.add(workRegion.profile)
+    }
+    println(
+        backgroundGreen + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+                + backgroundBlack
+    )
+}

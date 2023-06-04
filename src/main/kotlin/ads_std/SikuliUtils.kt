@@ -50,6 +50,14 @@ suspend fun openExtension(screen: Screen, extension: Pattern) {
     screen.queueClickRelease()
 }
 
+suspend fun openExtensionNotRelease(screen: Screen, extension: Pattern) {
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    screen.wait("browser_extensions.png")
+    screen.queueTakeClick()
+    screen.wait(extension)
+    screen.click()
+}
+
 
 fun browserCloseLanguageSelection(screen: Screen): Boolean {
     println("Scan browser language selection...")
