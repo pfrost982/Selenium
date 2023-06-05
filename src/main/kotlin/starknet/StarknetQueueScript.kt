@@ -58,6 +58,39 @@ suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
     )
 }
 
+suspend fun setupBraavosWalletScript(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    println(
+        backgroundGreen + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+                + backgroundBlack
+    )
+    try {
+        screen.wait(2.0)
+        openExtension(screen, Pattern("braavos_wallet.png"))
+        screen.wait(Pattern("braavos_login_wallet.png").targetOffset(0, 68))
+        screen.queueTakeClick()
+        screen.paste(WALLET_PASS)
+        screen.type(Key.ENTER)
+        screen.queueRelease()
+        screen.wait("braavos_setup_button.png")
+        screen.queueTakeClick()
+        screen.wait(Pattern("braavos_setup_account_button.png").similar(0.98), 5.0)
+        screen.queueClickRelease()
+        screen.wait(2.0)
+    } catch (e: FindFailed) {
+        println(backgroundRed + "Profile ${workRegion.profile} error")
+        e.printStackTrace()
+        if (workQueue.peek() == screen) {
+            workQueue.poll()
+        }
+        errorList.add(workRegion.profile)
+    }
+    println(
+        backgroundGreen + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+                + backgroundBlack
+    )
+}
+
 suspend fun sendMoneyFromArgentXToBraavosScript(workRegion: WorkRegion) {
     val screen = workRegion.screen
     println(
