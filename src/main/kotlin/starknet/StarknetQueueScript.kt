@@ -13,7 +13,7 @@ suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
     )
     try {
         screen.wait(2.0)
-        openExtension(screen, Pattern("braavos_wallet.png"))
+        openExtension(screen, Pattern("braavos_wallet_ext_icon.png"))
         screen.wait("braavos_create_wallet_button.png")
         screen.queueTakeClick()
         screen.paste(WALLET_PASS)
@@ -58,7 +58,7 @@ suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
     )
 }
 
-suspend fun setupBraavosWalletScript(workRegion: WorkRegion) {
+suspend fun swapBraavosWalletScript(workRegion: WorkRegion) {
     val screen = workRegion.screen
     println(
         backgroundGreen + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
@@ -66,16 +66,25 @@ suspend fun setupBraavosWalletScript(workRegion: WorkRegion) {
     )
     try {
         screen.wait(2.0)
-        openExtension(screen, Pattern("braavos_wallet.png"))
+        openExtension(screen, Pattern("braavos_wallet_ext_icon.png"))
         screen.wait(Pattern("braavos_login_wallet.png").targetOffset(0, 68))
         screen.queueTakeClick()
         screen.paste(WALLET_PASS)
         screen.type(Key.ENTER)
         screen.queueRelease()
-        screen.wait("braavos_setup_button.png")
+        screen.wait("braavos_swap.png")
+        screen.queueTakeClickRelease()
+        screen.wait("braavos_select_token.png")
         screen.queueTakeClick()
-        screen.wait(Pattern("braavos_setup_account_button.png").similar(0.98), 5.0)
+        screen.wait("braavos_dai_icon.png")
         screen.queueClickRelease()
+        screen.wait(Pattern("braavos_dai_icon.png").targetOffset(280, 0))
+        screen.queueTakeClick()
+        screen.paste("3")
+        screen.wait(Pattern("braavos_swap_button.png").similar(0.98), 8.0)
+        screen.queueClickRelease()
+        screen.wait("braavos_wallet.png")
+        screen.queueTakeClickRelease()
         screen.wait(2.0)
     } catch (e: FindFailed) {
         println(backgroundRed + "Profile ${workRegion.profile} error")

@@ -14,11 +14,11 @@ val address_file = File("src/main/kotlin/starknet/braavos_address.txt")
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/starknet/png")
     val list = listOf<Int>() +
-            (143..150)
+            (3..14)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        3, 4, 10, 0, 690, 690, 10, 10,
+        3, 4, 10, 0, 690, 690, 6, 6,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -28,7 +28,7 @@ fun main(): Unit = runBlocking {
             }
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
-                setupBraavosWalletScript(region)
+                swapBraavosWalletScript(region)
                 //queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
                 //freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
