@@ -3,6 +3,7 @@ package ads_std
 import ads_api.AdsApiStore
 import org.sikuli.script.ImagePath
 import org.sikuli.script.Key
+import org.sikuli.script.Mouse
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
 
@@ -53,6 +54,16 @@ suspend fun openExtension(screen: Screen, extension: Pattern) {
 suspend fun extensionOpened(screen: Screen): Boolean {
     ImagePath.add("src/main/kotlin/ads_std/png")
     return screen.exists(Pattern("browser_extesion_opened.png").similar(0.98)) != null
+}
+
+suspend fun scrollBrowser(screen: Screen, steps: Int) {
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    screen.queueTakeAndWait()
+    screen.wait(Pattern("browser_extensions.png").targetOffset(0, 80))
+    screen.mouseMove()
+    screen.wheel(Mouse.WHEEL_DOWN, steps)
+    screen.wait(0.5)
+    screen.queueClickRelease()
 }
 
 suspend fun openExtensionNotRelease(screen: Screen, extension: Pattern) {

@@ -191,3 +191,35 @@ suspend fun sendMoneyFromArgentXToBraavosScript(workRegion: WorkRegion) {
                 + backgroundBlack
     )
 }
+
+suspend fun mintNFT(screen: Screen) {
+    screen.wait(2.0)
+    openExtension(screen, Pattern("argentx_extension_title.png"))
+    screen.wait(3.0)
+    var password = screen.wait("argentx_password_input.png", 12.0)
+    while (password == null) {
+        openExtension(screen, Pattern("argentx_extension_title.png"))
+        password = screen.wait("argentx_password_input.png", 12.0)
+    }
+
+    screen.queueTakeClick()
+    screen.paste(WALLET_PASS)
+    screen.type(Key.ENTER)
+    screen.queueRelease()
+    screen.wait(3.0)
+    openUrlSikuliDark(screen, "https://xplorer.argent.xyz/claim/fd6a48d5-699b-427b-ab67-baf237dc7208")
+    screen.wait(3.0)
+    scrollBrowser(screen, 6)
+    screen.wait("xplorer_check_eligibility.png")
+    screen.queueTakeClickRelease()
+    screen.wait(3.0)
+    scrollBrowser(screen, 4)
+    screen.wait("xplorer_claim_now.png")
+    screen.queueTakeClickRelease()
+    screen.wait(5.0)
+    val confirm = screen.exists("argentx_confirm_button.png")
+
+    screen.queueTakeClickRelease()
+    screen.wait("xplorer_share.png", 8.0)
+    screen.wait(3.0)
+}
