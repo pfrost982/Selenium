@@ -1,20 +1,19 @@
-package starknet
+package ads_std
 
-import ads_std.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import java.io.File
+import starknet.daiToEth
 
 val errorList = mutableListOf<Int>()
-val seeds_file = File("src/main/kotlin/starknet/braavos_seeds.txt")
-val address_file = File("src/main/kotlin/starknet/braavos_address.txt")
+//val seeds_file = File("src/main/kotlin/starknet/braavos_seeds.txt")
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/starknet/png")
-    val list = listOf<Int>(52, 79, 86, 89, 103, 112, 150)// +
-            (1..150)
+    val list = listOf<Int>()// +
+    (1..150)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
@@ -28,7 +27,7 @@ fun main(): Unit = runBlocking {
             }
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
-                starknetScript(region)
+                script(region)
                 queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
                 //freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
@@ -38,4 +37,26 @@ fun main(): Unit = runBlocking {
         }
         delay(500)
     }
+}
+
+suspend fun script(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    var color = backgroundGreen
+    println(
+        color + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+                + backgroundBlack
+    )
+    try {
+        daiToEth(screen)
+    } catch (e: FindFailed) {
+        color = backgroundRed
+        println(color + "Profile ${workRegion.profile} error")
+        e.printStackTrace()
+        workQueue.remove(screen)
+        errorList.add(workRegion.profile)
+    }
+    println(
+        color + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+                + backgroundBlack
+    )
 }

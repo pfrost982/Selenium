@@ -50,6 +50,11 @@ suspend fun openExtension(screen: Screen, extension: Pattern) {
     screen.queueClickRelease()
 }
 
+suspend fun extensionOpened(screen: Screen): Boolean {
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    return screen.exists(Pattern("browser_extesion_opened.png").similar(0.98)) != null
+}
+
 suspend fun openExtensionNotRelease(screen: Screen, extension: Pattern) {
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.wait("browser_extensions.png")

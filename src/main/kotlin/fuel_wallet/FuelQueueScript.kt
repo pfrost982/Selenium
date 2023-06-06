@@ -5,8 +5,9 @@ import org.sikuli.script.*
 
 suspend fun createWalletScript(workRegion: WorkRegion) {
     val screen = workRegion.screen
+    var color = backgroundGreen
     println(
-        backgroundGreen + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+        color + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
                 + backgroundBlack
     )
     val seed = FuelSeeds.getSeed(workRegion.profile)
@@ -72,15 +73,16 @@ suspend fun createWalletScript(workRegion: WorkRegion) {
         errorList.add(workRegion.profile)
     }
     println(
-        backgroundGreen + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+        color + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
                 + backgroundBlack
     )
 }
 
 suspend fun swayScript(workRegion: WorkRegion) {
     val screen = workRegion.screen
+    var color = backgroundGreen
     println(
-        backgroundGreen + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+        color + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
                 + backgroundBlack
     )
     try {
@@ -180,7 +182,7 @@ suspend fun swayScript(workRegion: WorkRegion) {
         errorList.add(workRegion.profile)
     }
     println(
-        backgroundGreen + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+        color + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
                 + backgroundBlack
     )
 }
