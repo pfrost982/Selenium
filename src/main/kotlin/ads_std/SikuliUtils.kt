@@ -59,7 +59,7 @@ suspend fun extensionOpened(screen: Screen): Boolean {
 suspend fun scrollBrowser(screen: Screen, steps: Int) {
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.queueTakeAndWait()
-    screen.wait(Pattern("browser_extensions.png").targetOffset(0, 80))
+    screen.wait(Pattern("browser_extensions.png").targetOffset(0, 160))
     screen.mouseMove()
     screen.wheel(Mouse.WHEEL_DOWN, steps)
     screen.wait(0.5)
@@ -89,7 +89,7 @@ fun browserCloseLanguageSelection(screen: Screen): Boolean {
     }
 }
 
-suspend fun tryToClick(screen: Screen, url: Pattern, time: Double = 3.0): Boolean {
+suspend fun tryToClickQueue(screen: Screen, url: Pattern, time: Double = 3.0): Boolean {
     ImagePath.add("src/main/kotlin/ads_std/png")
     val click = screen.exists(url, time)
     return if (click != null) {
@@ -102,8 +102,21 @@ suspend fun tryToClick(screen: Screen, url: Pattern, time: Double = 3.0): Boolea
     }
 }
 
+suspend fun tryToClick(screen: Screen, url: Pattern, time: Double = 2.0): Boolean {
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    val click = screen.exists(url, time)
+    return if (click != null) {
+        println("Click ${url.filename.split("\\").last()}")
+        screen.click()
+        true
+    } else {
+        println("Not founded ${url.filename.split("\\").last()}")
+        false
+    }
+}
+
 suspend fun twitFollow(screen: Screen) {
-    tryToClick(screen, Pattern("follow.png"))
+    tryToClickQueue(screen, Pattern("follow.png"))
 }
 
 fun closeTabsSikuliX(screen: Screen) {

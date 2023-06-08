@@ -25,7 +25,7 @@ fun main(): Unit = runBlocking {
             }
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
-                poolOutScript(region)
+                poolOutScript(region.screen)
                 //queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
             }
             println("Error list:\n$errorListQ")

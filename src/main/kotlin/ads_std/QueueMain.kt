@@ -4,21 +4,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import linea.hopPool
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import starknet.mintNFT
 
 val errorList = mutableListOf<Int>()
 //val seeds_file = File("src/main/kotlin/starknet/braavos_seeds.txt")
 fun main(): Unit = runBlocking {
-    ImagePath.add("src/main/kotlin/starknet/png")
-    val list = listOf<Int>()// +
-    (64..150)
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    ImagePath.add("src/main/kotlin/linea/png")
+    val list = listOf<Int>() +
+    (135..150)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        3, 4, 10, 0, 690, 690, 6, 6,
-        screenAdditionalWidth = 0
+        3, 2, 10, 0, 690, 690, 0, 5,
+        screenAdditionalWidth = 340
     )
     while (profiles.isNotEmpty()) {
         if (freeWorkRegions.isNotEmpty()) {
@@ -28,7 +29,7 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
-                //queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
+                queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
                 //freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
                 println(backgroundRed + errorList + backgroundBlack)
@@ -47,7 +48,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + backgroundBlack
     )
     try {
-        mintNFT(screen)
+        hopPool(screen)
     } catch (e: FindFailed) {
         color = backgroundRed
         println(color + "Profile ${workRegion.profile} error")

@@ -2,13 +2,10 @@ package scroll
 
 import ads_std.*
 import org.sikuli.script.FindFailed
+import org.sikuli.script.Screen
 
-suspend fun poolOutScript(workRegion: WorkRegion) {
-    val screen = workRegion.screen
-    var backgroundColor = "\u001B[42m"
-    println("$backgroundColor + Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}")
-    try {
-        openUrlSikuliDark(screen, "https://staging.syncswap.xyz/pool")
+suspend fun poolOutScript(screen: Screen) {
+        openUrlSikuliDark(screen, "https://scroll.io/bridge")
         val metamaskLanguage = metamaskUnlock(screen)
         println("Metamask language = $metamaskLanguage")
         screen.wait(2.5)
@@ -32,10 +29,4 @@ suspend fun poolOutScript(workRegion: WorkRegion) {
         } else {
             println("No switch case")
         }
-    } catch (e: FindFailed) {
-        e.printStackTrace()
-        backgroundColor = "\u001B[41m"
-        errorListQ.add(workRegion.profile)
-    }
-    println(backgroundColor + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}")
 }

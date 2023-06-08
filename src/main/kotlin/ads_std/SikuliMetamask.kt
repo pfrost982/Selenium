@@ -6,86 +6,100 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sikuli.script.*
 
+//chrome-extension://cknlgcbdfhknkoidcefkpmlplfndfmll/home.html#settings
 suspend fun metamaskCloseInformation(screen: Screen) {
-    var thereWasInformation = tryToClick(screen, Pattern("metamask_close_information_button.png"))
+    var thereWasInformation = tryToClickQueue(screen, Pattern("metamask_close_information_button.png"))
     while (thereWasInformation) {
-        thereWasInformation = tryToClick(screen, Pattern("metamask_close_information_button.png"))
+        thereWasInformation = tryToClickQueue(screen, Pattern("metamask_close_information_button.png"))
     }
 }
 
 suspend fun metamaskNext(screen: Screen, language: String = "en") {
     when (language) {
-        "en" -> tryToClick(screen, Pattern("metamask_next_button.png"))
-        "ru" -> tryToClick(screen, Pattern("metamask_next_button_ru.png"))
+        "en" -> tryToClickQueue(screen, Pattern("metamask_next_button.png").similar(0.95))
+        "ru" -> tryToClickQueue(screen, Pattern("metamask_next_button_ru.png"))
     }
 }
 
 suspend fun metamaskConnect(screen: Screen, language: String = "en") {
     when (language) {
-        "en" -> tryToClick(screen, Pattern("metamask_connect_button.png"))
-        "ru" -> tryToClick(screen, Pattern("metamask_connect_button_ru.png"))
+        "en" -> tryToClickQueue(screen, Pattern("metamask_connect_button.png"))
+        "ru" -> tryToClickQueue(screen, Pattern("metamask_connect_button_ru.png"))
     }
 }
 
 suspend fun metamaskApprove(screen: Screen, language: String = "en") {
     when (language) {
-        "en" -> tryToClick(screen, Pattern("metamask_approve_button.png"))
-        "ru" -> tryToClick(screen, Pattern("metamask_approve_button_ru.png"))
+        "en" -> tryToClickQueue(screen, Pattern("metamask_approve_button.png"))
+        "ru" -> tryToClickQueue(screen, Pattern("metamask_approve_button_ru.png"))
     }
 }
 
 suspend fun metamaskSwitchNetwork(screen: Screen, language: String = "en") {
     when (language) {
-        "en" -> tryToClick(screen, Pattern("metamask_switch_network_button.png"))
-        "ru" -> tryToClick(screen, Pattern("metamask_switch_network_button_ru.png"))
+        "en" -> tryToClickQueue(screen, Pattern("metamask_switch_network_button.png"))
+        "ru" -> tryToClickQueue(screen, Pattern("metamask_switch_network_button_ru.png"))
     }
 }
 
 suspend fun metamaskSign(screen: Screen, language: String = "en") {
     when (language) {
-        "en" -> tryToClick(screen, Pattern("metamask_sign_button.png"))
-        "ru" -> tryToClick(screen, Pattern("metamask_sign_button_ru.png"))
+        "en" -> tryToClickQueue(screen, Pattern("metamask_sign_button.png"))
+        "ru" -> tryToClickQueue(screen, Pattern("metamask_sign_button_ru.png"))
     }
 }
 
 suspend fun metamaskBigSign(screen: Screen, language: String = "en") {
     when (language) {
-        "en" -> tryToClick(screen, Pattern("metamask_big_sign_button.png"))
-        "ru" -> tryToClick(screen, Pattern("metamask_big_sign_button_ru.png"))
+        "en" -> tryToClickQueue(screen, Pattern("metamask_big_sign_button.png"))
+        "ru" -> tryToClickQueue(screen, Pattern("metamask_big_sign_button_ru.png"))
     }
 }
 
 suspend fun metamaskConfirm(screen: Screen, language: String = "en") {
     when (language) {
-        "en" -> tryToClick(screen, Pattern("metamask_confirm_button.png"))
-        "ru" -> tryToClick(screen, Pattern("metamask_confirm_button_ru.png"))
+        "en" -> tryToClickQueue(screen, Pattern("metamask_confirm_button.png"))
+        "ru" -> tryToClickQueue(screen, Pattern("metamask_confirm_button_ru.png"))
     }
 }
 
 suspend fun metamaskReject(screen: Screen, language: String = "en", time: Double = 3.0) {
     when (language) {
-        "en" -> tryToClick(screen, Pattern("metamask_reject.png"), time)
-        "ru" -> tryToClick(screen, Pattern("metamask_reject_ru.png"), time)
+        "en" -> tryToClickQueue(screen, Pattern("metamask_reject.png"), time)
+        "ru" -> tryToClickQueue(screen, Pattern("metamask_reject_ru.png"), time)
     }
 }
 
-suspend fun metamaskConfirmUntilItDisappears(screen: Screen, language: String = "en") {
+suspend fun metamaskConfirmUntilItDisappears(screen: Screen, language: String = "en", time: Double = 3.0) {
+    var disappeared = false
     var pattern = Pattern()
     when (language) {
         "en" -> pattern = Pattern("metamask_confirm_button.png")
         "ru" -> pattern = Pattern("metamask_confirm_button_ru.png")
     }
-    var click = tryToClick(screen, pattern)
-    while (click) {
-        click = tryToClick(screen, pattern, 0.5)
+    screen.wait("metamask_handler_icon_dark.png", time)
+    val job = CoroutineScope(Dispatchers.Default).launch {
+        screen.waitVanish("metamask_handler_icon_dark.png", 32.0)
+        disappeared = true
     }
+    screen.queueTakeAndWait()
+    while (!disappeared) {
+        tryToClick(screen, pattern, 0.5)
+        screen.wait(0.5)
+    }
+    screen.queueRelease()
+    job.cancel()
 }
 
 suspend fun metamaskGotIt(screen: Screen, language: String = "en") {
     when (language) {
-        "en" -> tryToClick(screen, Pattern("metamask_got_it.png"))
-        "ru" -> tryToClick(screen, Pattern("metamask_got_it_ru.png"))
+        "en" -> tryToClickQueue(screen, Pattern("metamask_got_it.png"))
+        "ru" -> tryToClickQueue(screen, Pattern("metamask_got_it_ru.png"))
     }
+}
+
+suspend fun metamaskMax(screen: Screen) {
+    tryToClickQueue(screen, Pattern("metamask_max.png"))
 }
 
 fun metamaskIsOpened(screen: Screen, time: Double = 7.0): Boolean {
@@ -110,13 +124,40 @@ fun metamaskIsOpenedDark(screen: Screen, time: Double = 7.0): Boolean {
     }
 }
 
-fun metamaskScroll(screen: Screen, steps: Int, offsetFromIcon: Int = 500, delayBeforeScroll: Double = 0.0) {
+suspend fun metamaskScroll(
+    screen: Screen,
+    steps: Int,
+    yOffsetFromIcon: Int = 500,
+    xOffsetFromIcon: Int = 0,
+    delayBeforeScroll: Double = 0.0
+) {
     println("Metamask scroll")
     ImagePath.add("src/main/kotlin/ads_std/png")
-    screen.wait(Pattern("metamask_handler_icon.png").targetOffset(0, offsetFromIcon), 12.0)
+    screen.wait(Pattern("metamask_handler_icon.png").targetOffset(xOffsetFromIcon, yOffsetFromIcon), 12.0)
+    screen.queueTakeAndWait()
     screen.mouseMove()
     screen.wait(delayBeforeScroll)
     screen.wheel(Mouse.WHEEL_DOWN, steps)
+    screen.queueRelease()
+    screen.wait(0.7)
+}
+
+suspend fun metamaskScrollDark(
+    screen: Screen,
+    steps: Int,
+    yOffsetFromIcon: Int = 500,
+    xOffsetFromIcon: Int = 0,
+    delayBeforeScroll: Double = 0.0
+) {
+    println("Metamask scroll")
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    screen.wait(Pattern("metamask_handler_icon_dark.png").targetOffset(xOffsetFromIcon, yOffsetFromIcon), 12.0)
+    screen.queueTakeAndWait()
+    screen.mouseMove()
+    screen.wait(delayBeforeScroll)
+    screen.wheel(Mouse.WHEEL_DOWN, steps)
+    screen.queueRelease()
+    screen.wait(0.5)
 }
 
 suspend fun metamaskAllowAddNetwork(screen: Screen, language: String = "en") {
