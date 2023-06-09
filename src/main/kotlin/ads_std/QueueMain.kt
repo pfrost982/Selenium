@@ -4,21 +4,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import linea.hopPool
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
+import starknet.registerDomain
 
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/linea/png")
-    val list = listOf<Int>()// +
+    ImagePath.add("src/main/kotlin/starknet/png")
+    val list = listOf<Int>(2)// +
     (135..150)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        3, 2, 10, 0, 690, 690, 0, 5,
-        screenAdditionalWidth = 340
+        2, 2, 10, 0, 690, 690, 5, 5,
+        screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
         if (freeWorkRegions.isNotEmpty()) {
@@ -47,7 +47,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + backgroundBlack
     )
     try {
-        hopPool(screen)
+        registerDomain(screen, workRegion.profile)
     } catch (e: FindFailed) {
         color = backgroundRed
         println(color + "Profile ${workRegion.profile} error")

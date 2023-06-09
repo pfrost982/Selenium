@@ -45,36 +45,26 @@ suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
     screen.wait(2.0)
 }
 
-suspend fun starknetScript(workRegion: WorkRegion) {
-    val screen = workRegion.screen
-    var color = backgroundGreen
-    println(
-        color + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
-    )
-    try {
-        daiToEth(screen)
-    } catch (e: FindFailed) {
-        color = backgroundRed
-        println(color + "Profile ${workRegion.profile} error")
-        e.printStackTrace()
-        workQueue.remove(screen)
-        errorList.add(workRegion.profile)
-    }
-    println(
-        color + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
-    )
+suspend fun registerDomain(screen: Screen, number: Int) {
+    openBraavos(screen)
+    screen.wait(Pattern("braavos_receive.png").targetOffset(-165, -147))
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_settings_icon.png")
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_register_domain.png")
+    screen.queueTakeClickRelease()
+    screen.wait(Pattern("braavos_domain_name_input.png").targetOffset(-130,0))
+    screen.queueTakeClick()
+    screen.paste("gangofthree" + leadingZerosString(number, 3))
+    screen.queueRelease()
+    screen.wait(Pattern("braavos_register_button.png").similar(0.95))
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_pending_transaction.png")
+    screen.waitVanish("braavos_pending_transaction.png", 5.0)
 }
 
 suspend fun ethToDai(screen: Screen) {
-    screen.wait(2.0)
-    openExtension(screen, Pattern("braavos_wallet_ext_icon.png"))
-    screen.wait(Pattern("braavos_login_wallet.png").targetOffset(0, 68))
-    screen.queueTakeClick()
-    screen.paste(WALLET_PASS)
-    screen.type(Key.ENTER)
-    screen.queueRelease()
+    openBraavos(screen)
     screen.wait("braavos_swap.png")
     screen.queueTakeClickRelease()
     screen.wait("braavos_select_token.png")
@@ -93,13 +83,7 @@ suspend fun ethToDai(screen: Screen) {
 }
 
 suspend fun daiToEth(screen: Screen) {
-    screen.wait(2.0)
-    openExtension(screen, Pattern("braavos_wallet_ext_icon.png"))
-    screen.wait(Pattern("braavos_login_wallet.png").targetOffset(0, 68))
-    screen.queueTakeClick()
-    screen.paste(WALLET_PASS)
-    screen.type(Key.ENTER)
-    screen.queueRelease()
+    openBraavos(screen)
     screen.wait("braavos_swap.png")
     screen.queueTakeClickRelease()
     screen.wait("braavos_select_token.png")
@@ -122,6 +106,16 @@ suspend fun daiToEth(screen: Screen) {
     screen.queueTakeClickRelease()
     screen.waitVanish("braavos_pending_transaction.png", 300.0)
     screen.wait(3.0)
+}
+
+private suspend fun openBraavos(screen: Screen) {
+    screen.wait(2.0)
+    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    screen.wait(Pattern("braavos_login_wallet.png").targetOffset(0, 68))
+    screen.queueTakeClick()
+    screen.paste(WALLET_PASS)
+    screen.type(Key.ENTER)
+    screen.queueRelease()
 }
 
 suspend fun sendMoneyFromArgentXToBraavosScript(workRegion: WorkRegion) {
