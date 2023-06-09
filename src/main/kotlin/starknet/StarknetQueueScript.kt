@@ -5,59 +5,44 @@ import org.sikuli.script.FindFailed
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
+import java.io.File
 
+val seeds_file = File("src/main/kotlin/starknet/braavos_seeds.txt")
+val address_file = File("src/main/kotlin/starknet/braavos_address.txt")
 suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
     val screen = workRegion.screen
-    var color = backgroundGreen
-    println(
-        color + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
-    )
-    try {
-        screen.wait(2.0)
-        openExtension(screen, Pattern("braavos_wallet_ext_icon.png"))
-        screen.wait("braavos_create_wallet_button.png")
-        screen.queueTakeClick()
-        screen.paste(WALLET_PASS)
-        screen.type(Key.TAB)
-        screen.paste(WALLET_PASS)
-        screen.type(Key.ENTER)
-        screen.queueRelease()
-        screen.wait("braavos_copy_seed_to_clipboard.png")
-        screen.queueTakeClick()
-        val seed = getTextFromClipboard()
-        fileAppendString(seeds_file, "${workRegion.profile} $seed")
-        screen.queueRelease()
-        screen.wait("braavos_i_saved_seed_button.png")
-        screen.queueTakeClickRelease()
-        println("${workRegion.profile} $seed")
-        screen.wait("braavos_mainnet_button.png")
-        screen.queueTakeClickRelease()
-        screen.wait("braavos_continue_button.png")
-        screen.queueTakeClickRelease()
-        screen.wait("braavos_skip_button.png")
-        screen.queueTakeClickRelease()
-        screen.wait("braavos_receive.png")
-        screen.queueTakeClickRelease()
-        screen.wait("braavos_copy_icon.png")
-        screen.queueTakeClick()
-        val address = getTextFromClipboard()
-        fileAppendString(address_file, "${workRegion.profile} $address")
-        println("${workRegion.profile} $address")
-        screen.queueRelease()
-        screen.wait(2.0)
-    } catch (e: FindFailed) {
-        println(backgroundRed + "Profile ${workRegion.profile} error")
-        e.printStackTrace()
-        if (workQueue.peek() == screen) {
-            workQueue.poll()
-        }
-        errorList.add(workRegion.profile)
-    }
-    println(
-        color + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
-    )
+    screen.wait(2.0)
+    openExtension(screen, Pattern("braavos_wallet_ext_icon.png"))
+    screen.wait("braavos_create_wallet_button.png")
+    screen.queueTakeClick()
+    screen.paste(WALLET_PASS)
+    screen.type(Key.TAB)
+    screen.paste(WALLET_PASS)
+    screen.type(Key.ENTER)
+    screen.queueRelease()
+    screen.wait("braavos_copy_seed_to_clipboard.png")
+    screen.queueTakeClick()
+    val seed = getTextFromClipboard()
+    fileAppendString(seeds_file, "${workRegion.profile} $seed")
+    screen.queueRelease()
+    screen.wait("braavos_i_saved_seed_button.png")
+    screen.queueTakeClickRelease()
+    println("${workRegion.profile} $seed")
+    screen.wait("braavos_mainnet_button.png")
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_continue_button.png")
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_skip_button.png")
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_receive.png")
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_copy_icon.png")
+    screen.queueTakeClick()
+    val address = getTextFromClipboard()
+    fileAppendString(address_file, "${workRegion.profile} $address")
+    println("${workRegion.profile} $address")
+    screen.queueRelease()
+    screen.wait(2.0)
 }
 
 suspend fun starknetScript(workRegion: WorkRegion) {
@@ -154,11 +139,11 @@ suspend fun sendMoneyFromArgentXToBraavosScript(workRegion: WorkRegion) {
         screen.type(Key.ENTER)
         screen.queueRelease()
         screen.wait(2.0)
-        var send =screen.exists("argentx_send_button.png")
+        var send = screen.exists("argentx_send_button.png")
         while (send == null) {
             openExtension(screen, Pattern("argentx_extension_title.png"))
             screen.wait(2.0)
-            send =screen.exists("argentx_send_button.png")
+            send = screen.exists("argentx_send_button.png")
         }
         screen.wait(0.5)
         screen.queueTakeClickRelease()

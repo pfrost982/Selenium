@@ -9,11 +9,10 @@ import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
 
 val errorList = mutableListOf<Int>()
-//val seeds_file = File("src/main/kotlin/starknet/braavos_seeds.txt")
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
     ImagePath.add("src/main/kotlin/linea/png")
-    val list = listOf<Int>() +
+    val list = listOf<Int>()// +
     (135..150)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
