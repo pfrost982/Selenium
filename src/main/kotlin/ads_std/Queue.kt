@@ -38,7 +38,7 @@ suspend fun queueOpenProfile(workRegion: WorkRegion) {
     apiRequestQueue.poll()
 }
 
-suspend fun queueCloseProfileReleaseWorkRegion(workRegion: WorkRegion, freeWorkRegions: MutableList<WorkRegion>) {
+suspend fun queueCloseProfile(workRegion: WorkRegion) {
     apiRequestQueue.add(workRegion.screen)
     queueApiWait(workRegion.screen)
     var response = closeProfileWithoutDriver(workRegion.profile)
@@ -46,7 +46,6 @@ suspend fun queueCloseProfileReleaseWorkRegion(workRegion: WorkRegion, freeWorkR
         delay(700)
         response = closeProfileWithoutDriver(workRegion.profile)
     }
-    freeWorkRegions.add(workRegion)
     apiRequestQueue.poll()
 }
 

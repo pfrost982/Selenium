@@ -45,8 +45,9 @@ suspend fun openUrlSikuliDark(screen: Screen, url: String) {
 
 suspend fun openExtension(screen: Screen, extension: Pattern) {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    screen.wait("browser_extensions.png")
+    screen.wait(Pattern("browser_extensions.png").similar(0.95))
     screen.queueTakeClick()
+    screen.wait(0.5)
     screen.wait(extension)
     screen.queueClickRelease()
 }

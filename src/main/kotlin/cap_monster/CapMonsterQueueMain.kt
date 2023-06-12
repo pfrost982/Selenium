@@ -1,7 +1,7 @@
 package cap_monster
 
 import ads_std.formWorkingRegions
-import ads_std.queueCloseProfileReleaseWorkRegion
+import ads_std.queueCloseProfile
 import ads_std.queueOpenProfile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,7 +30,8 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 addKeyScript(region)
-                queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
+                queueCloseProfile(region)
+                freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
                 println(backgroundRed + errorList + backgroundBlack)
             }

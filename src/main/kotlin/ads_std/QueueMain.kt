@@ -6,19 +6,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import starknet.registerDomain
+import starknet.journeyNFT4th
 
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
     ImagePath.add("src/main/kotlin/starknet/png")
-    val list = listOf<Int>(2)// +
-    (135..150)
+    val list = listOf<Int>(44, 53, 57, 87, 111, 136, 143, 145)// +
+    (43..150)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 10, 0, 690, 690, 5, 5,
-        screenAdditionalWidth = 0
+        3, 3, 10, 0, 690, 690, 5, 5,
+        screenAdditionalWidth = 340
     )
     while (profiles.isNotEmpty()) {
         if (freeWorkRegions.isNotEmpty()) {
@@ -28,8 +28,8 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
-                queueCloseProfileReleaseWorkRegion(region, freeWorkRegions)
-                //freeWorkRegions.add(region)
+                //queueCloseProfile(region)
+                freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
                 println(backgroundRed + errorList + backgroundBlack)
                 println(workQueue)
@@ -47,7 +47,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + backgroundBlack
     )
     try {
-        registerDomain(screen, workRegion.profile)
+        journeyNFT4th(screen)
     } catch (e: FindFailed) {
         color = backgroundRed
         println(color + "Profile ${workRegion.profile} error")
