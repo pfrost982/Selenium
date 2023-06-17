@@ -6,18 +6,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import starknet.journeyNFT4th
+import starknet.createBraavosWalletScript
 
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
     ImagePath.add("src/main/kotlin/starknet/png")
-    val list = listOf<Int>(44, 53, 57, 87, 111, 136, 143, 145)// +
+    val list = listOf<Int>(151)// +
     (43..150)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        3, 3, 10, 0, 690, 690, 5, 5,
+        1, 1, 10, 0, 690, 690, 5, 5,
         screenAdditionalWidth = 340
     )
     while (profiles.isNotEmpty()) {
@@ -28,7 +28,7 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
-                //queueCloseProfile(region)
+                queueCloseProfile(region)
                 freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
                 println(backgroundRed + errorList + backgroundBlack)
@@ -47,7 +47,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + backgroundBlack
     )
     try {
-        journeyNFT4th(screen)
+        createBraavosWalletScript(workRegion)
     } catch (e: FindFailed) {
         color = backgroundRed
         println(color + "Profile ${workRegion.profile} error")
