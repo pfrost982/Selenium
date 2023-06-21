@@ -1,6 +1,11 @@
 package starknet
 
 import ads_std.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.sikuli.script.ImagePath
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
@@ -271,9 +276,50 @@ suspend fun avnu(screen: Screen) {
         screen.wait("argentx_connect_button.png")
         screen.queueTakeClickRelease()
     }
+
+    avnuSwap(screen)
+    var result = getResult(screen)
+    println(result)
+    while (result == "error") {
+        screen.wait("argentx_error.png")
+        screen.queueTakeClick()
+        screen.type(Key.F4, Key.CTRL)
+        screen.queueRelease()
+        avnuSwap(screen)
+        result = getResult(screen)
+        println(result)
+    }
+    screen.wait("avnu_close.png")
+    screen.queueTakeClickRelease()
+}
+
+private suspend fun getResult(screen: Screen): String {
+    var result: String? = null
+    val errorJob = CoroutineScope(Dispatchers.Default).launch {
+        val error = screen.exists("argentx_error.png", 60.0)
+        if (error != null) {
+            result = "error"
+        }
+    }
+    val swapJob = CoroutineScope(Dispatchers.Default).launch {
+        val swap = screen.exists("avnu_transaction_in_processing.png", 60.0)
+        if (swap != null) {
+            result = "swap"
+        }
+    }
+    while (result == null) {
+        delay(500)
+    }
+    errorJob.cancel()
+    swapJob.cancel()
+    return result as String
+}
+
+private suspend fun avnuSwap(screen: Screen) {
     screen.wait("avnu_swap.png")
     screen.queueTakeClickRelease()
-    screen.wait("argentx_confirm_button.png")
+    screen.wait(2.0)
+    screen.wait(Pattern("argentx_confirm_button.png").similar(0.98), 8.0)
     screen.wait(0.5)
     screen.queueTakeClickRelease()
 }
