@@ -257,15 +257,14 @@ suspend fun avnu(screen: Screen) {
     openArgentX(screen)
     openUrlSikuliDark(
         screen,
-        "https://app.avnu.fi/en?tokenFrom=0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7&tokenTo=0x53c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8&amount=0.001"
+        "https://app.avnu.fi/en?tokenTo=0x68f5c6a61780768455de69077e07e89787839bf8166decfbf92b645209c0fb8&amount=0.002&tokenFrom=0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
     )
-    screen.wait(3.0)
+    screen.wait(6.0)
     tryToClickQueue(screen, Pattern("avnu_cookies_ok.png"))
-    screen.wait(1.0)
-    tryToClickQueue(screen, Pattern("avnu_cookies_ok.png"))
-    tryToClickQueue(screen, Pattern("avnu_start.png"))
-    while (screen.exists("avnu_next.png") != null) {
-        screen.wait(0.5)
+    val start = screen.exists("avnu_close_start.png")
+    if (start != null) {
+        screen.queueTakeClickRelease()
+        screen.wait(1.0)
         screen.queueTakeClickRelease()
     }
     val connect = screen.exists("avnu_connect.png")
@@ -273,10 +272,13 @@ suspend fun avnu(screen: Screen) {
         screen.queueTakeClickRelease()
         screen.wait("avnu_argentx.png")
         screen.queueTakeClickRelease()
+        screen.wait(2.0)
         screen.wait("argentx_connect_button.png")
         screen.queueTakeClickRelease()
     }
-
+    screen.wait(2.0)
+    changeSlippage(screen)
+    screen.wait(2.0)
     avnuSwap(screen)
     var result = getResult(screen)
     println(result)
@@ -291,6 +293,17 @@ suspend fun avnu(screen: Screen) {
     }
     screen.wait("avnu_close.png")
     screen.queueTakeClickRelease()
+}
+
+private suspend fun changeSlippage(screen: Screen) {
+    screen.wait("avnu_settings.png")
+    screen.queueTakeClickRelease()
+    screen.wait(Pattern("avnu_settings_percent.png").targetOffset(-60, 0))
+    screen.queueTakeClick()
+    screen.type("a", Key.CTRL)
+    screen.paste("10")
+    screen.type(Key.ESC)
+    screen.queueRelease()
 }
 
 private suspend fun getResult(screen: Screen): String {
@@ -316,11 +329,11 @@ private suspend fun getResult(screen: Screen): String {
 }
 
 private suspend fun avnuSwap(screen: Screen) {
-    screen.wait("avnu_swap.png")
+    screen.wait(Pattern("avnu_swap.png").similar(0.95), 8.0)
     screen.queueTakeClickRelease()
     screen.wait(2.0)
     screen.wait(Pattern("argentx_confirm_button.png").similar(0.98), 8.0)
-    screen.wait(0.5)
+    screen.wait(0.2)
     screen.queueTakeClickRelease()
 }
 
