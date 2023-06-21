@@ -1,5 +1,6 @@
 package ads_std
 
+import cap_monster.addKeyScript
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -12,12 +13,13 @@ val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
     ImagePath.add("src/main/kotlin/starknet/png")
-    val list = listOf<Int>(151)// +
-    (161..350)
+    ImagePath.add("src/main/kotlin/cap_monster/png")
+    val list = listOf<Int>() +
+    (171..350)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 3, 10, 0, 690, 900, 5, 5,
+        2, 2, 10, 0, 690, 690, 5, 5,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -28,7 +30,7 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
-                //queueCloseProfile(region)
+                queueCloseProfile(region)
                 freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
                 println(backgroundRed + errorList + backgroundBlack)
@@ -47,6 +49,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + backgroundBlack
     )
     try {
+        addKeyScript(workRegion)
         //avnu(workRegion.screen)
     } catch (e: FindFailed) {
         color = backgroundRed
