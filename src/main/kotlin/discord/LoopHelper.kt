@@ -2,12 +2,8 @@ package discord
 
 import org.sikuli.script.*
 
-fun sikuliXScript() {
+fun sikuliXScript(screen: Screen) {
     println("start button search...")
-    val screen = Screen()
-    ImagePath.add("src/main/kotlin/discord/png")
-    while (true) {
-        try {
             val acceptButton = screen.exists(Pattern("browser_accept_invite_button.png").similar(0.9), 1.0)
             if (acceptButton != null) {
                 println("!!!accept button found")
@@ -42,9 +38,4 @@ fun sikuliXScript() {
                 screen.type(Key.ENTER)
             }
             println("scan...")
-        } catch (e: FindFailed) {
-            e.printStackTrace()
-            isError = true
-        }
-    }
 }

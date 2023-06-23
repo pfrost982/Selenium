@@ -1,23 +1,23 @@
 package ads_std
 
+import discord.cometaOpenDiscord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import starknet.avnu
 
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/starknet/png")
-    val list = listOf<Int>(123)// +
-            (51..150)
+    ImagePath.add("src/main/kotlin/discord/png")
+    val list = listOf<Int>() +
+            (204..350)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 10, 0, 690, 900, 5, 5,
+        1, 1, 6, 6, 900, 900, 5, 5,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -47,7 +47,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + backgroundBlack
     )
     try {
-        avnu(workRegion.screen)
+        cometaOpenDiscord(workRegion)
     } catch (e: FindFailed) {
         color = backgroundRed
         println(color + "Profile ${workRegion.profile} error")
