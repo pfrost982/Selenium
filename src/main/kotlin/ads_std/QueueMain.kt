@@ -14,8 +14,8 @@ fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/rambler/png")
     //
     val list =
-        listOf<Int>(313, 335, 337, 348)// +
-                (306..350)
+        listOf<Int>() +
+                (351..400)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
