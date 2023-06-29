@@ -3,11 +3,13 @@ package cap_monster
 import ads_std.*
 import org.sikuli.script.Pattern
 
-suspend fun addKeyScript(workRegion: WorkRegion) {
+suspend fun addKeyAndSet3(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
+    screen.wait("browser_plus.png")
+    screen.queueTakeClickRelease()
     openExtension(screen, Pattern("cap_monster.png"))
-    val off = screen.exists("cap_monster_off.png", 5.0)
+    val off = screen.exists(Pattern("cap_monster_off.png").similar(0.95), 5.0)
     if (off != null) {
         println("profile ${workRegion.profile}: Extension off")
         screen.queueTakeClickRelease()
@@ -16,7 +18,7 @@ suspend fun addKeyScript(workRegion: WorkRegion) {
 
     val balanceOK = screen.exists(
         Pattern("cap_monster_balance_ok.png")
-            .similar(0.97)
+            .similar(0.95)
     )
     if (balanceOK == null) {
         println("profile ${workRegion.profile}: Balance empty")
@@ -37,8 +39,20 @@ suspend fun addKeyScript(workRegion: WorkRegion) {
 
     screen.wait(
         Pattern("cap_monster_balance_ok.png")
-            .similar(0.97), 5.0
+            .similar(0.95), 5.0
     )
     println("profile ${workRegion.profile}: Balance OK")
+    scrollBrowser(screen, 3)
+    val three = screen.exists(Pattern("cap_monster_3.png").similar(0.95))
+    if (three == null) {
+        println("profile ${workRegion.profile}: Repeat not 3")
+        screen.wait(Pattern("cap_monster_repeat_captcha.png").targetOffset(300, 0))
+        screen.queueTakeClick()
+        screen.wait(Pattern("cap_monster_3.png").similar(0.95))
+        screen.queueClickRelease()
+        screen.wait(1.0)
+    }
+    screen.wait(Pattern("cap_monster_3.png").similar(0.95))
+    println("profile ${workRegion.profile}: Repeat is 3")
     screen.wait(3.0)
 }

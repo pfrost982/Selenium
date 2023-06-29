@@ -21,6 +21,13 @@ suspend fun enterAndChangePasswordRambler(workRegion: WorkRegion) {
         screen.paste(password)
         screen.type(Key.ENTER)
         screen.queueRelease()
+        screen.wait(5.0)
+        val hand = screen.exists("captcha_hand_icon.png")
+        if (hand != null) {
+            screen.wait(Pattern("captcha_i_am_human_icon.png").similar(0.9), 120.0)
+            screen.wait("rambler_enter_button.png")
+            screen.queueTakeClickRelease()
+        }
     }
     screen.wait("rambler_inbox.png", 24.0)
     screen.wait(0.5)
@@ -30,7 +37,7 @@ suspend fun enterAndChangePasswordRambler(workRegion: WorkRegion) {
     val noFavorite = screen.exists(Pattern("browser_star_no_favorite.png").similar(0.95))
     if (noFavorite != null) {
         screen.queueTakeClick()
-        screen.wait("browser_ready_button.png")
+        screen.wait("browser_done_button.png")
         screen.queueClickRelease()
         screen.wait(1.0)
     }
@@ -47,7 +54,7 @@ suspend fun enterAndChangePasswordRambler(workRegion: WorkRegion) {
     println(newPassword)
     screen.type(Key.ENTER)
     screen.queueRelease()
-    screen.wait(Pattern("rambler_password_changed.png").similar(0.95), 8.0)
+    screen.wait(Pattern("rambler_password_changed.png").similar(0.95), 18.0)
     screen.wait(1.0)
     openUrlSikuliDark(screen, "chrome://settings/passwords")
     screen.wait("browser_add_button.png")

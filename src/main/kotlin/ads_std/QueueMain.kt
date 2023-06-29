@@ -12,14 +12,14 @@ val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
     ImagePath.add("src/main/kotlin/rambler/png")
-    //
+    //400, 405, 427
     val list =
-        listOf<Int>() +
-                (351..400)
+        listOf<Int>(351)// +
+    (351..460)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 6, 6, 900, 900, 5, 5,
+        2, 2, 6, 6, 1100, 900, 5, 5,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -30,7 +30,7 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
-                queueCloseProfile(region)
+                //queueCloseProfile(region)
                 freeWorkRegions.add(region)
                 println(backgroundRed + "Error list:" + backgroundBlack)
                 println(backgroundRed + errorList + backgroundBlack)

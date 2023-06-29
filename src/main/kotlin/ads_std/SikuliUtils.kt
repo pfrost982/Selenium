@@ -60,7 +60,7 @@ suspend fun extensionOpened(screen: Screen): Boolean {
 suspend fun scrollBrowser(screen: Screen, steps: Int) {
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.queueTakeAndWait()
-    screen.wait(Pattern("browser_extensions.png").targetOffset(0, 160))
+    screen.wait(Pattern("browser_extensions.png").targetOffset(-260, 160))
     screen.mouseMove()
     screen.wheel(Mouse.WHEEL_DOWN, steps)
     screen.wait(0.5)
