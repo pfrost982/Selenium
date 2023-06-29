@@ -1,6 +1,6 @@
+/*
 package sui_wave2
 
-import ads_std.*
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
 import org.sikuli.script.Mouse.WHEEL_DOWN
@@ -15,7 +15,6 @@ suspend fun getCapyScript(number: Int) {
     ImagePath.add("src/main/kotlin/sui_discord_faucet/png")
     try {
         closeAllTabs(driver)
-/*
         driver.get("https://testnet.capy.art/collection")
         screen.wait("capy_menu_button.png", 7.0)
         screen.click()
@@ -30,7 +29,6 @@ suspend fun getCapyScript(number: Int) {
         screen.click()
         screen.wait("wallet_connect_button.png")
         screen.click()
-*/
         driver.get("https://testnet.capy.art/collection")
         var getFree = screen.exists(Pattern("capy_get_free_button.png").similar(0.9), 30.0)
         while(getFree == null){
@@ -83,4 +81,4 @@ suspend fun getCapyScript(number: Int) {
         //driver.quit()
         closeProfile(number, driver)
     }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package keplr_wallet_setup
 
 import ads_std.SeedsEVM
@@ -55,3 +56,4 @@ suspend fun keplrSetupScript(number: Int) {
     driver.quit()
     profileWork = false
 }
+*/

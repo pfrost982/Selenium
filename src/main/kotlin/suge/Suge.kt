@@ -1,3 +1,4 @@
+/*
 package suge
 
 import ads_std.closeAllTabs
@@ -53,4 +54,4 @@ suspend fun SugeScript(number: Int) {
     } else {
         closeProfile(number, driver)
     }
-}
+}*/

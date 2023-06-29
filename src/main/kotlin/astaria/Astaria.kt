@@ -1,3 +1,4 @@
+/*
 package astaria
 
 import ads_std.*
@@ -61,4 +62,4 @@ suspend fun AstariaScript(number: Int) {
     } else {
         closeProfile(number, driver)
     }
-}
+}*/

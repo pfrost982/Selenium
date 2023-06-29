@@ -1,3 +1,4 @@
+/*
 package fuel_wallet
 
 import ads_std.*
@@ -61,6 +62,7 @@ suspend fun fuelScript(number: Int) {
             screen.wait(Pattern("get_test_ether.png").similar(0.95), 180.0)
         }
         closeOtherTabs(driver)
+*/
 /*
         driver.get("https://fuels-wallet.vercel.app/docs/how-to-use/")
         screen.wait("fuel_connect.png", 7.0)
@@ -101,7 +103,8 @@ suspend fun fuelScript(number: Int) {
         screen.click()
         screen.wait("see_on_blockexplorer.png", 45.0)
         screen.wait(1.5)
-*/
+*//*
+
     } catch (e: FindFailed) {
         e.printStackTrace()
         isError = true
@@ -112,4 +115,4 @@ suspend fun fuelScript(number: Int) {
     } else {
         closeProfile(number, driver)
     }
-}
+}*/

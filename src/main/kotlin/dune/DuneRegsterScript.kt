@@ -1,3 +1,4 @@
+/*
 package dune
 
 import ads_std.DUNE_PASS
@@ -39,4 +40,4 @@ suspend fun registrationScript(number: Int) {
         driver.quit()
         //closeProfile(number, driver)
     }
-}
+}*/

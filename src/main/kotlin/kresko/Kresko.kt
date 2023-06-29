@@ -1,24 +1,17 @@
 package kresko
 
-import ads_std.*
+import ads_std.Mails
+import ads_std.TwitLogins
 import kotlinx.coroutines.delay
-import org.sikuli.script.FindFailed
-import org.sikuli.script.ImagePath
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
 
 suspend fun kreskoScript(number: Int) {
-    val driver = openProfile(number)
     val mail = Mails.getMail(number)
     val name = TwitLogins.getLogin(number)
-    println("profile $number: start script on thread ${Thread.currentThread().name}")
-    driver.manage().window().maximize()
     val screen = Screen()
-    ImagePath.add("src/main/kotlin/kresko/png")
-    try {
         delay(2000)
-        closeAllTabs(driver)
-        driver.get("https://www.kresko.fi/")
+        //driver.get("https://www.kresko.fi/")
         screen.wait(1.0)
         screen.wait("email_input.png")
         screen.click()
@@ -31,7 +24,7 @@ suspend fun kreskoScript(number: Int) {
         screen.mouseMove(50, 0)
         var arrow = screen.exists(Pattern("right_arrow.png").similar(0.95), 180.0)
         while (arrow == null) {
-            driver.get("https://www.kresko.fi/")
+            //driver.get("https://www.kresko.fi/")
             screen.wait(1.0)
             screen.wait("email_input.png")
             screen.click()
@@ -46,7 +39,7 @@ suspend fun kreskoScript(number: Int) {
         }
         screen.click()
         screen.wait(1.0)
-        driver.get("https://mail.rambler.ru/folder/INBOX")
+        //driver.get("https://mail.rambler.ru/folder/INBOX")
         val pochta = screen.exists(Pattern("pochta.png").similar(0.9), 9.0)
         println(pochta)
         if (pochta != null) {
@@ -74,16 +67,6 @@ suspend fun kreskoScript(number: Int) {
         screen.wait(Pattern("confirm_waitlist.png").similar(0.95))
         screen.click()
         screen.wait(5.0)
-    } catch (e: FindFailed) {
-        e.printStackTrace()
-        isError = true
-    }
-    profileWork = false
-    if (isError) {
-        driver.quit()
-    } else {
-        closeProfile(number, driver)
-    }
 }
 
 fun checkNotifications(screen: Screen) {

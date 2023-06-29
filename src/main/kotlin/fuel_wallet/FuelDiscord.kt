@@ -1,3 +1,4 @@
+/*
 package fuel_wallet
 
 import ads_std.closeAllTabs
@@ -30,4 +31,4 @@ suspend fun fuelDiscordScript(number: Int) {
         driver.quit()
         //closeProfile(number, driver)
     }
-}
+}*/

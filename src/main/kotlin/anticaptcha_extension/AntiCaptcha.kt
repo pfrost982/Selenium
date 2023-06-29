@@ -1,3 +1,4 @@
+/*
 package anticaptcha_extension
 
 import ads_std.ANTICAPTCHA_KEY
@@ -32,3 +33,4 @@ suspend fun antiCaptcha(number: Int) {
     closeProfile(number, driver)
     profileWork = false
 }
+*/

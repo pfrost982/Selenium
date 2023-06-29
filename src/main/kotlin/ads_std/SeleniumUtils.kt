@@ -1,3 +1,4 @@
+/*
 package ads_std
 
 import ads_api.AdsApiStore
@@ -30,11 +31,13 @@ suspend fun openProfile(number: Int): ChromeDriver {
     options.setExperimentalOption("debuggerAddress", response.data?.ws?.selenium)
     val driver = ChromeDriver(options)
     println("profile $number driver created.")
+*/
 /*
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(DEFAULT_TIMEOUT))
     driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(DEFAULT_TIMEOUT))
     driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(DEFAULT_TIMEOUT))
-*/
+*//*
+
     return driver
 }
 
@@ -75,4 +78,4 @@ fun nextTab(driver: ChromeDriver) {
             return
         }
     }
-}
+}*/
