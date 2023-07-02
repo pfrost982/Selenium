@@ -191,7 +191,6 @@ suspend fun metamaskOpen(screen: Screen) {
 suspend fun metamaskUnlock(screen: Screen): String {
     var language: String? = null
     println("${screen.x}, ${screen.y} Unlock metamask")
-    ImagePath.add("src/main/kotlin/ads_std/png")
     val en = CoroutineScope(Dispatchers.Default).launch {
         val inputPassword = screen.exists(Pattern("metamask_unlock.png").targetOffset(0, -75), 24.0)
         if (inputPassword != null) {
@@ -210,7 +209,7 @@ suspend fun metamaskUnlock(screen: Screen): String {
     en.cancel()
     ru.cancel()
     screen.queueTakeClick()
-    screen.paste(WALLET_PASS)
+    screen.paste(WALLET_PASS_HARD)
     screen.type(Key.ENTER)
     screen.queueRelease()
     return language as String

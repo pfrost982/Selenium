@@ -67,6 +67,15 @@ suspend fun scrollBrowser(screen: Screen, steps: Int) {
     screen.queueClickRelease()
 }
 
+suspend fun scrollPattern(screen: Screen, pattern: Pattern, steps: Int) {
+    screen.queueTakeAndWait()
+    screen.wait(pattern)
+    screen.mouseMove()
+    screen.wheel(Mouse.WHEEL_DOWN, steps)
+    screen.wait(0.5)
+    screen.queueClickRelease()
+}
+
 suspend fun openExtensionNotRelease(screen: Screen, extension: Pattern) {
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.wait("browser_extensions.png")

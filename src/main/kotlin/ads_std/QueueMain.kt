@@ -4,22 +4,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import metamask.changeLanguageToEnglish
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import rambler.enterAndChangePasswordRambler
 
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/rambler/png")
-    //400, 405, 427
+    //
     val list =
-        listOf<Int>(351)// +
-    (351..460)
+        listOf<Int>(1)// +
+                (201..350)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 6, 6, 1100, 900, 5, 5,
+        1, 1, 6, 6, 1100, 900, 5, 5,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -43,22 +42,20 @@ fun main(): Unit = runBlocking {
 
 suspend fun script(workRegion: WorkRegion) {
     val screen = workRegion.screen
-    var color = backgroundGreen
     println(
-        color + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+        backgroundGreen + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
                 + backgroundBlack
     )
     try {
-        enterAndChangePasswordRambler(workRegion)
+        changeLanguageToEnglish(workRegion)
     } catch (e: FindFailed) {
-        color = backgroundRed
-        println(color + "Profile ${workRegion.profile} error")
+        println(backgroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
         workQueue.remove(screen)
         errorList.add(workRegion.profile)
     }
     println(
-        color + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+        backgroundGreen + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
                 + backgroundBlack
     )
 }

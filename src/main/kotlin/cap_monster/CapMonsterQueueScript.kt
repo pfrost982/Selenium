@@ -1,6 +1,7 @@
 package cap_monster
 
 import ads_std.*
+import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 
 suspend fun addKeyAndSet3(workRegion: WorkRegion) {
@@ -18,7 +19,7 @@ suspend fun addKeyAndSet3(workRegion: WorkRegion) {
 
     val balanceOK = screen.exists(
         Pattern("cap_monster_balance_ok.png")
-            .similar(0.95)
+            .similar(0.8)
     )
     if (balanceOK == null) {
         println("profile ${workRegion.profile}: Balance empty")
@@ -30,6 +31,7 @@ suspend fun addKeyAndSet3(workRegion: WorkRegion) {
         )
         println("profile ${workRegion.profile}: Input key")
         screen.queueTakeClick()
+        screen.type("a", Key.CTRL)
         screen.paste(CAP_MONSTER_KEY)
         screen.queueRelease()
 
@@ -39,14 +41,14 @@ suspend fun addKeyAndSet3(workRegion: WorkRegion) {
 
     screen.wait(
         Pattern("cap_monster_balance_ok.png")
-            .similar(0.95), 5.0
+            .similar(0.8), 5.0
     )
     println("profile ${workRegion.profile}: Balance OK")
     scrollBrowser(screen, 3)
     val three = screen.exists(Pattern("cap_monster_3.png").similar(0.95))
     if (three == null) {
         println("profile ${workRegion.profile}: Repeat not 3")
-        screen.wait(Pattern("cap_monster_repeat_captcha.png").targetOffset(300, 0))
+        screen.wait(Pattern("cap_monster_repeat_captcha.png").targetOffset(-40, 0))
         screen.queueTakeClick()
         screen.wait(Pattern("cap_monster_3.png").similar(0.95))
         screen.queueClickRelease()
