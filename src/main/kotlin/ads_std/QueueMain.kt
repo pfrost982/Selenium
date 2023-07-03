@@ -13,12 +13,12 @@ fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
     //
     val list =
-        listOf<Int>(1)// +
-                (201..350)
+        listOf<Int>() +
+                (351..500)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        1, 1, 6, 6, 1100, 900, 5, 5,
+        2, 2, 6, 6, 1100, 900, 5, 5,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -29,10 +29,10 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
-                //queueCloseProfile(region)
+                queueCloseProfile(region)
                 freeWorkRegions.add(region)
-                println(backgroundRed + "Error list:" + backgroundBlack)
-                println(backgroundRed + errorList + backgroundBlack)
+                println(foregroundRed + "Error list:" + foregroundBlack)
+                println(foregroundRed + errorList + foregroundBlack)
                 println(workQueue)
             }
         }
@@ -43,19 +43,19 @@ fun main(): Unit = runBlocking {
 suspend fun script(workRegion: WorkRegion) {
     val screen = workRegion.screen
     println(
-        backgroundGreen + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
+        foregroundGreen + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+                + foregroundBlack
     )
     try {
         changeLanguageToEnglish(workRegion)
     } catch (e: FindFailed) {
-        println(backgroundRed + "Profile ${workRegion.profile} error")
+        println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
         workQueue.remove(screen)
         errorList.add(workRegion.profile)
     }
     println(
-        backgroundGreen + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
+        foregroundGreen + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
+                + foregroundBlack
     )
 }

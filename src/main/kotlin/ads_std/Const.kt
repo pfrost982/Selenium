@@ -5,6 +5,9 @@ const val DEFAULT_TIMEOUT = 30L
 const val backgroundGreen = "\u001B[42m"
 const val backgroundBlack = "\u001B[49m"
 const val backgroundRed = "\u001B[41m"
+const val foregroundGreen = "\u001B[32m"
+const val foregroundBlack = "\u001B[39m"
+const val foregroundRed = "\u001B[31m"
 
 /*
 +~~~~~~+~~~~~~+~~~~~~~~~~~+

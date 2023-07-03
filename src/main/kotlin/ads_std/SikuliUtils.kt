@@ -34,8 +34,7 @@ fun openUrlSikuli(screen: Screen, url: String) {
 }
 
 suspend fun openUrlSikuliDark(screen: Screen, url: String) {
-    ImagePath.add("src/main/kotlin/ads_std/png")
-    screen.wait(Pattern("browser_refresh_button_dark.png").targetOffset(200, 0), 24.0)
+    screen.wait(Pattern("browser_refresh_button_dark.png").targetOffset(350, 0), 24.0)
     screen.queueTakeClick()
     println("Open URL $url")
     screen.paste(url)
