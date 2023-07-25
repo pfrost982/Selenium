@@ -27,9 +27,6 @@ const val foregroundRed = "\u001B[31m"
 
 
 
-
-
-
 val profiles: List<String> = listOf(
     "j4fy3ip",
     "j4fy3iq",

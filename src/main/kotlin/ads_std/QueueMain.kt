@@ -4,21 +4,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import metamask.changeLanguageToEnglish
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
+import starknet.createBraavosWalletScript
 
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
+    ImagePath.add("src/main/kotlin/starknet/png")
     //
     val list =
         listOf<Int>() +
-                (351..500)
+                (356..500)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 6, 6, 1100, 900, 5, 5,
+        1, 1, 6, 6, 700, 900, 5, 5,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -47,7 +48,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        changeLanguageToEnglish(workRegion)
+        createBraavosWalletScript(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
