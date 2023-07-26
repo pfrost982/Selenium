@@ -4,22 +4,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import layer_zero.inviteDiscord
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import starknet.createBraavosWalletScript
 
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/starknet/png")
+    ImagePath.add("src/main/kotlin/layer_zero/png")
     //
     val list =
         listOf<Int>() +
-                (356..500)
+                (176..200)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        1, 1, 6, 6, 700, 900, 5, 5,
+        2, 2, 6, 6, 1000, 1000, 5, 5,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -48,7 +48,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        createBraavosWalletScript(workRegion)
+        inviteDiscord(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
