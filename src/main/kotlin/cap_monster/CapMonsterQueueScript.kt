@@ -4,7 +4,7 @@ import ads_std.*
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 
-suspend fun addKeyAndSet3(workRegion: WorkRegion) {
+suspend fun addKeyAndSetRepeat(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
     screen.wait("browser_plus.png")
@@ -45,16 +45,16 @@ suspend fun addKeyAndSet3(workRegion: WorkRegion) {
     )
     println("profile ${workRegion.profile}: Balance OK")
     scrollBrowser(screen, 3)
-    val three = screen.exists(Pattern("cap_monster_3.png").similar(0.95))
+    val three = screen.exists(Pattern("cap_monster_5.png").similar(0.95))
     if (three == null) {
-        println("profile ${workRegion.profile}: Repeat not 3")
+        println("profile ${workRegion.profile}: Repeat not 5")
         screen.wait(Pattern("cap_monster_repeat_captcha.png").targetOffset(-40, 0))
         screen.queueTakeClick()
-        screen.wait(Pattern("cap_monster_3.png").similar(0.95))
+        screen.wait(Pattern("cap_monster_5.png").similar(0.95))
         screen.queueClickRelease()
         screen.wait(1.0)
     }
-    screen.wait(Pattern("cap_monster_3.png").similar(0.95))
-    println("profile ${workRegion.profile}: Repeat is 3")
+    screen.wait(Pattern("cap_monster_5.png").similar(0.95))
+    println("profile ${workRegion.profile}: Repeat is 5")
     screen.wait(3.0)
 }
