@@ -1,28 +1,29 @@
 package ads_std
 
-import debank.openRabby
-import debank.registerRabby
-import debank.swapRabby
+import cap_monster.addKeyAndSetRepeat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import layer_zero.inviteDiscord
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
 
+/*
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/debank/png")
+    ImagePath.add("src/main/kotlin/layer_zero/png")
+    ImagePath.add("src/main/kotlin/cap_monster/png")
     //
     val list =
-        listOf<Int>(4)// +
-    (51..100)
+        listOf<Int>() +
+    (326..350)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        1, 2, 5, 5, 900, 1120, 5, 5,
-        screenAdditionalWidth = 250
+        2, 3, 5, 5, 900, 1000, 5, 5,
+        screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
         if (freeWorkRegions.isNotEmpty()) {
@@ -32,11 +33,9 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
-/*
                 if (region.profile !in errorList) {
                     queueCloseProfile(region)
                 }
-*/
                 freeWorkRegions.add(region)
                 println(foregroundRed + "Error list:" + foregroundBlack)
                 println(foregroundRed + errorList + foregroundBlack)
@@ -54,9 +53,8 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        openRabby(workRegion)
-        swapRabby(workRegion)
-        //registerRabby(workRegion)
+        addKeyAndSetRepeat(workRegion)
+        inviteDiscord(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
@@ -74,4 +72,4 @@ suspend fun script(workRegion: WorkRegion) {
                     + foregroundBlack
         )
     }
-}
+}*/
