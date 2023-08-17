@@ -1,5 +1,6 @@
 package ads_std
 
+import debank.mintRabby
 import debank.openRabby
 import debank.registerRabby
 import debank.swapRabby
@@ -16,13 +17,13 @@ fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/debank/png")
     //
     val list =
-        listOf<Int>(4)// +
+        listOf<Int>(9)// +
     (51..100)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        1, 2, 5, 5, 900, 1120, 5, 5,
-        screenAdditionalWidth = 250
+        1, 2, 5, 5, 1120, 900, 5, 5,
+        screenAdditionalWidth = 700
     )
     while (profiles.isNotEmpty()) {
         if (freeWorkRegions.isNotEmpty()) {
@@ -56,6 +57,7 @@ suspend fun script(workRegion: WorkRegion) {
     try {
         openRabby(workRegion)
         swapRabby(workRegion)
+        mintRabby(workRegion)
         //registerRabby(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
