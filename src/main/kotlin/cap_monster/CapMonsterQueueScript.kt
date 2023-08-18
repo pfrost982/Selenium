@@ -6,7 +6,6 @@ import org.sikuli.script.Pattern
 
 suspend fun addKeyAndSetRepeat(workRegion: WorkRegion) {
     val screen = workRegion.screen
-    screen.wait(2.0)
     screen.wait("browser_plus.png")
     screen.queueTakeClickRelease()
     openExtension(screen, Pattern("cap_monster.png"))
@@ -56,5 +55,4 @@ suspend fun addKeyAndSetRepeat(workRegion: WorkRegion) {
     }
     screen.wait(Pattern("cap_monster_5.png").similar(0.95))
     println("profile ${workRegion.profile}: Repeat is 5")
-    screen.wait(3.0)
 }

@@ -3,11 +3,11 @@ package debank
 import ads_std.*
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
+import org.sikuli.script.Screen
 
 suspend fun registerRabby(workRegion: WorkRegion) {
     val screen = workRegion.screen
     val key = PrivateKeysEVM.getKey(workRegion.profile)
-    screen.wait(2.0)
     openExtension(screen, Pattern("rabby_wallet.png"))
     screen.wait(2.0)
     screen.wait("rabby_next_button.png")
@@ -59,6 +59,7 @@ suspend fun swapRabby(workRegion: WorkRegion) {
     screen.wait(1.0)
     screen.wait(Pattern("rabby_chain.png").targetOffset(25, 25))
     screen.queueTakeClickRelease()
+    screen.wait(2.0)
     screen.wait("rabby_arbitrum.png")
     screen.queueTakeClickRelease()
     screen.wait(Pattern("rabby_chain.png").targetOffset(235, 105))
@@ -94,14 +95,31 @@ suspend fun mintRabby(workRegion: WorkRegion) {
     screen.queueTakeClickRelease()
     screen.wait("rabby_learn_more.png")
     screen.queueTakeClickRelease()
-    screen.wait(Pattern("metamask_handler_icon_dark.png").targetOffset(60, 60), 16.0)
-    screen.queueTakeClick()
-    screen.type("w", Key.CTRL)
-    screen.queueRelease()
+    screen.wait("debank_mint.png", 16.0)
+    openExtension(screen, Pattern("rabby_wallet.png"))
+    flipOn(screen)
+    screen.type(Key.F5)
     screen.wait("debank_mint.png")
+    screen.wait(4.0)
+    screen.queueTakeClickRelease()
+    screen.wait("debank_rabby_wallet.png")
+    screen.queueTakeClickRelease()
+    screen.wait("debank_connect.png")
+    screen.queueTakeClickRelease()
+    screen.wait(2.0)
+    screen.wait("rabby_connect_button.png", 8.0)
+    screen.queueTakeClickRelease()
+    screen.wait("debank_verify.png")
+    screen.queueTakeClickRelease()
+    screen.wait("rabby_sign_and_submit_button.png", 120.0)
+    screen.queueTakeClickRelease()
+    screen.wait(1.0)
+    screen.wait("rabby_swap_confirm_button.png")
+    screen.queueTakeClickRelease()
+    screen.wait("debank_mint.png")
+    screen.wait(3.0)
     screen.queueTakeClickRelease()
     screen.wait("debank_get_code.png", 120.0)
-
     screen.queueTakeClickRelease()
     screen.wait("debank_copy_code.png", 8.0)
     screen.queueTakeClickRelease()
@@ -109,15 +127,45 @@ suspend fun mintRabby(workRegion: WorkRegion) {
     val code = getTextFromClipboard()
     println("profile ${workRegion.profile}: " + code)
     openExtension(screen, Pattern("rabby_wallet.png"))
+    flipOff(screen)
     screen.wait("rabby_more.png")
     screen.queueTakeClickRelease()
     screen.wait("rabby_claim.png")
     screen.queueTakeClickRelease()
-    screen.wait("rabby_enter_claim_code_input.png")
+    screen.wait("rabby_enter_claim_code_input.png", 8.0)
     screen.queueTakeClick()
     screen.paste(code)
     screen.queueRelease()
     screen.wait("rabby_claim_button.png")
     screen.queueTakeClickRelease()
     screen.wait("rabby_claim_success.png", 8.0)
+    screen.wait("rabby_orange_rabbit.png")
+    screen.queueTakeClickRelease()
+}
+
+suspend fun requestTokenRabby(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    //openExtension(screen, Pattern("rabby_wallet.png"))
+    screen.wait("rabby_more.png")
+    screen.queueTakeClickRelease()
+    screen.wait("rabby_request_token.png")
+    screen.queueTakeClickRelease()
+    screen.wait("rabby_request_button.png", 8.0)
+    screen.queueTakeClickRelease()
+    screen.wait("rabby_request_success.png")
+    screen.wait(2.0)
+}
+
+suspend fun flipOn(screen: Screen) {
+    screen.wait(Pattern("rabby_flip_orange.png").similar(0.98))
+    screen.queueTakeClickRelease()
+}
+
+suspend fun flipOff(screen: Screen) {
+    screen.wait("rabby_blue_rabbit.png")
+    screen.queueTakeAndWait()
+    screen.mouseMove()
+    screen.wait("rabby_flip_blue.png")
+    screen.queueClickRelease()
+    screen.wait("rabby_orange_rabbit.png")
 }

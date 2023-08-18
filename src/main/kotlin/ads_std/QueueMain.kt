@@ -1,9 +1,7 @@
 package ads_std
 
-import debank.mintRabby
-import debank.openRabby
-import debank.registerRabby
-import debank.swapRabby
+import cap_monster.addKeyAndSetRepeat
+import debank.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -15,15 +13,16 @@ val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
     ImagePath.add("src/main/kotlin/debank/png")
+    ImagePath.add("src/main/kotlin/cap_monster/png")
     //
     val list =
-        listOf<Int>(9)// +
-    (51..100)
+        listOf<Int>(105)// +
+                (81..100)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        1, 2, 5, 5, 1120, 900, 5, 5,
-        screenAdditionalWidth = 700
+        2, 1, 5, 5, 990, 900, 5, 5,
+        screenAdditionalWidth = 600
     )
     while (profiles.isNotEmpty()) {
         if (freeWorkRegions.isNotEmpty()) {
@@ -55,10 +54,12 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        openRabby(workRegion)
+        addKeyAndSetRepeat(workRegion)
+        registerRabby(workRegion)
+        //openRabby(workRegion)
         swapRabby(workRegion)
         mintRabby(workRegion)
-        //registerRabby(workRegion)
+        requestTokenRabby(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
