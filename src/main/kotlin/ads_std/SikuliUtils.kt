@@ -129,8 +129,6 @@ suspend fun twitFollow(screen: Screen) {
 }
 
 fun closeTabsSikuliX(screen: Screen) {
-    println("Close tabs")
-    ImagePath.add("src/main/kotlin/ads_std/png")
     screen.wait(3.0)
     var firstTab = screen.exists("ads_account_id.png")
     while (firstTab == null) {
