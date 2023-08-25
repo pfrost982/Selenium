@@ -99,7 +99,6 @@ fun browserCloseLanguageSelection(screen: Screen): Boolean {
 }
 
 suspend fun tryToClickQueue(screen: Screen, url: Pattern, time: Double = 3.0): Boolean {
-    ImagePath.add("src/main/kotlin/ads_std/png")
     val click = screen.exists(url, time)
     return if (click != null) {
         println("Click ${url.filename.split("\\").last()}")

@@ -214,3 +214,12 @@ suspend fun metamaskUnlock(screen: Screen): String {
     screen.queueRelease()
     return language as String
 }
+
+suspend fun metamaskUnlockEn(screen: Screen) {
+    screen.wait(Pattern("metamask_unlock.png").targetOffset(0, -75), 24.0)
+    screen.wait(0.5)
+    screen.queueTakeClick()
+    screen.paste(WALLET_PASS_HARD)
+    screen.type(Key.ENTER)
+    screen.queueRelease()
+}

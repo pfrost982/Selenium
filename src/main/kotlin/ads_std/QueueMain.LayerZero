@@ -1,6 +1,5 @@
 package ads_std
 
-import cap_monster.addKeyAndSetRepeat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -9,16 +8,14 @@ import layer_zero.inviteDiscord
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
 
-/*
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
     ImagePath.add("src/main/kotlin/layer_zero/png")
-    ImagePath.add("src/main/kotlin/cap_monster/png")
     //
     val list =
         listOf<Int>() +
-    (326..350)
+    (476..500)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
@@ -53,7 +50,6 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        addKeyAndSetRepeat(workRegion)
         inviteDiscord(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
@@ -72,4 +68,4 @@ suspend fun script(workRegion: WorkRegion) {
                     + foregroundBlack
         )
     }
-}*/
+}

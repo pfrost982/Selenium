@@ -1,29 +1,26 @@
 package ads_std
 
-import cap_monster.addKeyAndSetRepeat
-import debank.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import orbiter.sendGorliToSepolia
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import org.sikuli.script.Pattern
 
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/debank/png")
-    ImagePath.add("src/main/kotlin/cap_monster/png")
+    ImagePath.add("src/main/kotlin/orbiter/png")
     //
     val list =
-        listOf<Int>() +
-                (404..450)
+        listOf<Int>(4)// +
+    (476..500)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        1, 1, 1, 5, 980, 900, 5, 5,
-        screenAdditionalWidth = 550
+        2, 2, 5, 5, 900, 900, 5, 5,
+        screenAdditionalWidth = 530
     )
     while (profiles.isNotEmpty()) {
         if (freeWorkRegions.isNotEmpty()) {
@@ -33,9 +30,11 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
+/*
                 if (region.profile !in errorList) {
                     queueCloseProfile(region)
                 }
+*/
                 freeWorkRegions.add(region)
                 println(foregroundRed + "Error list:" + foregroundBlack)
                 println(foregroundRed + errorList + foregroundBlack)
@@ -53,12 +52,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        //addKeyAndSetRepeat(workRegion)
-        //registerRabby(workRegion)
-        openRabby(workRegion)
-        //swapRabby(workRegion)
-        //mintRabby(workRegion)
-        //requestTokenRabby(workRegion)
+        sendGorliToSepolia(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
