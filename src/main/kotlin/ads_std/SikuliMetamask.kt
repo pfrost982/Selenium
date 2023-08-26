@@ -16,7 +16,7 @@ suspend fun metamaskCloseInformation(screen: Screen) {
 
 suspend fun metamaskNext(screen: Screen, language: String = "en") {
     when (language) {
-        "en" -> tryToClickQueue(screen, Pattern("metamask_next_button.png").similar(0.95))
+        "en" -> tryToClickQueue(screen, Pattern("metamask_next_button.png"))
         "ru" -> tryToClickQueue(screen, Pattern("metamask_next_button_ru.png"))
     }
 }

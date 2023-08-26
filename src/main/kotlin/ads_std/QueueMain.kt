@@ -14,7 +14,7 @@ fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/orbiter/png")
     //
     val list =
-        listOf<Int>(4)// +
+        listOf<Int>(9)// +
     (476..500)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
