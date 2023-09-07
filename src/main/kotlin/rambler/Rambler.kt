@@ -2,6 +2,54 @@ package rambler
 
 import ads_std.*
 import org.sikuli.script.*
+import java.io.File
+
+val error_mails_file = File("src/main/kotlin/rambler/error_mails.txt")
+
+suspend fun enterRambler(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    val mail = Mails.getMail(workRegion.profile)
+    println(mail)
+    val password = RamblerPaswords.getPassword(workRegion.profile)
+    println(password)
+    val newPassword = password + "Ads"
+    val newPassword2 = password + "Ads2"
+    openUrlSikuliDark(screen, "https://mail.rambler.ru/folder/INBOX/")
+    screen.wait(3.0)
+    screen.wait("browser_refresh_button_dark.png", 24.0)
+    val inputMail = screen.exists("rambler_mail_input.png", 8.0)
+    if (inputMail != null) {
+        screen.queueTakeClick()
+        screen.paste(mail)
+        screen.type(Key.TAB)
+        screen.paste(newPassword)
+        screen.type(Key.ENTER)
+        screen.queueRelease()
+    }
+    val inbox = screen.exists("rambler_inbox.png", 16.0)
+    if (inbox == null) {
+        val hand = screen.exists("captcha_hand_icon.png")
+        if (hand != null) {
+            println("Profile ${workRegion.profile} Restore case")
+            screen.wait(Pattern("captcha_i_am_human_icon.png").similar(0.9), 120.0)
+            println("Profile ${workRegion.profile} Captcha solved")
+            screen.wait("rambler_current_password.png")
+            screen.queueTakeClick()
+            screen.paste(newPassword)
+            screen.type(Key.TAB)
+            screen.paste(newPassword2)
+            screen.type(Key.TAB)
+            screen.paste(newPassword2)
+            screen.type(Key.ENTER)
+            screen.queueRelease()
+            screen.wait("rambler_inbox.png", 16.0)
+            println("Profile ${workRegion.profile} Access restored")
+        } else {
+            println("Profile ${workRegion.profile} Access OK")
+        }
+    }
+    screen.wait(3.0)
+}
 
 suspend fun enterAndChangePasswordRambler(workRegion: WorkRegion) {
     val screen = workRegion.screen

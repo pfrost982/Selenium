@@ -4,23 +4,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import orbiter.sendGorliToSepolia
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
+import rambler.enterRambler
+import rambler.error_mails_file
 
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/orbiter/png")
+    ImagePath.add("src/main/kotlin/rambler/png")
     //
     val list =
-        listOf<Int>(9)// +
-    (476..500)
+        listOf<Int>() +
+    (301..350)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 5, 5, 900, 900, 5, 5,
-        screenAdditionalWidth = 530
+        2, 1, 5, 5, 900, 1000, 5, 5,
+        screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
         if (freeWorkRegions.isNotEmpty()) {
@@ -30,11 +31,12 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
-/*
                 if (region.profile !in errorList) {
                     queueCloseProfile(region)
+                } else {
+                    fileAppendString(error_mails_file, "${region.profile}")
                 }
-*/
+                //queueCloseProfile(region)
                 freeWorkRegions.add(region)
                 println(foregroundRed + "Error list:" + foregroundBlack)
                 println(foregroundRed + errorList + foregroundBlack)
@@ -52,7 +54,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        sendGorliToSepolia(workRegion)
+        enterRambler(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()

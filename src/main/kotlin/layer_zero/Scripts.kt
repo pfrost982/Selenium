@@ -1,13 +1,38 @@
 package layer_zero
 
-import ads_std.WorkRegion
-import ads_std.openUrlSikuliDark
-import ads_std.queueTakeClickRelease
+import ads_std.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.sikuli.script.Key
 import org.sikuli.script.Pattern
+import java.io.File
+
+val error_profiles_file = File("src/main/kotlin/layer_zero/error_profiles.txt")
+
+suspend fun layerZeroGM(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    screen.wait(2.0)
+    openUrlSikuliDark(screen, "https://discord.com/channels/881985666265780274/881990703633281034")
+    val gmBranch = screen.exists(Pattern("discord_layer_zero.png").targetOffset(0, 50), 14.0)
+    if (gmBranch != null) {
+        screen.wait(4.0)
+        screen.wait(Pattern("discord_layer_zero.png").targetOffset(0, 50))
+        screen.queueTakeClickRelease()
+        screen.wait(Pattern("discord_message_gm.png").targetOffset(-64, 0).similar(0.95))
+        screen.queueTakeClick()
+        screen.paste("gm")
+        screen.type(Key.ENTER)
+        screen.queueRelease()
+        println("Profile ${workRegion.profile}: GM")
+        screen.wait(3.0)
+    } else {
+        fileAppendString(error_profiles_file, "${workRegion.profile}")
+        println("Profile ${workRegion.profile}: No branch")
+        screen.wait(3.0)
+    }
+}
 
 suspend fun inviteDiscord(workRegion: WorkRegion) {
     val screen = workRegion.screen
