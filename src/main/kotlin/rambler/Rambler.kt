@@ -6,6 +6,13 @@ import java.io.File
 
 val error_mails_file = File("src/main/kotlin/rambler/error_mails.txt")
 
+
+suspend fun checkRambler(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    openUrlSikuliDark(screen, "https://mail.rambler.ru/folder/INBOX/")
+    screen.wait("rambler_inbox.png", 16.0)
+}
+
 suspend fun enterRambler(workRegion: WorkRegion) {
     val screen = workRegion.screen
     val mail = Mails.getMail(workRegion.profile)
@@ -25,28 +32,36 @@ suspend fun enterRambler(workRegion: WorkRegion) {
         screen.paste(newPassword)
         screen.type(Key.ENTER)
         screen.queueRelease()
-    }
-    val inbox = screen.exists("rambler_inbox.png", 16.0)
-    if (inbox == null) {
+        screen.wait(3.0)
         val hand = screen.exists("captcha_hand_icon.png")
-        if (hand != null) {
-            println("Profile ${workRegion.profile} Restore case")
+        val scanQR = screen.exists("rambler_scan_qr.png")
+        if ((hand != null) && (scanQR != null)) {
+            println("Profile ${workRegion.profile} Input mail captcha case")
             screen.wait(Pattern("captcha_i_am_human_icon.png").similar(0.9), 120.0)
-            println("Profile ${workRegion.profile} Captcha solved")
-            screen.wait("rambler_current_password.png")
-            screen.queueTakeClick()
-            screen.paste(newPassword)
-            screen.type(Key.TAB)
-            screen.paste(newPassword2)
-            screen.type(Key.TAB)
-            screen.paste(newPassword2)
-            screen.type(Key.ENTER)
-            screen.queueRelease()
-            screen.wait("rambler_inbox.png", 16.0)
-            println("Profile ${workRegion.profile} Access restored")
-        } else {
-            println("Profile ${workRegion.profile} Access OK")
+            println("Profile ${workRegion.profile} First captcha solved")
+            screen.wait("rambler_enter_button.png")
+            screen.queueTakeClickRelease()
         }
+    }
+    val inbox = screen.exists("rambler_inbox.png", 12.0)
+    if (inbox == null) {
+        println("Profile ${workRegion.profile} Inbox not found")
+        screen.wait("captcha_hand_icon.png", 8.0)
+        screen.wait(Pattern("captcha_i_am_human_icon.png").similar(0.9), 120.0)
+        println("Profile ${workRegion.profile} Second captcha solved")
+        screen.wait("rambler_current_password.png")
+        screen.queueTakeClick()
+        screen.paste(newPassword)
+        screen.type(Key.TAB)
+        screen.paste(newPassword2)
+        screen.type(Key.TAB)
+        screen.paste(newPassword2)
+        screen.type(Key.ENTER)
+        screen.queueRelease()
+        screen.wait("rambler_inbox.png", 16.0)
+        println("Profile ${workRegion.profile} Access restored")
+    } else {
+        println("Profile ${workRegion.profile} Access OK")
     }
     screen.wait(3.0)
 }

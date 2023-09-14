@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
+import rambler.checkRambler
 import rambler.enterRambler
 import rambler.error_mails_file
 
@@ -16,11 +17,11 @@ fun main(): Unit = runBlocking {
     //
     val list =
         listOf<Int>() +
-    (301..350)
+    (152..500)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 1, 5, 5, 900, 1000, 5, 5,
+        2, 1, 5, 5, 900, 900, 5, 5,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -34,7 +35,7 @@ fun main(): Unit = runBlocking {
                 if (region.profile !in errorList) {
                     queueCloseProfile(region)
                 } else {
-                    fileAppendString(error_mails_file, "${region.profile}")
+                    //fileAppendString(error_mails_file, "${region.profile}")
                 }
                 //queueCloseProfile(region)
                 freeWorkRegions.add(region)
@@ -54,7 +55,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        enterRambler(workRegion)
+        checkRambler(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
