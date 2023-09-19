@@ -208,6 +208,21 @@ suspend fun daiToEth(screen: Screen) {
     screen.wait(3.0)
 }
 
+suspend fun upgradeNow(screen: Screen) {
+    openBraavos(screen)
+    screen.wait("braavos_upgrade_now.png")
+    screen.wait(1.0)
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_sign_button.png", 8.0)
+    screen.wait(1.0)
+    screen.queueTakeClickRelease()
+    screen.wait(4.0)
+    screen.wait("braavos_upgrading_account.png")
+    screen.waitVanish("braavos_upgrading_account.png", 60.0)
+    println("Upgrade success")
+    screen.wait(3.0)
+}
+
 private suspend fun openBraavos(screen: Screen) {
     screen.wait(2.0)
     openExtension(screen, Pattern("braavos_wallet_ext.png"))
