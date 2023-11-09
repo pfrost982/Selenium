@@ -6,20 +6,25 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import starknet.upgradeNow
+import rambler.enterRambler
+import java.io.File
 
+const val CLOSE_PROFILE = true
+const val CLOSE_PROFILE_IF_ERROR = false
+const val WRITE_TO_ERROR_FILE = false
+
+val error_file = File("src/main/kotlin/ads_std/error_profiles.txt")
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/starknet/png")
-    //
+    ImagePath.add("src/main/kotlin/rambler/png")
     val list =
         listOf<Int>() +
-    (105..150)
+                (484..500)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 1, 5, 5, 1000, 900, 5, 5,
+        2, 2, 0, 0, 1000, 700, 0, 0,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -30,14 +35,18 @@ fun main(): Unit = runBlocking {
             launch(Dispatchers.Default) {
                 queueOpenProfile(region)
                 script(region)
-                /*
-                                if (region.profile !in errorList) {
-                                    queueCloseProfile(region)
-                                } else {
-                                    //fileAppendString(error_mails_file, "${region.profile}")
-                                }
-                */
-                //queueCloseProfile(region)
+                if (region.profile !in errorList) {
+                    if (CLOSE_PROFILE) {
+                        queueCloseProfile(region)
+                    }
+                } else {
+                    if (WRITE_TO_ERROR_FILE) {
+                        fileAppendString(error_file, "${region.profile}")
+                    }
+                    if (CLOSE_PROFILE_IF_ERROR) {
+                        queueCloseProfile(region)
+                    }
+                }
                 freeWorkRegions.add(region)
                 println(foregroundRed + "Error list:" + foregroundBlack)
                 println(foregroundRed + errorList + foregroundBlack)
@@ -55,7 +64,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        upgradeNow(screen)
+        enterRambler(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()

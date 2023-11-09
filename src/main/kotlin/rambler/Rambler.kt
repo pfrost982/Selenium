@@ -29,7 +29,7 @@ suspend fun enterRambler(workRegion: WorkRegion) {
         screen.queueTakeClick()
         screen.paste(mail)
         screen.type(Key.TAB)
-        screen.paste(newPassword)
+        screen.paste(newPassword2)
         screen.type(Key.ENTER)
         screen.queueRelease()
         screen.wait(3.0)
@@ -43,6 +43,11 @@ suspend fun enterRambler(workRegion: WorkRegion) {
             screen.queueTakeClickRelease()
         }
     }
+    //screen.wait("rambler_inbox.png", 16.0)
+    screen.wait("access_recovery_ru.png", 16.0)
+    println("Profile ${workRegion.profile} Access Recovery")
+    screen.wait(3.0)
+/*
     val inbox = screen.exists("rambler_inbox.png", 12.0)
     if (inbox == null) {
         println("Profile ${workRegion.profile} Inbox not found")
@@ -63,6 +68,7 @@ suspend fun enterRambler(workRegion: WorkRegion) {
     } else {
         println("Profile ${workRegion.profile} Access OK")
     }
+*/
     screen.wait(3.0)
 }
 
