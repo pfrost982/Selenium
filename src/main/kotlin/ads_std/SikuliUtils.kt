@@ -42,6 +42,11 @@ suspend fun openUrlSikuliDark(screen: Screen, url: String) {
     screen.queueRelease()
 }
 
+suspend fun newTabSikuli(screen: Screen) {
+    screen.wait("browser_plus.png")
+    screen.queueTakeClickRelease()
+}
+
 suspend fun openExtension(screen: Screen, extension: Pattern) {
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.wait(Pattern("browser_extensions.png").similar(0.95))
@@ -139,10 +144,10 @@ fun closeTabsSikuliX(screen: Screen) {
 fun formWorkingRegions(
     lines: Int,
     rows: Int,
-    x: Int = 0,
-    y: Int = 0,
     w: Int,
     h: Int,
+    x: Int = 0,
+    y: Int = 0,
     horizontalSpace: Int = 0,
     verticalSpace: Int = 0,
     screenAdditionalWidth: Int = 0

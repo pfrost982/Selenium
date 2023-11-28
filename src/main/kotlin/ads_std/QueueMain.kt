@@ -1,15 +1,16 @@
 package ads_std
 
+import github.forkGithub
+import github.openGithub
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import rambler.enterRambler
 import java.io.File
 
-const val CLOSE_PROFILE = true
+const val CLOSE_PROFILE = false
 const val CLOSE_PROFILE_IF_ERROR = false
 const val WRITE_TO_ERROR_FILE = false
 
@@ -17,14 +18,14 @@ val error_file = File("src/main/kotlin/ads_std/error_profiles.txt")
 val errorList = mutableListOf<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/rambler/png")
+    ImagePath.add("src/main/kotlin/github/png")
     val list =
         listOf<Int>() +
-                (484..500)
+                (155..155)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 0, 0, 1000, 700, 0, 0,
+        1, 2, 1000, 820,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -64,7 +65,8 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        enterRambler(workRegion)
+        openGithub(workRegion)
+        //forkGithub(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()

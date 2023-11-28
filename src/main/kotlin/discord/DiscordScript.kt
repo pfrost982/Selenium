@@ -26,11 +26,12 @@ suspend fun cometaOpenDiscord(workRegion: WorkRegion) {
     screen.wait(4.0)
     screen.wait("discord_settings_icon.png", 32.0)
     screen.wait(4.0)
+/*
     while (tryToClickQueue(screen, Pattern("discord_close_small_gray.png").similar(0.95))) {
         screen.wait(2.0)
     }
-    //tryToClickQueue(screen, Pattern("discord_do_later.png"))
-    //tryToClickQueue(screen, Pattern("discord_do_later_ru.png"))
+    tryToClickQueue(screen, Pattern("discord_do_later.png"))
+    tryToClickQueue(screen, Pattern("discord_do_later_ru.png"))
     screen.wait(1.0)
     screen.wait(Pattern("discord_settings_icon.png").targetOffset(-140, 0))
     screen.queueTakeClickRelease()
@@ -43,6 +44,7 @@ suspend fun cometaOpenDiscord(workRegion: WorkRegion) {
     fileAppendString(discord_names_file, "${workRegion.profile} $name")
     println("${workRegion.profile} $name")
     screen.queueRelease()
+*/
     screen.wait(3.0)
 }
 
