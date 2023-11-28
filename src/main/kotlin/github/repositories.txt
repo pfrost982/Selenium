@@ -47,7 +47,6 @@ https://github.com/renproject/ren
 https://github.com/plushkinv/zkMessengerL0
 https://github.com/saddle-finance/saddle-allowlist-addresses
 https://github.com/Uniswap/uniswap-v3-core
-https://github.com/pine-finance/
 https://github.com/hardstylez72/cry-nodejs
 https://github.com/lionff/goerli_linea_bridger
 https://github.com/sm1ck/snapshotvoter
@@ -98,3 +97,4 @@ https://github.com/SYBIL-MAFIA/zkSync-Paymaster-Deployer
 https://github.com/intel/linux-sgx
 https://github.com/iamdefinitelyahuman/brownie-token-tester
 https://github.com/arddluma/awesome-list-rpc-nodes-providers
+https://github.com/simplex-chat/simplex-chat

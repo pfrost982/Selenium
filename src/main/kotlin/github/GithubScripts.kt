@@ -1,6 +1,7 @@
 package github
 
 import ads_std.*
+import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
 
@@ -8,11 +9,20 @@ suspend fun openGithub(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
     openUrlSikuliDark(screen, "https://github.com/login")
-    screen.wait(Pattern("sign_in_button.png"), 12.0)
-    screen.wait(0.5)
-    screen.wait(Pattern("sign_in_button.png"), 12.0)
-    screen.wait(1.5)
+    screen.wait(Pattern("github_sign_in_to_github.png").targetOffset(0, 94), 12.0)
+    screen.wait(1.0)
+    screen.queueTakeClick()
+    screen.type("a", Key.CTRL)
+    screen.paste(GMails.getGMail(workRegion.profile))
+    screen.queueRelease()
+    screen.wait(Pattern("github_sign_in_to_github.png").targetOffset(0, 174))
+    screen.queueTakeClick()
+    screen.type("a", Key.CTRL)
+    screen.paste(GITHUB_PASS)
+    screen.queueRelease()
+    screen.wait(Pattern("sign_in_button.png"))
     screen.queueTakeClickRelease()
+    screen.wait("github_create_repository_button.png", 12.0)
     screen.wait(3.0)
 }
 
@@ -35,7 +45,8 @@ suspend fun forkGithub(workRegion: WorkRegion) {
 private suspend fun fork(screen: Screen, repository: String) {
     openUrlSikuliDark(screen, repository)
     screen.wait("github_fork.png", 24.0)
-    screen.wait(1.0)
+    screen.wait(2.0)
+    screen.wait("github_fork.png")
     screen.queueTakeClickRelease()
     screen.wait(2.0)
     screen.wait("github_create_fork_button.png", 12.0)

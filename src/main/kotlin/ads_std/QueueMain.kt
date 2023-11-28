@@ -21,11 +21,11 @@ fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/github/png")
     val list =
         listOf<Int>() +
-                (155..155)
+                (201..225)
     val profiles = list.toMutableList()
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        1, 2, 1000, 820,
+        2, 2, 1000, 820,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -65,8 +65,11 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        openGithub(workRegion)
+        //openGithub(workRegion)
         //forkGithub(workRegion)
+        openUrlSikuliDark(workRegion.screen, "https://github.com/signup?source=login")
+        workRegion.screen.wait(6.0)
+        newTabSikuli(workRegion.screen)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
