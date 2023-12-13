@@ -1,7 +1,6 @@
 package ads_std
 
-import github.forkGithub
-import github.openGithub
+import google.openGmail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -9,23 +8,24 @@ import kotlinx.coroutines.runBlocking
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
 import java.io.File
+import java.util.concurrent.ConcurrentLinkedQueue
 
-const val CLOSE_PROFILE = false
+const val CLOSE_PROFILE = true
 const val CLOSE_PROFILE_IF_ERROR = false
 const val WRITE_TO_ERROR_FILE = false
 
 val error_file = File("src/main/kotlin/ads_std/error_profiles.txt")
-val errorList = mutableListOf<Int>()
+val errorList = ConcurrentLinkedQueue<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/github/png")
+    ImagePath.add("src/main/kotlin/google/png")
     val list =
-        listOf<Int>() +
-                (201..225)
-    val profiles = list.toMutableList()
+        listOf<Int>(98, 120, 155, 165, 174, 175, 179, 215, 216, 236, 256, 266, 291, 309, 350, 352, 354, 358, 386, 426, 443, 491)// +
+                (451..500)
+    val profiles = list.toMutableList().apply { this.reverse() }
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 1000, 820,
+        2, 2, 1080, 900,
         screenAdditionalWidth = 0
     )
     while (profiles.isNotEmpty()) {
@@ -51,6 +51,7 @@ fun main(): Unit = runBlocking {
                 freeWorkRegions.add(region)
                 println(foregroundRed + "Error list:" + foregroundBlack)
                 println(foregroundRed + errorList + foregroundBlack)
+                println("Work queue:")
                 println(workQueue)
             }
         }
@@ -65,11 +66,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        //openGithub(workRegion)
-        //forkGithub(workRegion)
-        openUrlSikuliDark(workRegion.screen, "https://github.com/signup?source=login")
-        workRegion.screen.wait(6.0)
-        newTabSikuli(workRegion.screen)
+        openGmail(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()
