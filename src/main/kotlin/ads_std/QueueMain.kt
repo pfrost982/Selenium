@@ -1,12 +1,13 @@
 package ads_std
 
-import google.openGmail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
+import starknet.openBraavos
+import starknet.starkPEPE
 import java.io.File
 import java.util.concurrent.ConcurrentLinkedQueue
 
@@ -18,44 +19,44 @@ val error_file = File("src/main/kotlin/ads_std/error_profiles.txt")
 val errorList = ConcurrentLinkedQueue<Int>()
 fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    ImagePath.add("src/main/kotlin/google/png")
-    val list =
-        listOf<Int>(98, 120, 155, 165, 174, 175, 179, 215, 216, 236, 256, 266, 291, 309, 350, 352, 354, 358, 386, 426, 443, 491)// +
-                (451..500)
-    val profiles = list.toMutableList().apply { this.reverse() }
+    ImagePath.add("src/main/kotlin/starknet/png")
+    ImagePath.add("src/main/kotlin/starknet/png2")
+    val profiles =
+        listOf<Int>(259, 274, 276, 278, 280, 281, 284, 287, 288, 289, 292, 293, 296, 297, 300, 301)// +
+    (311..350)
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
-        2, 2, 1080, 900,
-        screenAdditionalWidth = 0
+        3, 1, 1000, 700,
+        screenAdditionalWidth = 590
     )
-    while (profiles.isNotEmpty()) {
-        if (freeWorkRegions.isNotEmpty()) {
-            val region = freeWorkRegions.removeFirst().apply {
-                this.profile = profiles.removeFirst()
-            }
-            launch(Dispatchers.Default) {
-                queueOpenProfile(region)
-                script(region)
-                if (region.profile !in errorList) {
-                    if (CLOSE_PROFILE) {
-                        queueCloseProfile(region)
-                    }
-                } else {
-                    if (WRITE_TO_ERROR_FILE) {
-                        fileAppendString(error_file, "${region.profile}")
-                    }
-                    if (CLOSE_PROFILE_IF_ERROR) {
-                        queueCloseProfile(region)
-                    }
-                }
-                freeWorkRegions.add(region)
-                println(foregroundRed + "Error list:" + foregroundBlack)
-                println(foregroundRed + errorList + foregroundBlack)
-                println("Work queue:")
-                println(workQueue)
-            }
+    for (profile in profiles) {
+        while (freeWorkRegions.isEmpty()) {
+            delay(500)
         }
-        delay(500)
+        val region = freeWorkRegions.poll().apply {
+            this.profile = profile
+        }
+        launch(Dispatchers.Default) {
+            queueOpenProfile(region)
+            script(region)
+            if (region.profile !in errorList) {
+                if (CLOSE_PROFILE) {
+                    queueCloseProfile(region)
+                }
+            } else {
+                if (WRITE_TO_ERROR_FILE) {
+                    fileAppendString(error_file, "${region.profile}")
+                }
+                if (CLOSE_PROFILE_IF_ERROR) {
+                    queueCloseProfile(region)
+                }
+            }
+            freeWorkRegions.add(region)
+            println(foregroundRed + "Error list:" + foregroundBlack)
+            println(foregroundRed + errorList + foregroundBlack)
+            println("Work queue:")
+            println(workQueue)
+        }
     }
 }
 
@@ -66,7 +67,8 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        openGmail(workRegion)
+        openBraavos(workRegion)
+        starkPEPE(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()

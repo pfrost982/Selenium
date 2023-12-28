@@ -233,6 +233,62 @@ private suspend fun openBraavos(screen: Screen) {
     screen.queueRelease()
 }
 
+suspend fun openBraavos(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    screen.wait(2.0)
+    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    screen.wait(Pattern("braavos_login_unlock_your_wallet.png").targetOffset(0, 60))
+    screen.queueTakeClick()
+    screen.paste(WALLET_PASS)
+    screen.type(Key.ENTER)
+    screen.queueRelease()
+}
+
+suspend fun starkPEPE(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    val subDomain = SubdomainPEPE.getSubdomain(workRegion.profile)
+    workRegion.println(subDomain)
+    openUrlSikuliDark(screen, "https://starkpepe.xyz/id")
+    screen.wait("starkpepe_connect_wallet.png", 32.0)
+    screen.wait(2.0)
+    screen.queueTakeClickRelease()
+    screen.wait("starkpepe_braavos_wallet.png")
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_approve.png")
+    screen.wait(1.0)
+    screen.queueTakeClickRelease()
+    screen.wait("starkpepe_subdomain_input.png")
+    screen.queueTakeClick()
+    screen.paste(subDomain)
+    screen.queueRelease()
+    screen.wait("starkpepe_available.png", 8.0)
+    workRegion.println("Available!")
+    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    screen.wait(Pattern("braavos_mainnet.png").targetOffset(-310, 0))
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_lock_wallet.png")
+    screen.queueTakeClickRelease()
+    screen.wait(Pattern("braavos_login_unlock_your_wallet.png").targetOffset(0, 60))
+    screen.queueTakeClick()
+    screen.paste(WALLET_PASS)
+    screen.type(Key.ENTER)
+    screen.queueRelease()
+    screen.wait("starkpepe_rocket.png")
+    screen.queueTakeClickRelease()
+    screen.wait("starkpepe_mint_subdomain_button.png")
+    screen.queueTakeClickRelease()
+    screen.wait("braavos_sign_button.png", 8.0)
+    screen.queueTakeClickRelease()
+    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    screen.wait(Pattern("braavos_mainnet.png").targetOffset(15, 550))
+    screen.queueTakeClickRelease()
+    screen.wait(Pattern("braavos_mainnet.png").targetOffset(-140, 140))
+    screen.queueTakeClickRelease()
+    screen.wait("braavaos_complited_status.png", 60.0)
+    workRegion.println("!!!SubDomain minted)))", foregroundGreen)
+    screen.wait(3.0)
+}
+
 suspend fun sendMoneyFromArgentXToBraavosScript(screen: Screen, profile: Int) {
     openArgentX(screen)
     screen.wait(0.5)

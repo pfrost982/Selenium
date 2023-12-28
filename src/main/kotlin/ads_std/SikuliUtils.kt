@@ -6,6 +6,7 @@ import org.sikuli.script.Key
 import org.sikuli.script.Mouse
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
+import java.util.concurrent.ConcurrentLinkedQueue
 
 suspend fun openProfileWithoutDriver(number: Int, x: Int = 0, y: Int = 0, w: Int = 960, h: Int = 540): String {
     println("start profile $number, wait response...")
@@ -53,6 +54,11 @@ suspend fun openExtension(screen: Screen, extension: Pattern) {
     screen.queueTakeClick()
     screen.wait(0.5)
     screen.wait(extension)
+    screen.queueClickRelease()
+}
+suspend fun openExtensionsList(screen: Screen) {
+    ImagePath.add("src/main/kotlin/ads_std/png")
+    screen.wait(Pattern("browser_extensions.png").similar(0.95))
     screen.queueClickRelease()
 }
 
@@ -151,8 +157,8 @@ fun formWorkingRegions(
     horizontalSpace: Int = 0,
     verticalSpace: Int = 0,
     screenAdditionalWidth: Int = 0
-): MutableList<WorkRegion> {
-    val workRegions = mutableListOf<WorkRegion>()
+): ConcurrentLinkedQueue<WorkRegion> {
+    val workRegions = ConcurrentLinkedQueue<WorkRegion>()
     for (line in 1..lines) {
         for (row in 1..rows) {
             val screen = Screen()

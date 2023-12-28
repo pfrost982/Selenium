@@ -27,3 +27,9 @@ suspend fun getTwitToken(workRegion: WorkRegion) {
     screen.wait(Pattern("browser_f12_auth_.png"))
     screen.queueClickRelease()
 }
+
+suspend fun openTwitter(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    screen.wait(2.0)
+    openUrlSikuliDark(screen, "https://twitter.com/home")
+}
