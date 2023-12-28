@@ -6,12 +6,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
-import starknet.openBraavos
-import starknet.starkPEPE
+import starknet.starkPEPEArgentX
 import java.io.File
 import java.util.concurrent.ConcurrentLinkedQueue
 
-const val CLOSE_PROFILE = true
+const val CLOSE_PROFILE = false
 const val CLOSE_PROFILE_IF_ERROR = false
 const val WRITE_TO_ERROR_FILE = false
 
@@ -22,8 +21,8 @@ fun main(): Unit = runBlocking {
     ImagePath.add("src/main/kotlin/starknet/png")
     ImagePath.add("src/main/kotlin/starknet/png2")
     val profiles =
-        listOf<Int>(259, 274, 276, 278, 280, 281, 284, 287, 288, 289, 292, 293, 296, 297, 300, 301)// +
-    (311..350)
+        listOf<Int>(2)// +
+    (1..50)
     println("Profiles:\n$profiles")
     val freeWorkRegions = formWorkingRegions(
         3, 1, 1000, 700,
@@ -67,8 +66,7 @@ suspend fun script(workRegion: WorkRegion) {
                 + foregroundBlack
     )
     try {
-        openBraavos(workRegion)
-        starkPEPE(workRegion)
+        starkPEPEArgentX(workRegion)
     } catch (e: FindFailed) {
         println(foregroundRed + "Profile ${workRegion.profile} error")
         e.printStackTrace()

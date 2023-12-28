@@ -10,6 +10,7 @@ import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
 import java.io.File
+import java.util.*
 
 val braavos_seeds_file = File("src/main/kotlin/starknet/braavos_seeds.txt")
 val braavos_address_file = File("src/main/kotlin/starknet/braavos_address.txt")
@@ -245,6 +246,7 @@ suspend fun openBraavos(workRegion: WorkRegion) {
 }
 
 suspend fun starkPEPE(workRegion: WorkRegion) {
+    openBraavos(workRegion)
     val screen = workRegion.screen
     val subDomain = SubdomainPEPE.getSubdomain(workRegion.profile)
     workRegion.println(subDomain)
@@ -317,13 +319,60 @@ private suspend fun openArgentX(screen: Screen) {
     screen.paste(WALLET_PASS)
     screen.type(Key.ENTER)
     screen.queueRelease()
-    screen.wait(2.0)
-    var send = screen.exists("argentx_send_button.png")
-    while (send == null) {
-        openExtension(screen, Pattern("argentx_extension_title.png"))
+    /*
         screen.wait(2.0)
-        send = screen.exists("argentx_send_button.png")
+        var send = screen.exists("argentx_send_button.png")
+        while (send == null) {
+            openExtension(screen, Pattern("argentx_extension_title.png"))
+            screen.wait(2.0)
+            send = screen.exists("argentx_send_button.png")
+        }
+    */
+}
+
+suspend fun starkPEPEArgentX(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    val subDomain = TwitLogins.getLogin(workRegion.profile)
+    workRegion.println(subDomain, foregroundGreen)
+    screen.wait(2.0)
+    openArgentX(workRegion.screen)
+    screen.wait(2.0)
+    openUrlSikuliDark(screen, "https://starkpepe.xyz/id")
+    screen.wait("starkpepe_connect_wallet.png", 32.0)
+    val braavosWindow = screen.exists("braavos_login_unlock_your_wallet.png")
+    if (braavosWindow != null) {
+        screen.queueTakeClick()
+        screen.type("w", Key.CTRL)
+        screen.queueRelease()
     }
+    screen.wait("starkpepe_connect_wallet.png")
+    screen.queueTakeClickRelease()
+    screen.wait("starkpepe_argentx_wallet.png")
+    screen.queueTakeClickRelease()
+    screen.wait("argentx_connect_button.png")
+    screen.queueTakeClickRelease()
+    screen.wait("starkpepe_subdomain_input.png")
+    screen.queueTakeClick()
+    screen.paste(subDomain)
+    screen.queueRelease()
+    screen.wait("starkpepe_available.png", 8.0)
+    workRegion.println("Available!", foregroundGreen)
+    screen.wait("starkpepe_mint_subdomain_button.png")
+    screen.queueTakeClickRelease()
+    screen.wait("argentx_confirm_button.png")
+    screen.queueTakeClickRelease()
+    /*
+        screen.wait("braavos_sign_button.png", 8.0)
+        screen.queueTakeClickRelease()
+        openExtension(screen, Pattern("braavos_wallet_ext.png"))
+        screen.wait(Pattern("braavos_mainnet.png").targetOffset(15, 550))
+        screen.queueTakeClickRelease()
+        screen.wait(Pattern("braavos_mainnet.png").targetOffset(-140, 140))
+        screen.queueTakeClickRelease()
+        screen.wait("braavaos_complited_status.png", 60.0)
+        workRegion.println("!!!SubDomain minted)))", foregroundGreen)
+        screen.wait(3.0)
+    */
 }
 
 suspend fun avnu(screen: Screen) {
