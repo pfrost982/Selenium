@@ -209,7 +209,7 @@ suspend fun metamaskUnlock(screen: Screen): String {
     en.cancel()
     ru.cancel()
     screen.queueTakeClick()
-    screen.paste(WALLET_PASS_HARD)
+    screen.paste(WALLET_META)
     screen.type(Key.ENTER)
     screen.queueRelease()
     return language as String

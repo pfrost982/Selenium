@@ -245,7 +245,7 @@ suspend fun openBraavos(workRegion: WorkRegion) {
     screen.queueRelease()
 }
 
-suspend fun starkPEPE(workRegion: WorkRegion) {
+suspend fun starkPEPEBraavos(workRegion: WorkRegion) {
     openBraavos(workRegion)
     val screen = workRegion.screen
     val subDomain = SubdomainPEPE.getSubdomain(workRegion.profile)
@@ -319,6 +319,16 @@ private suspend fun openArgentX(screen: Screen) {
     screen.paste(WALLET_PASS)
     screen.type(Key.ENTER)
     screen.queueRelease()
+    val recovery = screen.exists("argentx_show_recovery_phrase.png")
+    if (recovery != null) {
+        screen.queueTakeClickRelease()
+        screen.wait(2.5)
+        screen.wait("argentx_switch_circle.png")
+        screen.queueTakeClickRelease()
+        screen.wait("argentx_done_button.png")
+        screen.queueTakeClickRelease()
+    }
+
     /*
         screen.wait(2.0)
         var send = screen.exists("argentx_send_button.png")
@@ -338,14 +348,16 @@ suspend fun starkPEPEArgentX(workRegion: WorkRegion) {
     openArgentX(workRegion.screen)
     screen.wait(2.0)
     openUrlSikuliDark(screen, "https://starkpepe.xyz/id")
-    screen.wait("starkpepe_connect_wallet.png", 32.0)
+    screen.wait("starkpepe_rocket.png", 32.0)
     val braavosWindow = screen.exists("braavos_login_unlock_your_wallet.png")
     if (braavosWindow != null) {
+        workRegion.println("braavosWindow case", foregroundGreen)
         screen.queueTakeClick()
         screen.type("w", Key.CTRL)
         screen.queueRelease()
     }
-    screen.wait("starkpepe_connect_wallet.png")
+    screen.wait("starkpepe_connect_wallet.png", 8.0)
+    screen.wait(1.0)
     screen.queueTakeClickRelease()
     screen.wait("starkpepe_argentx_wallet.png")
     screen.queueTakeClickRelease()
@@ -360,19 +372,15 @@ suspend fun starkPEPEArgentX(workRegion: WorkRegion) {
     screen.wait("starkpepe_mint_subdomain_button.png")
     screen.queueTakeClickRelease()
     screen.wait("argentx_confirm_button.png")
+    screen.wait(3.0)
     screen.queueTakeClickRelease()
-    /*
-        screen.wait("braavos_sign_button.png", 8.0)
-        screen.queueTakeClickRelease()
-        openExtension(screen, Pattern("braavos_wallet_ext.png"))
-        screen.wait(Pattern("braavos_mainnet.png").targetOffset(15, 550))
-        screen.queueTakeClickRelease()
-        screen.wait(Pattern("braavos_mainnet.png").targetOffset(-140, 140))
-        screen.queueTakeClickRelease()
-        screen.wait("braavaos_complited_status.png", 60.0)
-        workRegion.println("!!!SubDomain minted)))", foregroundGreen)
-        screen.wait(3.0)
-    */
+    openExtension(screen, Pattern("argentx_extension_title.png"))
+    screen.wait(4.0)
+    screen.waitVanish("argentx_pending_transaction_icon.png", 60.0)
+    openExtension(screen, Pattern("argentx_extension_title.png"))
+    screen.wait("argentx_pepe_domain.png", 12.0)
+    workRegion.println("See Pepe domain", foregroundGreen)
+    screen.wait(3.0)
 }
 
 suspend fun avnu(screen: Screen) {
