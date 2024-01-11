@@ -1,12 +1,7 @@
 package ads_std
 
 import ads_api.AdsApiStore
-import org.sikuli.script.ImagePath
-import org.sikuli.script.Key
-import org.sikuli.script.Mouse
-import org.sikuli.script.Pattern
-import org.sikuli.script.Screen
-import java.util.concurrent.ConcurrentLinkedQueue
+import org.sikuli.script.*
 
 suspend fun openProfileWithoutDriver(number: Int, x: Int = 0, y: Int = 0, w: Int = 960, h: Int = 540): String {
     println("start profile $number, wait response...")
@@ -56,15 +51,11 @@ suspend fun openExtension(screen: Screen, extension: Pattern) {
     screen.wait(extension)
     screen.queueClickRelease()
 }
+
 suspend fun openExtensionsList(screen: Screen) {
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.wait(Pattern("browser_extensions.png").similar(0.95))
     screen.queueClickRelease()
-}
-
-suspend fun extensionOpened(screen: Screen): Boolean {
-    ImagePath.add("src/main/kotlin/ads_std/png")
-    return screen.exists(Pattern("browser_extesion_opened.png").similar(0.98)) != null
 }
 
 suspend fun scrollBrowser(screen: Screen, steps: Int) {
@@ -157,8 +148,8 @@ fun formWorkingRegions(
     horizontalSpace: Int = 0,
     verticalSpace: Int = 0,
     screenAdditionalWidth: Int = 0
-): ConcurrentLinkedQueue<WorkRegion> {
-    val workRegions = ConcurrentLinkedQueue<WorkRegion>()
+): List<WorkRegion> {
+    val workRegions = mutableListOf<WorkRegion>()
     for (line in 1..lines) {
         for (row in 1..rows) {
             val screen = Screen()
