@@ -4,19 +4,19 @@ import ads_api.AdsApiStore
 import org.sikuli.script.*
 
 suspend fun openProfileWithoutDriver(number: Int, x: Int = 0, y: Int = 0, w: Int = 960, h: Int = 540): String {
-    println("start profile $number, wait response...")
+    println(foregroundGreen + "Start profile $number, wait response..." + foregroundBlack)
     val response = AdsApiStore.api.openProfile(
         profiles[number - 1], 1, 1,
         "[\"--window-position=$x,$y\", \"--window-size=$w,$h\"]"
     )
-    println("get open response profile $number: ${response.msg}")
+    println(foregroundGreen + "Get open response profile $number: ${response.msg}" + foregroundBlack)
     return response.msg
 }
 
 suspend fun closeProfileWithoutDriver(number: Int): String {
-    println("close profile $number, wait response...")
+    println(foregroundGreen + "Close profile $number, wait response..." + foregroundBlack)
     val response = AdsApiStore.api.closeProfile(profiles[number - 1])
-    println("get close response profile $number: ${response.msg}")
+    println(foregroundGreen + "Get close response profile $number: ${response.msg}" + foregroundBlack)
     return response.msg
 }
 
@@ -32,7 +32,6 @@ fun openUrlSikuli(screen: Screen, url: String) {
 suspend fun openUrlSikuliDark(screen: Screen, url: String) {
     screen.wait(Pattern("browser_refresh_button_dark.png").targetOffset(350, 0), 24.0)
     screen.queueTakeClick()
-    println("Open URL $url")
     screen.paste(url)
     screen.type(Key.ENTER)
     screen.queueRelease()

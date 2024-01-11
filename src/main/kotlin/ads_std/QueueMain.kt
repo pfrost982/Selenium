@@ -20,8 +20,8 @@ const val CLOSE_PROFILE_IF_ERROR = false
 const val WRITE_TO_ERROR_FILE = false
 
 const val ADD_RANGE = true
-const val START_PROFILE = 301
-const val END_PROFILE = 350
+const val START_PROFILE = 451
+const val END_PROFILE = 500
 
 val error_file = File("src/main/kotlin/ads_std/error_profiles.txt")
 val errorList = ConcurrentLinkedQueue<Int>()
