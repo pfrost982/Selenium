@@ -8,7 +8,6 @@ import org.sikuli.script.Screen
 suspend fun registerRabby(workRegion: WorkRegion) {
     val screen = workRegion.screen
     val key = PrivateKeysEVM.getKey(workRegion.profile)
-    openExtension(screen, Pattern("rabby_wallet.png"))
     screen.wait(3.0)
     screen.wait("rabby_next_button.png")
     screen.queueTakeClickRelease()
@@ -28,27 +27,61 @@ suspend fun registerRabby(workRegion: WorkRegion) {
     screen.queueTakeClick()
     screen.paste(key)
     screen.queueRelease()
-    screen.wait("rabby_confirm_button.png")
+    screen.wait("rabby_released_confirm_button.png")
     screen.queueTakeClickRelease()
+    screen.wait(1.0)
     screen.wait("rabby_done_button.png")
     screen.queueTakeClickRelease()
-    screen.wait(2.0)
-    screen.queueTakeClickRelease()
-    screen.wait(2.0)
 }
 
-suspend fun openRabby(workRegion: WorkRegion) {
+suspend fun openRabbyOrRegister(workRegion: WorkRegion) {
     val screen = workRegion.screen
     openExtension(screen, Pattern("rabby_wallet.png"))
-    screen.wait(2.0)
-    screen.wait("rabby_enter_password_input.png")
-    screen.queueTakeClick()
-    screen.paste(WALLET_PASS_RABBY)
-    screen.queueRelease()
-    screen.wait("rabby_unlock_button.png")
+    val next = screen.exists("rabby_next_button.png", 5.0)
+    if (next != null) {
+        registerRabby(workRegion)
+    } else {
+        screen.wait(2.0)
+        screen.wait("rabby_enter_password_input.png")
+        screen.queueTakeClick()
+        screen.paste(WALLET_PASS_RABBY)
+        screen.queueRelease()
+        screen.wait("rabby_unlock_button.png")
+        screen.queueTakeClickRelease()
+    }
+}
+
+suspend fun claimPointsRabby(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    openRabbyOrRegister(workRegion)
+    screen.wait("rabby_points.png")
+    screen.wait(1.0)
     screen.queueTakeClickRelease()
     screen.wait(2.0)
     screen.queueTakeClickRelease()
+    screen.wait(2.0)
+    screen.wait("rabby_referal_code_input.png")
+    screen.queueTakeClickRelease()
+    screen.paste("DON")
+    screen.wait(2.0)
+    screen.wait("rabby_claim_button.png")
+    screen.wait(2.0)
+    screen.queueTakeClickRelease()
+    screen.wait(2.0)
+    screen.wait("rabby_sign_and_create_button.png")
+    screen.queueTakeClickRelease()
+    screen.wait(1.0)
+    screen.wait("rabby_confirm_button.png")
+    screen.queueTakeClickRelease()
+    screen.wait(2.0)
+    openExtension(screen, Pattern("rabby_wallet.png"))
+    screen.wait(2.0)
+    screen.wait("rabby_points.png")
+    screen.wait(1.0)
+    screen.queueTakeClickRelease()
+    screen.wait("rabby_set_my_code_button.png")
+    workRegion.println("Claimed!!!", background = backgroundMagenta)
+    screen.wait(3.0)
 }
 
 suspend fun swapRabby(workRegion: WorkRegion) {

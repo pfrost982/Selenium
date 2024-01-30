@@ -8,7 +8,7 @@ suspend fun createWalletScript(workRegion: WorkRegion) {
     var color = backgroundGreen
     println(
         color + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
+                + backgroundDefault
     )
     val seed = FuelSeeds.getSeed(workRegion.profile)
     try {
@@ -74,7 +74,7 @@ suspend fun createWalletScript(workRegion: WorkRegion) {
     }
     println(
         color + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
+                + backgroundDefault
     )
 }
 
@@ -83,7 +83,7 @@ suspend fun swayScript(workRegion: WorkRegion) {
     var color = backgroundGreen
     println(
         color + "Start profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
+                + backgroundDefault
     )
     try {
         screen.wait(3.0)
@@ -183,7 +183,7 @@ suspend fun swayScript(workRegion: WorkRegion) {
     }
     println(
         color + "Finish profile ${workRegion.profile}, line: ${workRegion.line}, row: ${workRegion.row}"
-                + backgroundBlack
+                + backgroundDefault
     )
 }
 

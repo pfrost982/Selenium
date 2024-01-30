@@ -1,6 +1,7 @@
 package discord
 
 import ads_std.*
+import cap_monster.addKeyAndSetRepeat
 import org.sikuli.script.Key
 import org.sikuli.script.Mouse
 import org.sikuli.script.Pattern
@@ -26,26 +27,42 @@ suspend fun cometaOpenDiscord(workRegion: WorkRegion) {
     screen.wait(4.0)
     screen.wait("discord_settings_icon.png", 32.0)
     screen.wait(4.0)
-/*
-    while (tryToClickQueue(screen, Pattern("discord_close_small_gray.png").similar(0.95))) {
-        screen.wait(2.0)
-    }
-    tryToClickQueue(screen, Pattern("discord_do_later.png"))
-    tryToClickQueue(screen, Pattern("discord_do_later_ru.png"))
-    screen.wait(1.0)
-    screen.wait(Pattern("discord_settings_icon.png").targetOffset(-140, 0))
-    screen.queueTakeClickRelease()
-    screen.wait("discord_edit_icon.png")
-    screen.wait(0.5)
-    screen.wait(Pattern("discord_edit_icon.png").targetOffset(-155, 125))
-    screen.queueTakeClick()
-    screen.wait(0.5)
-    val name = getTextFromClipboard()
-    fileAppendString(discord_names_file, "${workRegion.profile} $name")
-    println("${workRegion.profile} $name")
-    screen.queueRelease()
-*/
+    /*
+        while (tryToClickQueue(screen, Pattern("discord_close_small_gray.png").similar(0.95))) {
+            screen.wait(2.0)
+        }
+        tryToClickQueue(screen, Pattern("discord_do_later.png"))
+        tryToClickQueue(screen, Pattern("discord_do_later_ru.png"))
+        screen.wait(1.0)
+        screen.wait(Pattern("discord_settings_icon.png").targetOffset(-140, 0))
+        screen.queueTakeClickRelease()
+        screen.wait("discord_edit_icon.png")
+        screen.wait(0.5)
+        screen.wait(Pattern("discord_edit_icon.png").targetOffset(-155, 125))
+        screen.queueTakeClick()
+        screen.wait(0.5)
+        val name = getTextFromClipboard()
+        fileAppendString(discord_names_file, "${workRegion.profile} $name")
+        println("${workRegion.profile} $name")
+        screen.queueRelease()
+    */
     screen.wait(3.0)
+}
+
+suspend fun registerDiscord(workRegion: WorkRegion) {
+    val screen = workRegion.screen
+    screen.wait(2.0)
+    addKeyAndSetRepeat(workRegion)
+    openUrlSikuliDark(screen, "https://discord.com")
+    screen.wait(8.0)
+    newTabSikuli(screen)
+    screen.wait(4.0)
+    openUrlSikuliDark(screen, "https://login.live.com")
+    screen.wait(8.0)
+    newTabSikuli(screen)
+    screen.wait(4.0)
+    openUrlSikuliDark(screen, "https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox")
+    screen.wait(8.0)
 }
 
 suspend fun discordScript(screen: Screen) {

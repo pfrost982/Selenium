@@ -1,35 +1,45 @@
 package ads_std
 
+import debank.claimPointsRabby
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.sikuli.script.FindFailed
 import org.sikuli.script.ImagePath
 import java.io.File
 import java.util.concurrent.ConcurrentLinkedQueue
 
-const val LINES = 1
+const val LINES = 3
 const val ROWS = 1
-const val WIDTH = 1100
-const val HEIGHT = 900
-const val ADDITIONAL_WIDTH = 0
+const val WIDTH = 900
+const val HEIGHT = 700
+const val ADDITIONAL_WIDTH = 500
 
-const val CLOSE_PROFILE = false
+const val CLOSE_PROFILE = true
 const val CLOSE_PROFILE_IF_ERROR = false
 const val WRITE_TO_ERROR_FILE = false
 
 const val ADD_RANGE = true
-const val START_PROFILE = 451
-const val END_PROFILE = 500
+const val START_PROFILE = 306
+const val END_PROFILE = 306
+const val DIRECT_ORDER = true
 
 val error_file = File("src/main/kotlin/ads_std/error_profiles.txt")
 val errorList = ConcurrentLinkedQueue<Int>()
 suspend fun main() = coroutineScope {
     ImagePath.add("src/main/kotlin/ads_std/png")
+    ImagePath.add("src/main/kotlin/debank/png")
     val profiles = mutableListOf<Int>()
     if (ADD_RANGE) {
-        profiles.addAll(START_PROFILE..END_PROFILE)
+        if (DIRECT_ORDER) {
+            profiles.addAll(START_PROFILE..END_PROFILE)
+        } else {
+            for (profile in END_PROFILE downTo START_PROFILE) {
+                profiles.add(profile)
+            }
+        }
     }
     println("Profiles:\n$profiles")
     val workRegions = formWorkingRegions(
@@ -55,7 +65,7 @@ suspend fun main() = coroutineScope {
                     queueCloseProfile(region)
                 }
             }
-            println(foregroundRed + "Error list:\n$errorList" + foregroundBlack)
+            println(foregroundRed + "Error list:\n$errorList" + foregroundDefault)
             println("Work queue:\n$workQueue")
             if (profile == profiles.last()) {
                 freeWorkRegionsChanel.close()
@@ -64,6 +74,7 @@ suspend fun main() = coroutineScope {
                 freeWorkRegionsChanel.send(region)
             }
         }
+        delay(1000)
     }
 }
 
@@ -73,8 +84,7 @@ suspend fun script(workRegion: WorkRegion) {
         "Start, line: ${workRegion.line}, row: ${workRegion.row}", foregroundGreen
     )
     try {
-        screen.wait(2.0)
-        openUrlSikuliDark(screen, "twitter.com")
+        claimPointsRabby(workRegion)
     } catch (e: FindFailed) {
         workRegion.println("Error", foregroundRed)
         e.printStackTrace()

@@ -4,19 +4,19 @@ import ads_api.AdsApiStore
 import org.sikuli.script.*
 
 suspend fun openProfileWithoutDriver(number: Int, x: Int = 0, y: Int = 0, w: Int = 960, h: Int = 540): String {
-    println(foregroundGreen + "Start profile $number, wait response..." + foregroundBlack)
+    println(foregroundGreen + "Start profile $number, wait response..." + foregroundDefault)
     val response = AdsApiStore.api.openProfile(
         profiles[number - 1], 1, 1,
         "[\"--window-position=$x,$y\", \"--window-size=$w,$h\"]"
     )
-    println(foregroundGreen + "Get open response profile $number: ${response.msg}" + foregroundBlack)
+    println(foregroundGreen + "Get open response profile $number: ${response.msg}" + foregroundDefault)
     return response.msg
 }
 
 suspend fun closeProfileWithoutDriver(number: Int): String {
-    println(foregroundGreen + "Close profile $number, wait response..." + foregroundBlack)
+    println(foregroundGreen + "Close profile $number, wait response..." + foregroundDefault)
     val response = AdsApiStore.api.closeProfile(profiles[number - 1])
-    println(foregroundGreen + "Get close response profile $number: ${response.msg}" + foregroundBlack)
+    println(foregroundGreen + "Get close response profile $number: ${response.msg}" + foregroundDefault)
     return response.msg
 }
 

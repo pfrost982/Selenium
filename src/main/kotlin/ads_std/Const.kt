@@ -3,11 +3,13 @@ package ads_std
 const val BASE_URL = "http://local.adspower.net:50325/api/v1/"
 const val DEFAULT_TIMEOUT = 30L
 const val backgroundGreen = "\u001B[42m"
-const val backgroundBlack = "\u001B[49m"
+const val backgroundDefault = "\u001B[49m"
 const val backgroundRed = "\u001B[41m"
+const val backgroundMagenta = "\u001B[45m"
 const val foregroundGreen = "\u001B[32m"
-const val foregroundBlack = "\u001B[39m"
+const val foregroundDefault = "\u001B[39m"
 const val foregroundRed = "\u001B[31m"
+const val foregroundMagenta = "\u001B[35m"
 
 /*
 +~~~~~~+~~~~~~+~~~~~~~~~~~+
