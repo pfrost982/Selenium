@@ -1,11 +1,8 @@
 package discord
 
 import ads_std.*
-import cap_monster.addKeyAndSetRepeat
-import org.sikuli.script.Key
-import org.sikuli.script.Mouse
-import org.sikuli.script.Pattern
-import org.sikuli.script.Screen
+import org.sikuli.script.*
+import outlook.openOutlook
 import java.io.File
 
 val discord_names_file = File("src/main/kotlin/discord/discord_names.txt")
@@ -50,8 +47,19 @@ suspend fun cometaOpenDiscord(workRegion: WorkRegion) {
 }
 
 suspend fun registerDiscord(workRegion: WorkRegion) {
+    val offset = 170
+    ImagePath.add("src/main/kotlin/discord/png")
     val screen = workRegion.screen
     screen.wait(2.0)
+    val mail = DiscordAccounts.getMail(offset, workRegion.profile)
+    val password = DiscordAccounts.getPassword(offset, workRegion.profile)
+    val token = DiscordAccounts.getToken(offset, workRegion.profile)
+    workRegion.println(mail, foregroundGreen)
+    workRegion.println(password, foregroundGreen)
+    workRegion.println(token, foregroundGreen)
+    //openOutlook(workRegion, mail, password)
+
+    /*
     addKeyAndSetRepeat(workRegion)
     openUrlSikuliDark(screen, "https://discord.com")
     screen.wait(8.0)
@@ -63,6 +71,7 @@ suspend fun registerDiscord(workRegion: WorkRegion) {
     screen.wait(4.0)
     openUrlSikuliDark(screen, "https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox")
     screen.wait(8.0)
+*/
 }
 
 suspend fun discordScript(screen: Screen) {

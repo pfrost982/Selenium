@@ -37,6 +37,10 @@ suspend fun openUrlSikuliDark(screen: Screen, url: String) {
     screen.queueRelease()
 }
 
+suspend fun browserWaitLoad(screen: Screen, time: Double = 3.0) {
+    screen.wait("browser_refresh_button_dark.png", time)
+}
+
 suspend fun newTabSikuli(screen: Screen) {
     screen.wait("browser_plus.png")
     screen.queueTakeClickRelease()

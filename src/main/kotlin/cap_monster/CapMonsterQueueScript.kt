@@ -1,10 +1,12 @@
 package cap_monster
 
 import ads_std.*
+import org.sikuli.script.ImagePath
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 
 suspend fun addKeyAndSetRepeat(workRegion: WorkRegion) {
+    ImagePath.add("src/main/kotlin/cap_monster/png")
     val screen = workRegion.screen
     screen.wait("browser_plus.png")
     screen.queueTakeClickRelease()
