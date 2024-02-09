@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/anticaptcha_extension" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/astaria" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/debank" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/dune" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/fuel_wallet" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/galxe_com" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/github" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/keplr_wallet_setup" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/kresko" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/layer_zero" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/linea" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/multiRegion_request_sui" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/orbiter" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/primitive" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/scroll" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/set_proxy" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/stargate" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/starknet" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/suge" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/sui_wallet_setup" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/sui_wave2" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/twitter" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/zkfair" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/main/kotlin/zksync" includeSubdirectories="true" />
+    </excludeFromCompile>
     <bytecodeTargetLevel target="17" />
   </component>
 </project>
