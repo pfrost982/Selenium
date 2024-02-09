@@ -6,12 +6,12 @@ import org.sikuli.script.Pattern
 suspend fun changeLanguageToEnglish(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
-    openUrlSikuliDark(screen, "chrome-extension://mldahpfajfokgbplbigojfbmmagidkge/home.html#settings")
+    browserOpenUrl(screen, "chrome-extension://mldahpfajfokgbplbigojfbmmagidkge/home.html#settings")
     val ru = screen.exists("metamask_unlock_ru.png")
     if (ru != null) {
         val language = metamaskUnlock(screen)
         println("profile ${workRegion.profile}: language = $language")
-        openUrlSikuliDark(screen, "chrome-extension://mldahpfajfokgbplbigojfbmmagidkge/home.html#settings")
+        browserOpenUrl(screen, "chrome-extension://mldahpfajfokgbplbigojfbmmagidkge/home.html#settings")
         screen.wait(Pattern("metamask_current_language_ru.png").targetOffset(0, 70))
         screen.queueTakeClick()
         screen.type("e")

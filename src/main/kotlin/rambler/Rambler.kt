@@ -9,7 +9,7 @@ val error_mails_file = File("src/main/kotlin/rambler/error_mails.txt")
 
 suspend fun checkRambler(workRegion: WorkRegion) {
     val screen = workRegion.screen
-    openUrlSikuliDark(screen, "https://mail.rambler.ru/folder/INBOX/")
+    browserOpenUrl(screen, "https://mail.rambler.ru/folder/INBOX/")
     screen.wait("rambler_inbox.png", 16.0)
 }
 
@@ -21,7 +21,7 @@ suspend fun enterRambler(workRegion: WorkRegion) {
     println(password)
     val newPassword = password + "Ads"
     val newPassword2 = password + "Ads2"
-    openUrlSikuliDark(screen, "https://mail.rambler.ru/folder/INBOX/")
+    browserOpenUrl(screen, "https://mail.rambler.ru/folder/INBOX/")
     screen.wait(3.0)
     screen.wait("browser_refresh_button_dark.png", 24.0)
     val inputMail = screen.exists("rambler_mail_input.png", 8.0)
@@ -72,6 +72,24 @@ suspend fun enterRambler(workRegion: WorkRegion) {
     screen.wait(3.0)
 }
 
+suspend fun openRambler(workRegion: WorkRegion, mail: String, password: String) {
+    ImagePath.add("src/main/kotlin/rambler/png")
+    val screen = workRegion.screen
+    browserOpenUrl(screen, "https://mail.rambler.ru/folder/INBOX/")
+    browserWaitLoad(screen)
+    val enter = screen.wait("rambler_enter.png")
+    enter.setTargetOffset(30, 50)
+    screen.queueTakeClick()
+    screen.paste(mail)
+    screen.queueRelease()
+    enter.setTargetOffset(30, 115)
+    screen.queueTakeClick()
+    screen.paste(password)
+    screen.queueRelease()
+    enter.setTargetOffset(130, 215)
+    screen.queueTakeClickRelease()
+}
+
 suspend fun enterAndChangePasswordRambler(workRegion: WorkRegion) {
     val screen = workRegion.screen
     val mail = Mails.getMail(workRegion.profile)
@@ -79,7 +97,7 @@ suspend fun enterAndChangePasswordRambler(workRegion: WorkRegion) {
     val password = RamblerPaswords.getPassword(workRegion.profile)
     println(password)
     val newPassword = password + "Ads"
-    openUrlSikuliDark(screen, "https://mail.rambler.ru/folder/INBOX/")
+    browserOpenUrl(screen, "https://mail.rambler.ru/folder/INBOX/")
     screen.wait(3.0)
     screen.wait("browser_refresh_button_dark.png", 24.0)
     val inputMail = screen.exists("rambler_mail_input.png", 8.0)
@@ -110,7 +128,7 @@ suspend fun enterAndChangePasswordRambler(workRegion: WorkRegion) {
         screen.queueClickRelease()
         screen.wait(1.0)
     }
-    openUrlSikuliDark(screen, "https://id.rambler.ru/account/change-password")
+    browserOpenUrl(screen, "https://id.rambler.ru/account/change-password")
     screen.wait(4.0)
     screen.wait(Pattern("captcha_i_am_human.png").similar(0.95), 120.0)
     screen.wait("rambler_current_password.png")
@@ -125,7 +143,7 @@ suspend fun enterAndChangePasswordRambler(workRegion: WorkRegion) {
     screen.queueRelease()
     screen.wait(Pattern("rambler_password_changed.png").similar(0.95), 18.0)
     screen.wait(1.0)
-    openUrlSikuliDark(screen, "chrome://settings/passwords")
+    browserOpenUrl(screen, "chrome://settings/passwords")
     screen.wait("browser_add_button.png")
     screen.wait(1.0)
     screen.wait("browser_add_button.png")

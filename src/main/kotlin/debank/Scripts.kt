@@ -36,7 +36,7 @@ suspend fun registerRabby(workRegion: WorkRegion) {
 
 suspend fun openRabbyOrRegister(workRegion: WorkRegion) {
     val screen = workRegion.screen
-    openExtension(screen, Pattern("rabby_wallet.png"))
+    browserOpenExtension(screen, Pattern("rabby_wallet.png"))
     val next = screen.exists("rabby_next_button.png", 5.0)
     if (next != null) {
         registerRabby(workRegion)
@@ -74,7 +74,7 @@ suspend fun claimPointsRabby(workRegion: WorkRegion) {
     screen.wait("rabby_confirm_button.png")
     screen.queueTakeClickRelease()
     screen.wait(2.0)
-    openExtension(screen, Pattern("rabby_wallet.png"))
+    browserOpenExtension(screen, Pattern("rabby_wallet.png"))
     screen.wait(2.0)
     screen.wait("rabby_points.png")
     screen.wait(1.0)
@@ -120,7 +120,7 @@ suspend fun swapRabby(workRegion: WorkRegion) {
 
 suspend fun mintRabby(workRegion: WorkRegion) {
     val screen = workRegion.screen
-    openExtension(screen, Pattern("rabby_wallet.png"))
+    browserOpenExtension(screen, Pattern("rabby_wallet.png"))
     screen.wait("rabby_more.png")
     screen.queueTakeClickRelease()
     screen.wait(1.0)
@@ -138,7 +138,7 @@ suspend fun mintRabby(workRegion: WorkRegion) {
         screen.type("w", Key.CTRL)
         screen.queueRelease()
     }
-    openExtension(screen, Pattern("rabby_wallet.png"))
+    browserOpenExtension(screen, Pattern("rabby_wallet.png"))
     flipOn(screen)
     screen.type(Key.F5)
     if (metamask == null) {
@@ -179,7 +179,7 @@ suspend fun mintRabby(workRegion: WorkRegion) {
     screen.wait("debank_copied.png")
     val code = getTextFromClipboard()
     println("profile ${workRegion.profile}: " + code)
-    openExtension(screen, Pattern("rabby_wallet.png"))
+    browserOpenExtension(screen, Pattern("rabby_wallet.png"))
     flipOff(screen)
     screen.wait("rabby_more.png")
     screen.queueTakeClickRelease()

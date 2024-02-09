@@ -1,7 +1,7 @@
 package twitter
 
 import ads_std.WorkRegion
-import ads_std.openUrlSikuliDark
+import ads_std.browserOpenUrl
 import ads_std.queueClickRelease
 import ads_std.queueTakeClick
 import org.sikuli.script.Key
@@ -10,7 +10,7 @@ import org.sikuli.script.Pattern
 suspend fun getTwitToken(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
-    openUrlSikuliDark(screen, "https://twitter.com/")
+    browserOpenUrl(screen, "https://twitter.com/")
     screen.type(Key.F12)
     screen.wait(7.0)
     screen.wait("browser_f12_more_tabs.png")
@@ -31,5 +31,5 @@ suspend fun getTwitToken(workRegion: WorkRegion) {
 suspend fun openTwitter(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
-    openUrlSikuliDark(screen, "https://twitter.com/home")
+    browserOpenUrl(screen, "https://twitter.com/home")
 }

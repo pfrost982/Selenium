@@ -6,7 +6,7 @@ import java.util.*
 import kotlin.random.Random
 
 suspend fun scrollScript(screen: Screen) {
-    openUrlSikuli(screen, "https://scroll.io/alpha")
+    browserOpenUrl(screen, "https://scroll.io/alpha")
     browserCloseLanguageSelection(screen)
     metamaskOpen(screen)
     metamaskUnlock(screen)
@@ -32,7 +32,7 @@ suspend fun scrollScript(screen: Screen) {
 
 suspend fun scrollGuildScript(screen: Screen) {
     closeTabsSikuliX(screen)
-    openUrlSikuli(screen, "https://guild.xyz/scrollzkp")
+    browserOpenUrl(screen, "https://guild.xyz/scrollzkp")
     screen.wait("guild_connect_wallet.png", 24.0)
     screen.click()
     screen.wait("guild_metamask_button.png")
@@ -72,7 +72,7 @@ suspend fun scrollGuildScript(screen: Screen) {
 
 suspend fun scrollBridgeScript(screen: Screen) {
     closeTabsSikuliX(screen)
-    openUrlSikuli(screen, "https://scroll.io/alpha/bridge")
+    browserOpenUrl(screen, "https://scroll.io/alpha/bridge")
     if (!metamaskIsOpenedDark(screen)) {
         screen.wait("bridge_connect_wallet.png", 8.0)
         screen.click()
@@ -111,7 +111,7 @@ suspend fun scrollBridgeScript(screen: Screen) {
 
 suspend fun scrollSyncSwapScript(screen: Screen) {
     closeTabsSikuliX(screen)
-    openUrlSikuli(screen, "https://staging.syncswap.xyz/swap")
+    browserOpenUrl(screen, "https://staging.syncswap.xyz/swap")
     screen.wait("sync_swap_start_button.png", 8.0)
     screen.click()
     screen.type(Key.ESC)
@@ -263,7 +263,7 @@ suspend fun scrollSyncSwapScript(screen: Screen) {
 
 suspend fun scrollSyncSwapPoolScript(screen: Screen) {
     var metamaskLanguage = "en"
-    openUrlSikuli(screen, "https://staging.syncswap.xyz/swap")
+    browserOpenUrl(screen, "https://staging.syncswap.xyz/swap")
     val start = screen.exists("sync_swap_start_button.png", 6.0)
     if (start != null) {
         println("Start button case")

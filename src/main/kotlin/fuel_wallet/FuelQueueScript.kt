@@ -12,7 +12,7 @@ suspend fun createWalletScript(workRegion: WorkRegion) {
     )
     val seed = FuelSeeds.getSeed(workRegion.profile)
     try {
-        openUrlSikuliDark(screen, "chrome-extension://keomgfjjdfafellomeiicgdkjnedoadc/index.html#/sign-up/welcome")
+        browserOpenUrl(screen, "chrome-extension://keomgfjjdfafellomeiicgdkjnedoadc/index.html#/sign-up/welcome")
         val createWallet = screen.exists("i_have_wallet.png", 7.0)
         if (createWallet != null) {
             println("profile ${workRegion.profile}: create wallet case")
@@ -89,7 +89,7 @@ suspend fun swayScript(workRegion: WorkRegion) {
         screen.wait(3.0)
         openFuelWallet(screen)
         screen.wait(3.0)
-        openUrlSikuliDark(screen, "https://app.swaylend.com/#/faucet")
+        browserOpenUrl(screen, "https://app.swaylend.com/#/faucet")
         screen.wait(2.0)
         screen.wait("sway_menu.png")
         screen.queueTakeClickRelease()
@@ -120,7 +120,7 @@ suspend fun swayScript(workRegion: WorkRegion) {
         }
         screen.wait("sway_minted.png", 120.0)
         screen.wait(3.0)
-        openUrlSikuliDark(screen, "https://app.swaylend.com/#/dashboard")
+        browserOpenUrl(screen, "https://app.swaylend.com/#/dashboard")
         screen.wait(3.0)
         val withdrawUSDC = screen.exists(Pattern("sway_withdraw_usdc.png").similar(0.97))
         if (withdrawUSDC == null) {
@@ -139,7 +139,7 @@ suspend fun swayScript(workRegion: WorkRegion) {
             screen.wait(Pattern("sway_withdraw_usdc.png").similar(0.97), 120.0)
             screen.wait(4.0)
         }
-        openUrlSikuliDark(screen, "https://app.swaylend.com/#/dashboard")
+        browserOpenUrl(screen, "https://app.swaylend.com/#/dashboard")
         val eth05 = screen.exists(
             Pattern("sway_eth_0_5.png")
                 .similar(0.99)

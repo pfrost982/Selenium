@@ -2,5 +2,4 @@
 /.gradle/
 /build/
 /build/classes/kotlin/main/
-/.idea
-.idea
+/.idea/

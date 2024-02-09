@@ -8,7 +8,7 @@ import org.sikuli.script.Screen
 suspend fun openGithub(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
-    openUrlSikuliDark(screen, "https://github.com/login")
+    browserOpenUrl(screen, "https://github.com/login")
     screen.wait(Pattern("github_sign_in_to_github.png").targetOffset(0, 94), 12.0)
     screen.wait(1.0)
     screen.queueTakeClick()
@@ -43,7 +43,7 @@ suspend fun forkGithub(workRegion: WorkRegion) {
 }
 
 private suspend fun fork(screen: Screen, repository: String) {
-    openUrlSikuliDark(screen, repository)
+    browserOpenUrl(screen, repository)
     screen.wait("github_fork.png", 24.0)
     screen.wait(2.0)
     screen.wait("github_fork.png")

@@ -1,11 +1,10 @@
 package scroll
 
 import ads_std.*
-import org.sikuli.script.FindFailed
 import org.sikuli.script.Screen
 
 suspend fun poolOutScript(screen: Screen) {
-        openUrlSikuliDark(screen, "https://scroll.io/bridge")
+        browserOpenUrl(screen, "https://scroll.io/bridge")
         val metamaskLanguage = metamaskUnlock(screen)
         println("Metamask language = $metamaskLanguage")
         screen.wait(2.5)

@@ -1,12 +1,12 @@
 package starknet
 
-import ads_std.openUrlSikuli
+import ads_std.browserOpenUrl
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
 
 fun starknetDiscordScript(screen: Screen, number: Int) {
-    openUrlSikuli(screen, "https://discord.com/invite/qypnmzkhbc")
+    //browserOpenUrl(screen, "https://discord.com/invite/qypnmzkhbc")
     screen.wait("browser_accept_invite_button.png", 24.0)
     screen.click()
     screen.wait("browser_cancel_discord_app_button.png", 24.0)
@@ -44,7 +44,7 @@ fun starknetDiscordScript(screen: Screen, number: Int) {
     } else {
         println("profile $number: Not verified!")
     }
-    openUrlSikuli(screen, "https://discord.com/channels/793094838509764618/884341617992024105")
+    //browserOpenUrl(screen, "https://discord.com/channels/793094838509764618/884341617992024105")
     println("Search discord agree button...")
     val agree = screen.exists("discord_agree_button.png", 9.0)
     if (agree != null) {

@@ -14,7 +14,7 @@ val error_profiles_file = File("src/main/kotlin/layer_zero/error_profiles.txt")
 suspend fun layerZeroGM(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
-    openUrlSikuliDark(screen, "https://discord.com/channels/881985666265780274/881990703633281034")
+    browserOpenUrl(screen, "https://discord.com/channels/881985666265780274/881990703633281034")
     val gmBranch = screen.exists(Pattern("discord_layer_zero.png").targetOffset(0, 50), 14.0)
     if (gmBranch != null) {
         screen.wait(4.0)
@@ -37,7 +37,7 @@ suspend fun layerZeroGM(workRegion: WorkRegion) {
 suspend fun inviteDiscord(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
-    openUrlSikuliDark(screen, "https://discord-layerzero.netlify.app/discord")
+    browserOpenUrl(screen, "https://discord-layerzero.netlify.app/discord")
     screen.wait("invite_join.png", 120.0)
     screen.queueTakeClickRelease()
 

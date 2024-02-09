@@ -14,7 +14,7 @@ suspend fun queueOpenProfile(workRegion: WorkRegion) {
     apiRequestQueue.add(workRegion.screen)
     queueApiWait(workRegion.screen)
     while (atomicOperation) {
-        delay(10)
+        delay(100)
     }
     profileOpening = true
     var response = openProfileWithoutDriver(
@@ -86,12 +86,12 @@ suspend fun Screen.queueRelease() {
 
 suspend fun queueWorkWait(screen: Screen) {
     while (workQueue.peek() != screen || profileOpening) {
-        delay(10)
+        delay(100)
     }
 }
 
 suspend fun queueApiWait(screen: Screen) {
     while (apiRequestQueue.peek() != screen) {
-        delay(10)
+        delay(100)
     }
 }

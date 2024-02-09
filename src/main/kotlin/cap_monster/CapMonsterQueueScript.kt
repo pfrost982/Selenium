@@ -10,7 +10,7 @@ suspend fun addKeyAndSetRepeat(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait("browser_plus.png")
     screen.queueTakeClickRelease()
-    openExtension(screen, Pattern("cap_monster.png"))
+    browserOpenExtension(screen, Pattern("cap_monster.png"))
     val off = screen.exists(Pattern("cap_monster_off.png").similar(0.95), 5.0)
     if (off != null) {
         println("profile ${workRegion.profile}: Extension off")
@@ -45,7 +45,7 @@ suspend fun addKeyAndSetRepeat(workRegion: WorkRegion) {
             .similar(0.8), 5.0
     )
     println("profile ${workRegion.profile}: Balance OK")
-    scrollBrowser(screen, 3)
+    browserScroll(screen, 3)
     val three = screen.exists(Pattern("cap_monster_5.png").similar(0.95))
     if (three == null) {
         println("profile ${workRegion.profile}: Repeat not 5")

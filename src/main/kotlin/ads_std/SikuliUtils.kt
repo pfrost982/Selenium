@@ -20,16 +20,7 @@ suspend fun closeProfileWithoutDriver(number: Int): String {
     return response.msg
 }
 
-fun openUrlSikuli(screen: Screen, url: String) {
-    println("Open URL $url")
-    ImagePath.add("src/main/kotlin/ads_std/png")
-    screen.wait(Pattern("browser_refresh_button.png").targetOffset(200, 0), 24.0)
-    screen.click()
-    screen.paste(url)
-    screen.type(Key.ENTER)
-}
-
-suspend fun openUrlSikuliDark(screen: Screen, url: String) {
+suspend fun browserOpenUrl(screen: Screen, url: String) {
     screen.wait(Pattern("browser_refresh_button_dark.png").targetOffset(350, 0), 24.0)
     screen.queueTakeClick()
     screen.paste(url)
@@ -37,16 +28,26 @@ suspend fun openUrlSikuliDark(screen: Screen, url: String) {
     screen.queueRelease()
 }
 
-suspend fun browserWaitLoad(screen: Screen, time: Double = 3.0) {
+suspend fun browserWaitLoad(screen: Screen, time: Double = 32.0) {
+    screen.wait(2.0)
     screen.wait("browser_refresh_button_dark.png", time)
 }
 
-suspend fun newTabSikuli(screen: Screen) {
+suspend fun browserNewTab(screen: Screen) {
     screen.wait("browser_plus.png")
     screen.queueTakeClickRelease()
 }
 
-suspend fun openExtension(screen: Screen, extension: Pattern) {
+suspend fun browserCloseFirstTab(screen: Screen) {
+    screen.wait(Pattern("browser_refresh_button_dark.png").targetOffset(0, -36))
+    screen.queueTakeAndWait()
+    screen.mouseMove()
+    screen.mouseDown(Button.MIDDLE)
+    screen.mouseUp(Button.MIDDLE)
+    screen.queueRelease()
+}
+
+suspend fun browserOpenExtension(screen: Screen, extension: Pattern) {
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.wait(Pattern("browser_extensions.png").similar(0.95))
     screen.queueTakeClick()
@@ -61,7 +62,7 @@ suspend fun openExtensionsList(screen: Screen) {
     screen.queueClickRelease()
 }
 
-suspend fun scrollBrowser(screen: Screen, steps: Int) {
+suspend fun browserScroll(screen: Screen, steps: Int) {
     ImagePath.add("src/main/kotlin/ads_std/png")
     screen.queueTakeAndWait()
     screen.wait(Pattern("browser_extensions.png").targetOffset(-260, 160))

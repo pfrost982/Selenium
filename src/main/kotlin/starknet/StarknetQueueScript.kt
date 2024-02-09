@@ -5,12 +5,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.sikuli.script.ImagePath
 import org.sikuli.script.Key
 import org.sikuli.script.Pattern
 import org.sikuli.script.Screen
 import java.io.File
-import java.util.*
 
 val braavos_seeds_file = File("src/main/kotlin/starknet/braavos_seeds.txt")
 val braavos_address_file = File("src/main/kotlin/starknet/braavos_address.txt")
@@ -19,7 +17,7 @@ val argentx_address_file = File("src/main/kotlin/starknet/argentx_address.txt")
 suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
-    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    browserOpenExtension(screen, Pattern("braavos_wallet_ext.png"))
     screen.wait("braavos_create_wallet_button.png")
     screen.queueTakeClick()
     screen.paste(WALLET_PASS)
@@ -56,7 +54,7 @@ suspend fun createBraavosWalletScript(workRegion: WorkRegion) {
 
 suspend fun createArgentX(workRegion: WorkRegion) {
     val screen = workRegion.screen
-    openExtension(screen, Pattern("argentx_extension_title.png"))
+    browserOpenExtension(screen, Pattern("argentx_extension_title.png"))
     screen.wait("argentx_create_new_wallet.png", 8.0)
     screen.queueTakeClickRelease()
     screen.wait(Pattern("argentx_disclaimer.png").targetOffset(0, 140))
@@ -76,7 +74,7 @@ suspend fun createArgentX(workRegion: WorkRegion) {
     screen.wait("argentx_create_wallet_button.png")
     screen.queueTakeClickRelease()
     screen.wait(3.0)
-    openExtension(screen, Pattern("argentx_extension_title.png"))
+    browserOpenExtension(screen, Pattern("argentx_extension_title.png"))
     screen.wait("argentx_send_button.png", 8.0)
     screen.wait(Pattern("argentx_account.png").targetOffset(0, 27))
     screen.queueTakeClick()
@@ -133,7 +131,7 @@ suspend fun registerDomain(screen: Screen, number: Int) {
 suspend fun journeyNFT4th(screen: Screen) {
     openBraavos(screen)
     screen.wait(3.0)
-    openUrlSikuliDark(screen, "https://starknet-journey-map.braavos.app/")
+    browserOpenUrl(screen, "https://starknet-journey-map.braavos.app/")
     screen.wait("journey_connect_wallet.png", 8.0)
     screen.wait(2.0)
     screen.wait("journey_connect_wallet.png")
@@ -160,7 +158,7 @@ suspend fun journeyNFT4th(screen: Screen) {
         screen.queueTakeClickRelease()
         screen.wait(5.0)
     } while (screen.exists("journey_failed.png") != null)
-    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    browserOpenExtension(screen, Pattern("braavos_wallet_ext.png"))
     screen.wait("braavos_pending_transaction.png", 8.0)
 }
 
@@ -226,7 +224,7 @@ suspend fun upgradeNow(screen: Screen) {
 
 private suspend fun openBraavos(screen: Screen) {
     screen.wait(2.0)
-    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    browserOpenExtension(screen, Pattern("braavos_wallet_ext.png"))
     screen.wait(Pattern("braavos_login_wallet.png").targetOffset(0, 68))
     screen.queueTakeClick()
     screen.paste(WALLET_PASS)
@@ -237,7 +235,7 @@ private suspend fun openBraavos(screen: Screen) {
 suspend fun openBraavos(workRegion: WorkRegion) {
     val screen = workRegion.screen
     screen.wait(2.0)
-    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    browserOpenExtension(screen, Pattern("braavos_wallet_ext.png"))
     screen.wait(Pattern("braavos_login_unlock_your_wallet.png").targetOffset(0, 60))
     screen.queueTakeClick()
     screen.paste(WALLET_PASS)
@@ -250,7 +248,7 @@ suspend fun starkPEPEBraavos(workRegion: WorkRegion) {
     val screen = workRegion.screen
     val subDomain = SubdomainPEPE.getSubdomain(workRegion.profile)
     workRegion.println(subDomain)
-    openUrlSikuliDark(screen, "https://starkpepe.xyz/id")
+    browserOpenUrl(screen, "https://starkpepe.xyz/id")
     screen.wait("starkpepe_connect_wallet.png", 32.0)
     screen.wait(2.0)
     screen.queueTakeClickRelease()
@@ -265,7 +263,7 @@ suspend fun starkPEPEBraavos(workRegion: WorkRegion) {
     screen.queueRelease()
     screen.wait("starkpepe_available.png", 8.0)
     workRegion.println("Available!")
-    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    browserOpenExtension(screen, Pattern("braavos_wallet_ext.png"))
     screen.wait(Pattern("braavos_mainnet.png").targetOffset(-310, 0))
     screen.queueTakeClickRelease()
     screen.wait("braavos_lock_wallet.png")
@@ -281,7 +279,7 @@ suspend fun starkPEPEBraavos(workRegion: WorkRegion) {
     screen.queueTakeClickRelease()
     screen.wait("braavos_sign_button.png", 8.0)
     screen.queueTakeClickRelease()
-    openExtension(screen, Pattern("braavos_wallet_ext.png"))
+    browserOpenExtension(screen, Pattern("braavos_wallet_ext.png"))
     screen.wait(Pattern("braavos_mainnet.png").targetOffset(15, 550))
     screen.queueTakeClickRelease()
     screen.wait(Pattern("braavos_mainnet.png").targetOffset(-140, 140))
@@ -313,7 +311,7 @@ suspend fun sendMoneyFromArgentXToBraavosScript(screen: Screen, profile: Int) {
 }
 
 private suspend fun openArgentX(screen: Screen) {
-    openExtension(screen, Pattern("argentx_extension_title.png"))
+    browserOpenExtension(screen, Pattern("argentx_extension_title.png"))
     screen.wait("argentx_password_input.png", 8.0)
     screen.queueTakeClick()
     screen.paste(WALLET_PASS)
@@ -347,7 +345,7 @@ suspend fun starkPEPEArgentX(workRegion: WorkRegion) {
     screen.wait(2.0)
     openArgentX(workRegion.screen)
     screen.wait(2.0)
-    openUrlSikuliDark(screen, "https://starkpepe.xyz/id")
+    browserOpenUrl(screen, "https://starkpepe.xyz/id")
     screen.wait("starkpepe_rocket.png", 32.0)
     val braavosWindow = screen.exists("braavos_login_unlock_your_wallet.png")
     if (braavosWindow != null) {
@@ -374,10 +372,10 @@ suspend fun starkPEPEArgentX(workRegion: WorkRegion) {
     screen.wait("argentx_confirm_button.png")
     screen.wait(3.0)
     screen.queueTakeClickRelease()
-    openExtension(screen, Pattern("argentx_extension_title.png"))
+    browserOpenExtension(screen, Pattern("argentx_extension_title.png"))
     screen.wait(4.0)
     screen.waitVanish("argentx_pending_transaction_icon.png", 60.0)
-    openExtension(screen, Pattern("argentx_extension_title.png"))
+    browserOpenExtension(screen, Pattern("argentx_extension_title.png"))
     screen.wait("argentx_pepe_domain.png", 12.0)
     workRegion.println("See Pepe domain", foregroundGreen)
     screen.wait(3.0)
@@ -385,7 +383,7 @@ suspend fun starkPEPEArgentX(workRegion: WorkRegion) {
 
 suspend fun avnu(screen: Screen) {
     openArgentX(screen)
-    openUrlSikuliDark(
+    browserOpenUrl(
         screen,
         "https://app.avnu.fi/en?tokenTo=0x68f5c6a61780768455de69077e07e89787839bf8166decfbf92b645209c0fb8&amount=0.002&tokenFrom=0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
     )
@@ -469,11 +467,11 @@ private suspend fun avnuSwap(screen: Screen) {
 
 suspend fun mintNFT(screen: Screen) {
     screen.wait(2.0)
-    openExtension(screen, Pattern("argentx_extension_title.png"))
+    browserOpenExtension(screen, Pattern("argentx_extension_title.png"))
     screen.wait(3.0)
     var password = screen.wait("argentx_password_input.png", 12.0)
     while (password == null) {
-        openExtension(screen, Pattern("argentx_extension_title.png"))
+        browserOpenExtension(screen, Pattern("argentx_extension_title.png"))
         password = screen.wait("argentx_password_input.png", 12.0)
     }
 
@@ -482,13 +480,13 @@ suspend fun mintNFT(screen: Screen) {
     screen.type(Key.ENTER)
     screen.queueRelease()
     screen.wait(3.0)
-    openUrlSikuliDark(screen, "https://xplorer.argent.xyz/claim/fd6a48d5-699b-427b-ab67-baf237dc7208")
+    browserOpenUrl(screen, "https://xplorer.argent.xyz/claim/fd6a48d5-699b-427b-ab67-baf237dc7208")
     screen.wait(3.0)
-    scrollBrowser(screen, 6)
+    browserScroll(screen, 6)
     screen.wait("xplorer_check_eligibility.png")
     screen.queueTakeClickRelease()
     screen.wait(3.0)
-    scrollBrowser(screen, 4)
+    browserScroll(screen, 4)
     screen.wait("xplorer_claim_now.png")
     screen.queueTakeClickRelease()
     screen.wait(5.0)

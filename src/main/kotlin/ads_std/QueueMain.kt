@@ -1,6 +1,6 @@
 package ads_std
 
-import discord.registerDiscord
+import discord.newDiscord
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
@@ -11,10 +11,10 @@ import org.sikuli.script.ImagePath
 import java.io.File
 import java.util.concurrent.ConcurrentLinkedQueue
 
-const val LINES = 3
+const val LINES = 1
 const val ROWS = 1
-const val WIDTH = 900
-const val HEIGHT = 700
+const val WIDTH = 1100
+const val HEIGHT = 900
 const val ADDITIONAL_WIDTH = 500
 
 const val CLOSE_PROFILE = false
@@ -22,15 +22,15 @@ const val CLOSE_PROFILE_IF_ERROR = false
 const val WRITE_TO_ERROR_FILE = false
 
 const val ADD_RANGE = false
-const val START_PROFILE = 306
-const val END_PROFILE = 306
+const val START_PROFILE = 174
+const val END_PROFILE = 180
 const val DIRECT_ORDER = true
 
 val error_file = File("src/main/kotlin/ads_std/error_profiles.txt")
 val errorList = ConcurrentLinkedQueue<Int>()
 suspend fun main() = coroutineScope {
     ImagePath.add("src/main/kotlin/ads_std/png")
-    val profiles = mutableListOf<Int>(174)
+    val profiles = mutableListOf<Int>(182)
     if (ADD_RANGE) {
         if (DIRECT_ORDER) {
             profiles.addAll(START_PROFILE..END_PROFILE)
@@ -83,7 +83,7 @@ suspend fun script(workRegion: WorkRegion) {
         "Start, line: ${workRegion.line}, row: ${workRegion.row}", foregroundGreen
     )
     try {
-        registerDiscord(workRegion)
+        newDiscord(workRegion)
     } catch (e: FindFailed) {
         workRegion.println("Error", foregroundRed)
         e.printStackTrace()
